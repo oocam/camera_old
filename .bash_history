@@ -1084,3 +1084,383 @@ ls
 date
 ./wittycam.sh 4
 ./wittycam.sh 5
+ls
+cd openoceancamera
+ls
+cd wittypi
+ls
+sudo nano wittycam1.sh
+ls
+sudo nano wittycam1.sh
+sudo nano ./wittycam1.sh
+ls
+cp wittycam1.sh wittycam.sh
+ls
+sudo nano wittycam.sh
+./wittycam.sh 4
+./wittycam 2
+./wittycam.sh 2
+./wittycam.sh
+cd ../..
+git init 
+git add .
+git rm --cached openoceancamera
+-f
+git rm -f --cached openoceancamera
+git add .
+git help submodule
+git add .
+git commit -m "Initial commit"
+git config --global user.email "slersk@berkeley.edu"
+git checkout master
+git remote
+git remote -v
+git remote add origin httpL//
+git remote add origin http://github.com/oocam
+git remote add origin http://github.com/oocam/camera
+git remote remove origin
+git remote add origin http://github.com/oocam/camera
+git add .
+git commit -m "First commit"
+git config --global user.email "sdhnt@connect.hku.hk"
+git config --global user.name "Sidhant Gupta"
+git commit -m "First commit"
+ls
+git push origin master
+cd openoceancamera
+ls
+cd wittypi
+ls
+./wittycam.sh 4 ??:02:13
+./wittycam.sh 5 ??:02:14:00
+cd openoceancamera
+ls
+cd wittypi
+ls
+rm wittycam1.sh
+sudo nano wittycam.sh
+ls
+cp wittyPi.sh wittycam1.sh
+sudo nano wittycam1.sh
+ls
+sudo nano wittycam1.sh
+rm wittycam1.sh
+ls
+cp wittyPi.sh wittyCam.sh
+sudo nano wittyCam.sh
+./wittyCam 5 ??:02:23:00
+./wittyCam.sh 5 ??:02:23:00
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??:02:23:00
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??:02:23:00
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??:02:23:00
+./wittyCam.sh 5 ??:02:27:00
+./wittyCam.sh 4 ??:02:28:00
+sudo nano wittyCam.sh
+./wittyCam.sh 4 ??:02:29
+sudo nano wittyCam.sh
+./wittyCam.sh 4 ??:02:30
+sudo nano wittyCam.sh
+cd opeanoceancamera
+ls
+cd openoceancamera
+ls
+cd wittypi
+ls
+sudo nano wittyCam.sh
+./wittyCam.sh 4 ??:02:40
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??;02:35:00
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??;02:35:00
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??;02:35:00
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??;02:35:00
+./wittyCam.sh 4 01:01:01
+./wittyCam.sh 5 ??;02:35:00
+sudo nano wittyCam.sh
+sudo nano wittycam.sh
+./wittycam.sh
+sudo nano wittyCam.sh
+./wittyCam.sh 5 ??;02:35:00
+./wittycam.sh 5 ??:02:35:00
+./wittycam.sh 5 ??:02:36:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:36:00
+sudo nano wittycam.sh
+crontab -e
+./wittycam.sh 5 ??:02:43:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:43:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:43:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:43:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:43:00
+./wittycam.sh 5 ??:02:49"00
+./wittycam.sh 5 ??:02:49:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:49:00
+./wittycam.sh 5 ??:02:51:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:51:00
+./wittycam.sh 5 ??:02:51:30
+./wittycam.sh 5 ??:02:53:30
+sudo nano wittycam.sh
+./wittyPi.sh
+sudo nano wittycam.sh
+ls
+sudo nano wittycam.sh
+ls
+sudo nano utilitiescam.sh
+ls
+sudo nano utilitescam.sh
+./wittycam.sh 5 ??:02:53:30
+./wittycam.sh 5 ??:03:00
+./wittycam.sh 5 ??:03:00:30
+sudo nano utilitescam.sh
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:03:02:30
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:03:04:00
+
+./wittycam.sh 5 ??:04:00:00
+./wittycam.sh 5 ??:02:00:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:02:00:00
+./wittycam.sh 5 ??:04:30:30
+raspi-config
+sudo raspi-config
+reboot
+date
+./wittycam.sh 5 ??:04:30:30
+cd openoceancamera
+cd wittypi
+./wittycam.sh 5 ??:04:30:30
+./wittycam.sh 5 ??:03:20:00
+./wittycam.sh 5 ??:01:02:00
+./wittycam.sh 5 ??:06:03:20
+./wittycam.sh 32
+./wittycam.sh 2
+./wittycam.sh 5 ??:06:03:20
+./wittycam.sh 5 ??:01:02:00
+./wittycam.sh 5 ??:03:20:00
+./wittycam.sh 2
+./wittycam.sh 3
+./wittycam.sh 5 ??:03:20:00
+./wittycam.sh 5 ??:01:02:00
+./wittycam.sh 4 ??:5:17
+./wittycam.sh 4 ??:05:17
+cd openoceancamera
+cd wittypi
+./wittycam.sh 5 ??;05:20
+./wittycam.sh 5 ??;05:20:00
+./wittycam.sh 5 ??:05:20:00
+./wittycam.sh 5 ??:05:14:00
+./wittycam.sh 5 ??:05:12:00
+./wittycam.sh 5 ??:04:21:00
+./wittycam.sh 5 ??:05:22:00
+sudo nano wittycam.sh
+ls
+cd ../..
+ls
+cd ..
+ls
+cd ..
+ls
+cd etc/
+ls
+sudo nano rc.local
+y
+sudo nano wittycam.sh
+cd 
+cd opeanoceancamera
+cd openoceancamera
+ls
+cd wittypi
+ls
+./wittycam.sh 5
+./wittycam.sh 5 ??:06:00:00
+./wittycam.sh 4 ??:07:00
+./wittycam.sh 4 ??:06:00
+
+./wittycam.sh 5 ??:10:02:02
+./wittycam.sh 5 ??:08:20:10
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:08:20:10
+./wittycam.sh 5 ??:10:02:02
+./wittycam.sh 5 ??:05:32:00
+./wittycam.sh 5 ??:05:33:00
+sudo nano wittycam.sh
+sudo nanoutilitescam.sh
+sudo nano utilitescam.sh
+./wittycam.sh 5 ??:05:32:00
+./wittycam.sh 5 ??:05:34:00
+
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:05:45:00
+./wittycam.sh 5 ??:05:41:00
+./wittyPi.sh
+cd ..
+cd ../..
+crontab -e
+cd openoceancamera/wittypi
+cd
+cd openoceancamera/wittypi
+./wittyPi.sh
+crontab -e
+cd 
+cd ..
+ls
+cd ..
+cd etc
+sudo nano rc.local
+./wittyPi.sh
+cd
+cd openoceancamera/wittypi
+./wittyPi.sh
+ls
+rm wittyCam.sh
+ls
+rm wittyCam.sh.save
+ls
+sudo nano wittycam.sh.save
+ls
+rm wittycam.sh.save
+./wittycam.sh 5 ??:05:40:00
+./wittyPi.sh
+cd ../..
+sudo nano /etc/rc.local
+crontab -e
+cd openoceancamera/wittypi
+./wittyPi.sh
+sudo nano wiityPi.log
+sudo nano wittyPi.log
+date
+ls
+cd openoceancamera
+cd wittypi
+ls
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:05:04:00
+./wittycam.sh 5 ??:08:34:00
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:08:6:00
+./wittycam.sh 5 ??:08:36:00
+sudo nano wittycam.sh
+ls
+./wittycam 4 ??:08:43
+./wittycam.sh 4 ??:08:43
+cd openoceancamera
+cd wittypi
+ls
+sudo nano wittycam.sh
+sudo nano wittyPi.sh
+sudo nano wittycam.sh
+./wittycam.sh 5 ??:08:50:00
+git config
+reboot
+cd openoceancamera/wittypi
+./wittycam.sh 5 ??:09:00:00
+sudo nano wittycam.sh
+./wittycam.sh
+date
+./wittycam.sh 4 ??:09:04
+./wittycam.sh 5 ??:09:04:30
+crontab -e
+cd ..
+ls
+cd ..
+ls
+cd etc
+sudo nano rc.local
+cd
+cd oceanopencamera/wittypi
+cd openoceancamera
+cd wittypi
+ls
+./wittycam.sh 4 ??:09:07
+./wittycam.sh 5 ??:09:07:30
+ls
+sudo raspi-config
+ls
+cd TSL2561
+ls
+cd Python
+ls
+./TSL2561.py
+python ./TSL2561
+python TSL2561.py
+python3 TSL2561.py
+sudo i2cdetect -y 1
+reboot
+sudo i2cdetect -ysudo raspi-config
+sudo raspi-config
+sudo i2cdetect -y 1
+ls
+cd TSL2561
+cd Python
+ls
+python TSL2561.py
+reboot
+sudo raspi-config
+ls
+cd TSL2561
+ls
+cd Python
+ls
+python TSL2561.py
+sudo i2cdetect -y 1
+sudo i2cdetect -y 0
+sudo i2cdetect -y 1
+python TSL2561.py
+sudo i2cdetect -y 1
+python TSL2561.py
+sudo i2cdetect -y 1
+python TSL2561.py
+raspi-config
+sudo raspi-config
+reboot
+sudo i2cdetect -y 1
+sudo apt-get update
+sudo apt-get install python-smbus python3-smbus python-dev python3-dev i2c-tools
+sudo i2cdetect -y 1
+cd ../..
+ls
+cd boot
+sudo nano config.txt
+sudo i2cdetect -y 1
+sudo nano config.txt
+sudo i2cdetect -y 1
+sudo nano config.txt
+sudo i2cdetect -y 1
+sudo pip3 install adafruit-circuit-python -tsl2561
+sudo pip3 install adafruit-circuitpython -tsl2561
+sudo pip3 install adafruit-circuitpython-tsl2561
+sudo i2cdetect -y 1
+i2cdetect -y 1
+python TSL2561.py
+cd
+cd openoceancamera
+cd ..
+ls
+cd TSL2561
+python TSL2561.py
+cd Python
+python TSL2561.py
+i2cdetect -y 1
+cd 
+cd ../..
+cd boot
+sudo nano config.txt
+i2cdetect -y 1
+cd
+ls
+cd TSL2561
+cd Python
+python TSL2561.py
+reboot
