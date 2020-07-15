@@ -1,0 +1,511 @@
+[2020-07-08 05:28:11] Witty Pi daemon (v3.11) is started.
+[2020-07-08 05:28:12] Running on Raspberry Pi Zero W Rev 1.1
+[2020-07-08 05:28:14] Wiring Pi version: 2.50
+[2020-07-08 05:28:37] Current Vout=5.4, Iout=0.21
+[2020-07-08 05:28:37] Send out the SYS_UP signal via GPIO-17 pin.
+[2020-07-08 05:28:38] Witty Pi is not connected, skip I2C communications...
+[2020-07-08 05:28:39] Witty Pi is not connected, skip synchronizing time...
+[2020-07-08 05:28:47] Witty Pi is not connected, skip schedule script...
+[2020-07-08 05:28:48] Pending for incoming shutdown command...
+[2020-07-08 05:29:57] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 05:35:06] Witty Pi daemon (v3.11) is started.
+[2020-07-08 05:35:07] Running on Raspberry Pi Zero W Rev 1.1
+[2020-07-08 05:35:08] Wiring Pi version: 2.50
+[2020-07-08 05:35:32] Current Vout=5.39, Iout=0.17
+[2020-07-08 05:35:32] Send out the SYS_UP signal via GPIO-17 pin.
+[2020-07-08 05:35:33] Witty Pi is not connected, skip I2C communications...
+[2020-07-08 05:35:33] Witty Pi is not connected, skip synchronizing time...
+[2020-07-08 05:35:42] Witty Pi is not connected, skip schedule script...
+[2020-07-08 05:35:42] Pending for incoming shutdown command...
+[2020-07-08 05:37:20] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 05:40:12] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 05:53:02] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 05:56:19] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 05:58:13] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 05:59:21] Shutting down system because GPIO-4 pin is pulled down.
+[2020-07-08 05:59:21] Halting all processes and then shutdown Raspberry Pi...
+[2020-07-08 05:59:49] Witty Pi daemon (v3.11) is started.
+[2020-07-08 05:59:50] Running on Raspberry Pi Zero W Rev 1.1
+[2020-07-08 05:59:51] Wiring Pi version: 2.50
+[2020-07-08 06:00:37] Current Vout=5.4, Iout=0.21
+[2020-07-08 06:00:37] Send out the SYS_UP signal via GPIO-17 pin.
+[2020-07-08 06:00:38] Witty Pi is not connected, skip I2C communications...
+[2020-07-08 06:00:38] Witty Pi is not connected, skip synchronizing time...
+[2020-07-08 06:00:47] Witty Pi is not connected, skip schedule script...
+[2020-07-08 06:00:47] Pending for incoming shutdown command...
+[2020-07-08 06:01:36] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 06:02:17] Witty Pi daemon (v3.11) is started.
+[2020-07-08 06:02:17] Running on Raspberry Pi Zero W Rev 1.1
+[2020-07-08 06:02:17] Wiring Pi version: 2.50
+[2020-07-08 06:02:20] Current Vout=5.4, Iout=0.17
+[2020-07-08 06:02:20] Send out the SYS_UP signal via GPIO-17 pin.
+[2020-07-08 06:02:20] Witty Pi is not connected, skip I2C communications...
+[2020-07-08 06:02:20] Witty Pi is not connected, skip synchronizing time...
+[2020-07-08 06:02:29] Witty Pi is not connected, skip schedule script...
+[2020-07-08 06:02:29] Pending for incoming shutdown command...
+[2020-07-08 06:03:44] Seems Witty Pi board is not connected? Quitting...
+[2020-07-08 06:08:15] Shutting down system because GPIO-4 pin is pulled down.
+[2020-07-08 06:08:15] Halting all processes and then shutdown Raspberry Pi...
+[2020-07-08 06:08:45] Witty Pi daemon (v3.11) is started.
+[2020-07-08 06:08:46] Running on Raspberry Pi Zero W Rev 1.1
+[2020-07-08 06:08:47] Wiring Pi version: 2.50
+[2020-07-08 06:08:53] Current Vout=5.39, Iout=0.25
+[2020-07-08 06:08:53] Send out the SYS_UP signal via GPIO-17 pin.
+[2020-07-08 06:08:55] Synchronizing time between system and Witty Pi...
+[2020-07-08 06:08:57] Writing RTC time to system...
+[2020-07-08 06:09:29] Done :-)
+[2020-07-08 06:09:32] Pending for incoming shutdown command...
+[2020-07-08 06:09:36] File "schedule.wpi" not found, skip running schedule script.
+[2020-07-08 06:09:40] Internet detected, apply network time to system and Witty Pi...
+[2020-07-08 06:09:40] Applying network time to system...
+[2020-07-08 06:09:46] Done :-)
+[2020-07-08 06:09:46] Writing system time to RTC...
+[2020-07-08 06:09:48] Done :-)
+[2020-07-08 07:56:11] Writing RTC time to system...
+[2020-07-08 07:56:09] Done :-)
+[2020-07-08 07:58:36] Running syncTime.sh ...
+[2020-07-08 07:58:36] Synchronizing time between system and Witty Pi...
+[2020-07-08 07:58:37] Writing RTC time to system...
+[2020-07-08 07:58:38] Done :-)
+[2020-07-08 08:06:25] Writing system time to RTC...
+[2020-07-08 08:06:25] Done :-)
+[2020-07-08 08:25:57] Writing system time to RTC...
+[2020-07-08 08:25:58] Done :-)
+[2020-07-08 08:58:43] Witty Pi daemon (v3.11) is started.
+[2020-07-08 08:58:44] Running on Raspberry Pi Zero W Rev 1.1
+[2020-07-08 08:58:45] Wiring Pi version: 2.50
+[2020-07-08 08:58:51] Current Vout=5.4, Iout=0.21
+[2020-07-08 08:58:51] Send out the SYS_UP signal via GPIO-17 pin.
+[2020-07-08 08:58:54] Synchronizing time between system and Witty Pi...
+[2020-07-08 08:58:55] Writing RTC time to system...
+[2020-07-08 08:59:13] Done :-)
+[2020-07-08 08:59:17] Pending for incoming shutdown command...
+[2020-07-08 08:59:20] File "schedule.wpi" not found, skip running schedule script.
+[2020-07-08 09:23:10] Writing RTC time to system...
+[2020-07-08 09:23:10] Done :-)
+[2020-07-08 09:23:13] Writing RTC time to system...
+[2020-07-08 09:23:12] Done :-)
+[2020-07-08 09:23:16] Writing RTC time to system...
+[2020-07-08 09:23:15] Done :-)
+[2020-07-08 09:54:24] Writing RTC time to system...
+[2020-07-08 09:54:23] Done :-)
+[2020-07-08 09:54:27] Writing RTC time to system...
+[2020-07-08 09:54:26] Done :-)
+[2020-07-08 09:54:30] Writing RTC time to system...
+[2020-07-08 09:54:29] Done :-)
+[2020-07-08 09:54:33] Writing RTC time to system...
+[2020-07-08 09:54:32] Done :-)
+[2020-07-08 09:55:32] Writing RTC time to system...
+[2020-07-08 09:55:31] Done :-)
+[2020-07-08 09:55:41] Writing system time to RTC...
+[2020-07-08 09:55:41] Done :-)
+[2020-07-08 10:03:27] Writing RTC time to system...
+[2020-07-08 10:03:27] Done :-)
+[2020-07-08 10:03:38] Writing system time to RTC...
+[2020-07-08 10:03:39] Done :-)
+[2020-07-08 10:10:42] Writing system time to RTC...
+[2020-07-08 10:10:42] Done :-)
+[2020-07-08 10:10:49] Writing RTC time to system...
+[2020-07-08 10:10:50] Done :-)
+[2020-07-08 10:13:27] Writing RTC time to system...
+[2020-07-08 10:13:28] Done :-)
+[2020-07-08 10:50:16] Seting shutdown time to "08 17:52"
+[2020-07-08 10:50:16] Done :-)
+[2020-07-08 11:30:25] Seting shutdown time to "08 11:31"
+[2020-07-08 11:30:26] Done :-)
+[2020-07-08 11:32:15] Seting shutdown time to "08 11:33"
+[2020-07-08 11:32:15] Done :-)
+[2020-07-08 11:35:03] Seting shutdown time to "?? 11:31"
+[2020-07-08 11:35:04] Done :-)
+[2020-07-08 11:35:20] Seting shutdown time to "?? 11:46"
+[2020-07-08 11:35:21] Done :-)
+[2020-07-08 11:35:28] Seting shutdown time to "?? 11:36"
+[2020-07-08 11:35:29] Done :-)
+[2020-07-08 18:39:23] Writing system time to RTC...
+[2020-07-08 18:39:23] Done :-)
+[2020-07-08 18:39:25] Writing RTC time to system...
+[2020-07-08 18:39:26] Done :-)
+[2020-07-08 11:39:12] Writing RTC time to system...
+[2020-07-08 18:39:39] Done :-)
+[2020-07-08 18:40:07] Seting shutdown time to "?? 00:01"
+[2020-07-08 18:40:07] Done :-)
+[2020-07-08 11:53:31] Writing RTC time to system...
+[2020-07-08 18:53:58] Done :-)
+[2020-07-08 18:54:12] Writing system time to RTC...
+[2020-07-08 18:54:13] Done :-)
+[2020-07-08 18:54:43] Seting shutdown time to "?? 18:55"
+[2020-07-08 18:54:43] Done :-)
+[2020-07-08 18:56:01] Seting shutdown time to "?? 00:00"
+[2020-07-08 18:56:01] Done :-)
+[2020-07-08 18:56:11] Seting shutdown time to "?? ??:??"
+[2020-07-08 18:56:11] Done :-)
+[2020-07-08 19:01:11] Seting shutdown time to "?? ??:01"
+[2020-07-08 19:01:11] Done :-)
+[2020-07-08 19:06:12] Writing RTC time to system...
+[2020-07-08 19:06:47] Done :-)
+[2020-07-08 19:09:00] Seting shutdown time to "?? 19:09"
+[2020-07-08 19:09:00] Done :-)
+[2020-07-08 19:09:59] Seting shutdown time to "?? 19:11"
+[2020-07-08 19:09:59] Done :-)
+[2020-07-08 19:13:35] File "schedule.wpi" not found, skip running schedule script.
+[2020-07-08 19:15:24] Schedule next shutdown at: 2020-07-08 19:21:00
+[2020-07-08 19:15:24] Schedule next startup at: 2020-07-08 19:26:00
+[2020-07-08 19:30:56] Clearing auto startup time...
+[2020-07-08 19:30:57] done :-)
+[2020-07-08 19:30:57] Clearing auto shutdown time...
+[2020-07-08 19:30:57] done :-)
+[2020-07-08 19:30:57] Deleting "schedule.wpi" file...
+[2020-07-08 19:30:57] file does not exist
+[2020-07-08 19:30:57] Clearing low voltage threshold...
+[2020-07-08 19:30:57] done :-)
+[2020-07-08 19:30:57] Clearing recovery voltage threshold...
+[2020-07-08 19:30:57] done :-)
+[2020-07-08 19:31:15] Seting shutdown time to "?? 19:32"
+[2020-07-08 19:31:16] Done :-)
+[2020-07-08 19:34:20] Seting shutdown time to "?? 18:35"
+[2020-07-08 19:34:20] Done :-)
+[2020-07-08 19:36:18] Seting shutdown time to "?? 18:37"
+[2020-07-08 19:36:18] Done :-)
+[2020-07-08 19:39:29] Schedule next shutdown at: 2020-08-07 19:44:00
+[2020-07-08 19:39:29] Schedule next startup at: 2020-08-07 19:49:00
+[2020-07-08 19:51:07] Schedule next shutdown at: 2020-08-07 19:50:00
+[2020-07-08 19:51:07] Schedule next startup at: 2020-08-07 19:55:00
+[2020-07-08 19:58:00] Clearing auto startup time...
+[2020-07-08 19:58:00] done :-)
+[2020-07-08 19:58:00] Clearing auto shutdown time...
+[2020-07-08 19:58:01] done :-)
+[2020-07-08 19:58:01] Deleting "schedule.wpi" file...
+[2020-07-08 19:58:01] file does not exist
+[2020-07-08 19:58:01] Clearing low voltage threshold...
+[2020-07-08 19:58:01] done :-)
+[2020-07-08 19:58:01] Clearing recovery voltage threshold...
+[2020-07-08 19:58:01] done :-)
+[2020-07-08 19:58:40] Running syncTime.sh ...
+[2020-07-08 19:58:40] Synchronizing time between system and Witty Pi...
+[2020-07-08 19:58:41] Writing RTC time to system...
+[2020-07-08 20:01:09] Done :-)
+[2020-07-08 20:03:18] Seting shutdown time to "09 08:11"
+[2020-07-08 20:03:18] Done :-)
+[2020-07-08 20:04:09] Seting startup time to "09 08:12:00"
+[2020-07-08 20:04:10] Done :-)
+[2020-07-08 20:07:28] Writing RTC time to system...
+[2020-07-09 10:34:43] Done :-)
+[2020-07-09 10:35:16] Seting shutdown time to "09 10:35"
+[2020-07-09 10:35:17] Done :-)
+[2020-07-09 10:36:05] Seting shutdown time to "09 10:36"
+[2020-07-09 10:36:06] Done :-)
+[2020-07-09 10:36:17] Seting shutdown time to "09 10:37"
+[2020-07-09 10:36:18] Done :-)
+[2020-07-09 10:38:08] Writing system time to RTC...
+[2020-07-09 10:38:09] Done :-)
+[2020-07-09 10:38:24] Writing RTC time to system...
+[2020-07-09 10:38:24] Done :-)
+[2020-07-09 11:17:04] Writing RTC time to system...
+[2020-07-09 13:38:07] Done :-)
+[2020-07-09 11:17:15] Writing RTC time to system...
+[2020-07-09 13:38:17] Done :-)
+[2020-07-09 11:17:28] Writing system time to RTC...
+[2020-07-09 11:17:29] Done :-)
+[2020-07-09 11:18:43] Seting shutdown time to "?? 11:19"
+[2020-07-09 11:18:44] Done :-)
+[2020-07-10 08:23:17] Seting shutdown time to "10 08:25"
+[2020-07-10 08:23:17] Done :-)
+[2020-07-10 08:26:18] Seting shutdown time to "10 08:30"
+[2020-07-10 08:26:18] Done :-)
+[2020-07-10 08:27:49] Seting shutdown time to "10 08:29"
+[2020-07-10 08:27:49] Done :-)
+[2020-07-10 08:38:23] Seting startup time to "10 08:39:00"
+[2020-07-10 08:38:24] Done :-)
+[2020-07-10 08:41:12] Seting shutdown time to "10 08:42"
+[2020-07-10 08:41:12] Done :-)
+[2020-07-10 08:42:04] Seting shutdown time to "10 08:45"
+[2020-07-10 08:42:04] Done :-)
+[2020-07-10 08:51:35] Writing RTC time to system...
+[2020-07-10 09:40:52] Done :-)
+[2020-07-10 09:41:13] Seting shutdown time to "?? 09:42"
+[2020-07-10 09:41:14] Done :-)
+[2020-07-10 13:21:38] Writing RTC time to system...
+[2020-07-12 02:58:04] Done :-)
+[2020-07-12 03:07:03] Seting startup time to "12 03:08:00"
+[2020-07-12 03:07:04] Done :-)
+[2020-07-12 03:09:35] Seting shutdown time to "12 03:05"
+[2020-07-12 03:09:35] Done :-)
+[2020-07-12 03:10:16] Seting shutdown time to "12 03:11"
+[2020-07-12 03:10:17] Done :-)
+[2020-07-12 03:11:14] Writing RTC time to system...
+[2020-07-12 03:11:15] Done :-)
+[2020-07-12 03:11:17] Writing system time to RTC...
+[2020-07-12 03:11:18] Done :-)
+[2020-07-12 03:11:35] Seting shutdown time to "?? 03:15"
+[2020-07-12 03:11:36] Done :-)
+[2020-07-12 03:14:25] Running syncTime.sh ...
+[2020-07-12 03:14:25] Synchronizing time between system and Witty Pi...
+[2020-07-12 03:14:26] Writing RTC time to system...
+[2020-07-12 03:14:26] Done :-)
+[2020-07-12 03:16:29] Seting shutdown time to "12 03:18"
+[2020-07-12 03:16:29] Done :-)
+[2020-07-12 03:18:25] Writing system time to RTC...
+[2020-07-12 03:18:26] Done :-)
+[2020-07-12 03:33:23] Writing RTC time to system...
+[2020-07-12 03:34:32] Done :-)
+[2020-07-12 03:34:54] Running syncTime.sh ...
+[2020-07-12 03:34:54] Synchronizing time between system and Witty Pi...
+[2020-07-12 03:34:54] Writing RTC time to system...
+[2020-07-12 03:34:56] Done :-)
+[2020-07-12 03:37:06] Running syncTime.sh ...
+[2020-07-12 03:37:06] Synchronizing time between system and Witty Pi...
+[2020-07-12 03:37:06] Writing RTC time to system...
+[2020-07-12 03:37:07] Done :-)
+[2020-07-12 01:51:52] Running syncTime.sh ...
+[2020-07-12 01:51:53] Synchronizing time between system and Witty Pi...
+[2020-07-12 01:51:53] Writing RTC time to system...
+[2020-07-12 01:55:15] Done :-)
+[2020-07-12 01:56:06] Seting shutdown time to "?? 01:57"
+[2020-07-12 01:56:07] Done :-)
+[2020-07-12 01:59:28] Writing RTC time to system...
+[2020-07-12 02:00:05] Done :-)
+[2020-07-12 02:00:27] Running syncTime.sh ...
+[2020-07-12 02:00:27] Synchronizing time between system and Witty Pi...
+[2020-07-12 02:00:27] Writing RTC time to system...
+[2020-07-12 02:00:28] Done :-)
+[2020-07-12 02:01:53] Seting shutdown time to "?? 02:03"
+[2020-07-12 02:01:54] Done :-)
+[2020-07-13 09:12:54] Seting shutdown time to "?? 09:14"
+[2020-07-13 09:12:54] Done :-)
+[2020-07-14 02:51:47] Seems Witty Pi board is not connected? Quitting...
+                                                                         [2020-07-14 02:58:17] Seting shutdown time to "?? 03:00"
+[2020-07-14 02:58:18] Done :-)
+[2020-07-14 02:58:28] Seting startup time to "?? 03:01:00"
+[2020-07-14 02:58:28] Done :-)
+[2020-07-14 03:04:29] Seems Witty Pi board is not connected? Quitting...
+[2020-07-14 03:27:41] Seting shutdown time to "?? 03:29"
+[2020-07-14 03:27:41] Done :-)
+[2020-07-14 03:27:51] Seting startup time to "?? 03:30:00"
+[2020-07-14 03:27:51] Done :-)
+[2020-07-14 03:33:36] Writing RTC time to system...
+[2020-07-14 03:33:56] Done :-)
+[2020-07-14 03:34:33] Seting shutdown time to "?? 03:36"
+[2020-07-14 03:34:34] Done :-)
+[2020-07-14 03:34:53] Seting startup time to "?? 03:37:00"
+[2020-07-14 03:34:53] Done :-)
+[2020-07-14 03:36:35] Writing RTC time to system...
+[2020-07-14 03:37:47] Done :-)
+[2020-07-14 03:42:38] Running syncTime.sh ...
+[2020-07-14 03:42:38] Synchronizing time between system and Witty Pi...
+[2020-07-14 03:42:38] Writing RTC time to system...
+[2020-07-14 03:42:41] Done :-)
+[2020-07-14 03:42:55] Writing RTC time to system...
+[2020-07-14 03:42:55] Done :-)
+[2020-07-14 03:43:31] Seting shutdown time to "?? 03:46"
+[2020-07-14 03:43:32] Done :-)
+[2020-07-14 03:43:42] Seting startup time to "?? 03:47:00"
+[2020-07-14 03:43:42] Done :-)
+[2020-07-14 03:46:35] Writing RTC time to system...
+[2020-07-14 03:47:46] Done :-)
+[2020-07-14 09:06:56] Writing RTC time to system...
+[2020-07-14 09:06:57] Done :-)
+[2020-07-14 09:07:16] Writing RTC time to system...
+[2020-07-14 09:07:18] Done :-)
+[2020-07-14 10:18:39] Seting startup time to ""
+[2020-07-14 10:18:40] Done :-)
+[2020-07-15 01:52:51] Writing RTC time to system...
+[2020-07-15 01:52:53] Done :-)
+[2020-07-15 02:11:48] Seting shutdown time to "??:02:13"
+[2020-07-15 02:11:49] Done :-)
+[2020-07-15 02:12:04] Seting startup time to ""
+[2020-07-15 02:12:04] Done :-)
+[2020-07-15 02:13:37] Writing RTC time to system...
+[2020-07-15 02:15:52] Done :-)
+[2020-07-15 02:22:04] Seting startup time to ""
+[2020-07-15 02:22:04] Done :-)
+[2020-07-15 02:23:11] Seting startup time to ""
+[2020-07-15 02:23:11] Done :-)
+[2020-07-15 02:24:39] Seting startup time to "??:02:23:00"
+[2020-07-15 02:24:39] Done :-)
+[2020-07-15 02:25:35] Seting startup time to "??:02:23:00"
+[2020-07-15 02:25:35] Done :-)
+[2020-07-15 02:25:45] Seting startup time to "??:02:27:00"
+[2020-07-15 02:25:45] Done :-)
+[2020-07-15 02:29:10] Seting shutdown time to ""
+[2020-07-15 02:29:10] Done :-)
+[2020-07-15 02:30:36] Writing RTC time to system...
+[2020-07-15 02:31:09] Done :-)
+[2020-07-15 02:32:33] Seting shutdown time to "??:02:40"
+[2020-07-15 02:32:33] Done :-)
+[2020-07-15 02:36:40] Seting shutdown time to "01:01:01"
+[2020-07-15 02:36:41] Done :-)
+[2020-07-15 02:38:15] Seting startup time to ""
+[2020-07-15 02:38:16] Done :-)
+[2020-07-15 02:39:25] Seting startup time to ""
+[2020-07-15 02:39:25] Done :-)
+[2020-07-15 02:39:42] Seting startup time to ""
+[2020-07-15 02:39:43] Done :-)
+[2020-07-15 02:40:58] Seting startup time to ""
+[2020-07-15 02:40:58] Done :-)
+[2020-07-15 02:42:14] Seting startup time to ""
+[2020-07-15 02:42:15] Done :-)
+[2020-07-15 02:42:52] Seting startup time to "??:02:43:00"
+[2020-07-15 02:42:53] Done :-)
+[2020-07-15 02:47:53] Seting startup time to "??:02:43:00"
+[2020-07-15 02:47:53] Done :-)
+[2020-07-15 02:48:15] Seting startup time to "??:02:49:00"
+[2020-07-15 02:48:16] Done :-)
+[2020-07-15 02:50:13] Seting startup time to "??:02:49:00"
+[2020-07-15 02:50:14] Done :-)
+[2020-07-15 02:50:20] Seting startup time to "??:02:51:00"
+[2020-07-15 02:50:20] Done :-)
+[2020-07-15 02:52:48] Seting startup time to "??:02:51:00"
+[2020-07-15 02:52:48] Done :-)
+[2020-07-15 02:52:52] Seting startup time to "??:02:51:30"
+[2020-07-15 02:52:53] Done :-)
+[2020-07-15 02:53:00] Seting startup time to "??:02:53:30"
+[2020-07-15 02:53:01] Done :-)
+[2020-07-15 02:59:44] Seting startup time to "??:02:53:30"
+[2020-07-15 02:59:45] Done :-)
+[2020-07-15 03:00:10] Seting startup time to "??:03:00:30"
+[2020-07-15 03:00:11] Done :-)
+[2020-07-15 03:02:10] Seting startup time to "??:03:02:30"
+[2020-07-15 03:02:11] Done :-)
+[2020-07-15 03:04:33] Seting startup time to "??:03:04:00"
+[2020-07-15 03:04:34] Done :-)
+[2020-07-15 03:04:46] Seting startup time to "??:03:05:00"
+[2020-07-15 03:04:46] Done :-)
+[2020-07-15 03:05:31] Seting startup time to "??:04:00:00"
+[2020-07-15 03:05:31] Done :-)
+[2020-07-15 03:05:40] Seting startup time to "??:02:00:00"
+[2020-07-15 03:05:40] Done :-)
+[2020-07-15 03:06:11] Seting startup time to "??:02:00:00"
+[2020-07-15 03:06:12] Done :-)
+[2020-07-15 03:06:22] Seting startup time to "??:04:30:30"
+[2020-07-15 03:06:22] Done :-)
+[2020-07-15 05:11:34] Writing RTC time to system...
+[2020-07-15 05:11:51] Done :-)
+[2020-07-15 05:12:20] Seting startup time to "??:04:30:30"
+[2020-07-15 05:12:20] Done :-)
+[2020-07-15 05:12:28] Seting startup time to "??:03:20:00"
+[2020-07-15 05:12:29] Done :-)
+[2020-07-15 05:12:46] Seting startup time to "??:01:02:00"
+[2020-07-15 05:12:47] Done :-)
+[2020-07-15 05:13:07] Seting startup time to "??:06:03:20"
+[2020-07-15 05:13:08] Done :-)
+[2020-07-15 05:13:23] Writing RTC time to system...
+[2020-07-15 05:13:23] Done :-)
+[2020-07-15 05:13:28] Seting startup time to "??:06:03:20"
+[2020-07-15 05:13:28] Done :-)
+[2020-07-15 05:13:32] Seting startup time to "??:01:02:00"
+[2020-07-15 05:13:33] Done :-)
+[2020-07-15 05:13:44] Seting startup time to "??:03:20:00"
+[2020-07-15 05:13:45] Done :-)
+[2020-07-15 05:14:05] Writing RTC time to system...
+[2020-07-15 05:14:05] Done :-)
+[2020-07-15 05:14:09] Running syncTime.sh ...
+[2020-07-15 05:14:10] Synchronizing time between system and Witty Pi...
+[2020-07-15 05:14:10] Writing RTC time to system...
+[2020-07-15 05:14:10] Done :-)
+[2020-07-15 05:14:11] Internet detected, apply network time to system and Witty Pi...
+[2020-07-15 05:14:11] Applying network time to system...
+[2020-07-15 05:14:12] Done :-)
+[2020-07-15 05:14:12] Writing system time to RTC...
+[2020-07-15 05:14:13] Done :-)
+[2020-07-15 05:14:19] Seting startup time to "??:03:20:00"
+[2020-07-15 05:14:19] Done :-)
+[2020-07-15 05:14:23] Seting startup time to "??:01:02:00"
+[2020-07-15 05:14:24] Done :-)
+[2020-07-15 05:16:07] Seting shutdown time to "??:05:17"
+[2020-07-15 05:16:08] Done :-)
+[2020-07-15 05:17:37] Writing RTC time to system...
+[2020-07-15 05:18:03] Done :-)
+[2020-07-15 05:18:49] Seting startup time to "??:05:20:00"
+[2020-07-15 05:18:49] Done :-)
+[2020-07-15 05:19:01] Seting startup time to "??:05:14:00"
+[2020-07-15 05:19:02] Done :-)
+[2020-07-15 05:19:12] Seting startup time to "??:05:12:00"
+[2020-07-15 05:19:12] Done :-)
+[2020-07-15 05:19:53] Seting startup time to "??:04:21:00"
+[2020-07-15 05:19:54] Done :-)
+[2020-07-15 05:19:59] Seting startup time to "??:04:21:00"
+[2020-07-15 05:20:00] Done :-)
+[2020-07-15 05:21:21] Seting startup time to "??:05:22:00"
+[2020-07-15 05:21:22] Done :-)
+[2020-07-15 05:26:38] Seting startup time to "??:06:00:00"
+[2020-07-15 05:26:39] Done :-)
+[2020-07-15 05:26:49] Seting shutdown time to "??:07:00"
+[2020-07-15 05:26:50] Done :-)
+[2020-07-15 05:26:55] Seting shutdown time to "??:06:00"
+[2020-07-15 05:26:55] Done :-)
+[2020-07-15 05:27:07] Seting shutdown time to "??:09:00"
+[2020-07-15 05:27:07] Done :-)
+[2020-07-15 05:27:42] Seting startup time to "??:10:02:02"
+[2020-07-15 05:27:43] Done :-)
+[2020-07-15 05:27:51] Seting startup time to "??:08:20:10"
+[2020-07-15 05:27:52] Done :-)
+[2020-07-15 05:30:25] Seting startup time to "??:08:20:10"
+[2020-07-15 05:30:26] Done :-)
+[2020-07-15 05:30:28] Seting startup time to "??:10:02:02"
+[2020-07-15 05:30:29] Done :-)
+[2020-07-15 05:32:05] Seting startup time to "??:05:32:00"
+[2020-07-15 05:32:06] Done :-)
+[2020-07-15 05:32:10] Seting startup time to "??:05:32:00"
+[2020-07-15 05:32:11] Done :-)
+[2020-07-15 05:32:36] Seting startup time to "??:05:33:00"
+[2020-07-15 05:32:37] Done :-)
+[2020-07-15 05:35:49] Seting startup time to "??:05:32:00"
+[2020-07-15 05:35:49] Done :-)
+[2020-07-15 05:35:53] Seting startup time to "??:05:34:00"
+[2020-07-15 05:35:54] Done :-)
+[2020-07-15 05:36:12] Seting startup time to "??:05:38:00"
+[2020-07-15 05:36:13] Done :-)
+[2020-07-15 05:39:42] Seting startup time to "??:05:45:00"
+[2020-07-15 05:39:43] Done :-)
+[2020-07-15 05:40:32] Seting startup time to "??:05:41:00"
+[2020-07-15 05:40:33] Done :-)
+[2020-07-15 05:42:00] Seting startup time to "?? 05:42:30"
+[2020-07-15 05:42:00] Done :-)
+[2020-07-15 05:43:42] Seting startup time to "?? 05:43:30"
+[2020-07-15 05:43:42] Done :-)
+[2020-07-15 05:43:53] Seting startup time to "?? 05:44:00"
+[2020-07-15 05:43:54] Done :-)
+[2020-07-15 05:45:50] Seting startup time to "?? 05:46:00"
+[2020-07-15 05:45:51] Done :-)
+[2020-07-15 05:47:03] Seting startup time to "??:05:40:00"
+[2020-07-15 05:47:04] Done :-)
+[2020-07-15 05:47:23] Seting startup time to "?? 05:48:00"
+[2020-07-15 05:47:23] Done :-)
+[2020-07-15 05:52:30] Seting shutdown time to "?? 05:54"
+[2020-07-15 05:52:30] Done :-)
+[2020-07-15 05:52:49] Seting startup time to "?? 05:55:00"
+[2020-07-15 05:52:49] Done :-)
+[2020-07-15 05:56:18] Seting startup time to "??:05:57:00"
+[2020-07-15 05:56:19] Done :-)
+[2020-07-15 08:31:58] Seting startup time to "??:05:04:00"
+[2020-07-15 08:31:58] Done :-)
+[2020-07-15 08:32:18] Seting startup time to "??:08:34:00"
+[2020-07-15 08:32:18] Done :-)
+[2020-07-15 08:35:53] Seting startup time to "??:08:36:00"
+[2020-07-15 08:35:54] Done :-)
+[2020-07-15 08:42:20] Seting shutdown time to "??:08:43"
+[2020-07-15 08:42:20] Done :-)
+[2020-07-15 08:49:33] Seting startup time to "??:08:50:00"
+[2020-07-15 08:49:34] Done :-)
+[2020-07-15 08:53:17] Seting startup time to "??:08:54:00"
+[2020-07-15 08:53:17] Done :-)
+[2020-07-15 08:54:54] Seting startup time to ""
+[2020-07-15 08:54:55] Done :-)
+[2020-07-15 08:55:43] Seting startup time to "??:08:56:00"
+[2020-07-15 08:55:44] Done :-)
+[2020-07-15 08:59:42] Seting startup time to "??:09:00:00"
+[2020-07-15 08:59:43] Done :-)
+[2020-07-15 09:02:59] Seting shutdown time to "??:09:04"
+[2020-07-15 09:03:00] Done :-)
+[2020-07-15 09:03:14] Seting startup time to "??:09:04:30"
+[2020-07-15 09:03:15] Done :-)
+[2020-07-15 09:06:43] Seting shutdown time to "??:09:07"
+[2020-07-15 09:06:44] Done :-)
+[2020-07-15 09:06:53] Seting startup time to "??:09:07:30"
+[2020-07-15 09:06:54] Done :-)
+[2020-07-15 09:09:58] Seting startup time to "??:10:00:00"
+[2020-07-15 09:09:59] Done :-)
+[2020-07-15 09:10:22] Seting startup time to "??:09:11:00"
+[2020-07-15 09:10:23] Done :-)
+[2020-07-15 09:11:23] Seting startup time to "??:09:11:45"
+[2020-07-15 09:11:24] Done :-)
