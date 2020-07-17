@@ -1,0 +1,49 @@
+import RPi.GPIO as GPIO 
+import time 
+import sys
+
+#Input: mode, time (minutes)
+#Mode: range from 1 - 5, with increasing brightness
+#Duty cycle: percentage of time the signal is on 
+
+if len(sys.argv) > 3:
+  sys.exit("Error: More than two inputs received.")
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11, GPIO.OUT)
+pwm = GPIO.PWM(11, 67)
+pwm.start(1)
+
+end_time = time.time() + 60 * int(sys.argv[2])
+
+#while time.time() < end_time: 
+#  pwm.ChangeDutyCycle(7.5)
+
+while time.time() < end_time:  pwm.ChangeDutyCycle(7.5)
+  #pwm.ChangeFrequency(75)
+  time.sleep(0.5)
+
+end2_time = time.time() + 5
+
+while time.time() < end2_time:
+   pwm.ChangeDutyCycle(7.5)
+   pwm.ChangeFrequency(60)
+
+end3_time = time.time() + 5
+while time.time() < end3_time:
+# pwm.ChnageDutyCycle()
+  pwm.ChangeFrequency(55)
+
+end4_time = time.time() + 5
+while time.time() < end4_time:
+#  pwm.ChangeDutyCycle()
+  pwm.ChangeFrequency(53)
+
+end5_time = time.time() + 2
+#  pwm.ChangeDutyCycle()
+while time.time() < end5_time:
+  pwm.ChangeFrequency(40)
+
+#pwm.stop()
+GPIO.cleanup(11)
