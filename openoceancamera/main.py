@@ -18,6 +18,8 @@ from flask import Flask, request, send_file
 import threading
 from  flask_cors import CORS
 import base64
+import ms5837
+import tsys01
 
 try:
     from Camera import Camera
@@ -44,6 +46,12 @@ def start_capture(camera, video):
         filename = external_drive +"/"+ str(uuid1()) + ".jpg"
         last_file_name = filename
         camera.do_capture(filename=filename)
+        
+        log_file = open(external_drive + "/log_file.txt", 'a')
+        log_file.write(sensor_log())
+        log_file.write("\n")
+        log_file.close()
+
         print("Written")
     else:
         filename = external_drive +"/"+ str(uuid1()) + ".h264"
@@ -120,6 +128,23 @@ def main():
 def update_config():
     pass
 
+def sensor_log():
+    press_sensor = ms5837.MS5837_30BA()
+    press_sensor.init()
+    press_sensor.read(ms5837.OSR_256)
+
+    temp_sensor = tsys01.TSYS01()
+    temp_sensor.init()
+    temp_sensor.read()
+
+    data = 
+        "time:" + str(datetime.now) + "\n" + 
+        "lum:" + str(os.system("sudo ./TSL2561/Python/TSL2561/py")) + "\n" + 
+        "press:" + str(press_sensor.pressure()) + "mbar \n" +
+        "temp:" + str(temp_sensor.temperature()) + "C \n"
+
+    return data
+
 @app.route("/setSchedule", methods=['POST', 'GET'])
 def app_connect():
     global external_drive
@@ -160,7 +185,7 @@ def turnOffWiFi():
     if request.method == "GET":
         os.system(cmdoff)
         os.system(cmdoff1)
-        sys.exit();
+        sys.exit()
         print("Wi-FI Off")
         return {"success":"Success",}
     
