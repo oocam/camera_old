@@ -21,6 +21,7 @@ from smbus import SMBus
 import base64
 import ms5837
 import tsys01
+from picamera import PiCamera
 
 try:
     from Camera import Camera
@@ -46,12 +47,6 @@ def start_capture(camera, video):
         filename = external_drive +"/"+ str(uuid1()) + ".jpg"
         last_file_name = filename
         camera.do_capture(filename=filename)
-        
-        log_file = open(external_drive + "/log_file.txt", 'a')
-        log_file.write(sensor_log())
-        log_file.write("\n")
-        log_file.close()
-
         print("Written")
     else:
         filename = external_drive +"/"+ str(uuid1()) + ".h264"
@@ -125,6 +120,12 @@ def main():
                             logging.info("Stop: " + str(datetime.now()))
                             switch_flag = 1
 
+	while camera.check_recording():
+	    log_file = open(external_drive + "/log_file.txt", 'a')
+	    log_file.write(sensor_log())
+	    log_file.write("\n")
+	    log_file.close()
+				
 def update_config():
     pass
 
