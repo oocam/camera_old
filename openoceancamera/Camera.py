@@ -43,3 +43,7 @@ class Camera(object):
 
     def set_capture_frequency(self, frequency):
         self.frequency = frequency
+       
+    def check_recording(self):
+        if self.recording:
+            return True
