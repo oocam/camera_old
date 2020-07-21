@@ -139,7 +139,7 @@ def sensor_log():
     temp_sensor.read()
 
     time - "time:" + str(datetime.now) + "\n"
-    lum = "lum:" + str(os.system("sudo ./TSL2561/Python/TSL2561/py")) + "\n"
+    lum = "lum:" + str(os.system("sudo ./TSL2561/Python/TSL2561.py")) + "\n"
     press = "press:" + str(press_sensor.pressure()) + "mbar \n"
     temp = "temp:" + str(temp_sensor.temperature()) + "C \n"
     data = time + lum + press + temp
