@@ -17,6 +17,7 @@ from datetime import datetime
 from flask import Flask, request, send_file
 import threading
 from  flask_cors import CORS
+from smbus import SMBus
 import base64
 import ms5837
 import tsys01
@@ -38,7 +39,6 @@ camera_config = []
 thread_active = False
 
 last_file_name = ""
-
 
 def start_capture(camera, video):
     global external_drive, last_file_name
@@ -137,11 +137,11 @@ def sensor_log():
     temp_sensor.init()
     temp_sensor.read()
 
-    data = 
-        "time:" + str(datetime.now) + "\n" + 
-        "lum:" + str(os.system("sudo ./TSL2561/Python/TSL2561/py")) + "\n" + 
-        "press:" + str(press_sensor.pressure()) + "mbar \n" +
-        "temp:" + str(temp_sensor.temperature()) + "C \n"
+    time - "time:" + str(datetime.now) + "\n"
+    lum = "lum:" + str(os.system("sudo ./TSL2561/Python/TSL2561/py")) + "\n"
+    press = "press:" + str(press_sensor.pressure()) + "mbar \n"
+    temp = "temp:" + str(temp_sensor.temperature()) + "C \n"
+    data = time + lum + press + temp
 
     return data
 
