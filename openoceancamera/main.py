@@ -17,7 +17,7 @@ from datetime import datetime
 from flask import Flask, request, send_file
 import threading
 from  flask_cors import CORS
-from smbus import SMBus
+import smbus
 import base64
 import ms5837
 import tsys01
