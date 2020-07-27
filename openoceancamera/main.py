@@ -2,7 +2,7 @@ from Scheduler import Scheduler
 from picamera import PiCamera
 import tsys01
 import ms5837
-from smbus import SMBus
+import SMBus
 from flask_cors import CORS
 import threading
 from flask import Flask, request, send_file
