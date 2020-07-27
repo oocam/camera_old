@@ -1,8 +1,7 @@
 from Scheduler import Scheduler
 from picamera import PiCamera
-import tsys01
-import ms5837
-import SMBus
+#import ms5837
+import smbus
 from flask_cors import CORS
 import threading
 from flask import Flask, request, send_file
@@ -133,27 +132,25 @@ def main():
         log_file.write(sensor_log())
         log_file.write("\n")
         log_file.close()
-
+        time.sleep(1)
 
 def update_config():
     pass
 
 
 def sensor_log():
-    press_sensor = ms5837.MS5837_30BA()
-    press_sensor.init()
-    press_sensor.read(ms5837.OSR_256)
+ #   press_sensor = ms5837.MS5837_30BA()
+ #   press_sensor.init()
+ #   press_sensor.read(ms5837.OSR_256)
 
-    temp_sensor = tsys01.TSYS01()
-    temp_sensor.init()
-    temp_sensor.read()
+   # temp_sensor = tsys01.TSYS01()
+   # temp_sensor.init()
+   # temp_sensor.read()
 
     time - "time:" + str(datetime.now) + "\n"
-    lum = "lum:" + \
-        str(os.system("sudo ./TSL2561/Python/TSL2561.py")) + "\n"
-    press = "press:" + \
-        str(press_sensor.pressure()) + "mbar \n"
-    temp = "temp:" + str(temp_sensor.temperature()) + "C \n"
+    lum = "lum:" +  str(os.system("python TSL2561/Python/TSL2561.py")) + "\n"
+    temp = "temp:" + str(os.system("python tsys01-python/example.py")) + "C\n"
+    press = "press:" + str(os.system("python ms5837-python/example.py")) + "mbar\n"
     data = time + lum + press + temp
 
     return data
