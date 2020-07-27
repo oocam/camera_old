@@ -1,3 +1,4 @@
+
 from Scheduler import Scheduler
 from picamera import PiCamera
 #import ms5837
@@ -127,34 +128,16 @@ def main():
                         switch_flag = 1
 
     while camera.check_recording():
-        log_file = open(external_drive +
-                        "/log_file.txt", 'a')
-        log_file.write(sensor_log())
-        log_file.write("\n")
-        log_file.close()
+        os.system("date + '%c' >> /media/pi/OPENOCEANCA/log_file.txt")
+        os.system("python TSL2561/Python/TSL2561.py >> /media/pi/OPENOCEANCA/log_file.txt")
+        os.system("python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
+        os.system("python ms5837-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
+        os.system("python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
+         
         time.sleep(1)
 
 def update_config():
     pass
-
-
-def sensor_log():
- #   press_sensor = ms5837.MS5837_30BA()
- #   press_sensor.init()
- #   press_sensor.read(ms5837.OSR_256)
-
-   # temp_sensor = tsys01.TSYS01()
-   # temp_sensor.init()
-   # temp_sensor.read()
-
-    time - "time:" + str(datetime.now) + "\n"
-    lum = "lum:" +  str(os.system("python TSL2561/Python/TSL2561.py")) + "\n"
-    temp = "temp:" + str(os.system("python tsys01-python/example.py")) + "C\n"
-    press = "press:" + str(os.system("python ms5837-python/example.py")) + "mbar\n"
-    data = time + lum + press + temp
-
-    return data
-
 
 @app.route("/setSchedule", methods=['POST', 'GET'])
 def app_connect():
