@@ -121,10 +121,10 @@ def main():
                             switch_flag = 1
 
         while camera.check_recording():
-		log_file = open(external_drive + "/log_file.txt", 'a')
-		log_file.write(sensor_log())
-		log_file.write("\n")
-		log_file.close()
+            log_file = open(external_drive + "/log_file.txt", 'a')
+            log_file.write(sensor_log())
+            log_file.write("\n")
+            log_file.close()
 				
 def update_config():
     pass
@@ -262,4 +262,3 @@ if __name__ == "__main__":
         main_thread.join()
         api_thread.join()
         logging.info("Program is shutting down")
-
