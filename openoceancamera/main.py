@@ -64,7 +64,7 @@ def main():
                 isopen=0
                 print(thread_active)
                 my_schedule = Scheduler(data)
-                #camera = Camera()
+                camera = Camera()
                 logging.info("Loaded Scheduler")
                 #sleep(3)
                 
@@ -75,7 +75,6 @@ def main():
                     slot = my_schedule.should_start()
                     if slot==-1 and isrecord==0:
                         sleep(2)
-                        
                     
                     if isrecord==1 and slot==-1:
                     	camera.do_close()
