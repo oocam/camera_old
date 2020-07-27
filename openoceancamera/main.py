@@ -78,7 +78,7 @@ def main():
                         
                     
                     if isrecord==1 and slot==-1:
-                        camera.do_close()
+                    	camera.do_close()
                         print("CLOSED")
                         isrecord=0
                         GPIO.output(17,0)
@@ -120,11 +120,11 @@ def main():
                             logging.info("Stop: " + str(datetime.now()))
                             switch_flag = 1
 
-	while camera.check_recording():
-	    log_file = open(external_drive + "/log_file.txt", 'a')
-	    log_file.write(sensor_log())
-	    log_file.write("\n")
-	    log_file.close()
+        while camera.check_recording():
+		log_file = open(external_drive + "/log_file.txt", 'a')
+		log_file.write(sensor_log())
+		log_file.write("\n")
+		log_file.close()
 				
 def update_config():
     pass
