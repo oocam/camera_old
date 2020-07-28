@@ -139,6 +139,15 @@ def main():
                         logging.info(
                             "Stop: " + str(datetime.now()))
                         switch_flag = 1
+        
+        # next_slot = my_schedule.schedule_data[0]["start"]
+        # mins_to_next_slot = int((datetime.now() - next_slot).total_seconds() / 60)
+        # if mins_to_next_slot > 10:
+        #     five_mins = datetime.timedelta(minutes=5)
+        #     next_reboot = next_slot - five_mins
+        #     next_reboot = next_reboot.strftime("%d %H:%M:%S")
+        #     os.system("sudo ./wittypi/wittycam.sh next_reboot")
+        #     os.system("sudo shutdown -now")
              
 def update_config():
     pass
@@ -154,12 +163,11 @@ def app_connect():
         camera_config = request.get_json()
         with open('schedule.json', 'w') as outfile:
             json.dump(camera_config, outfile)
-        os.system("sudo date --s '" +
-                  camera_config[0]['date']+"'")
-# This above command sets the system time == to the user's phone time
+        # Sets the system time to the user's phone time
+        os.system("sudo date --s '" + camera_config[0]['date']+"'")
+        #Save the system time to RTC - need to change for WittyPi
         os.system("sudo ./wittypi/wittycam.sh 1")
         os.system("sudo ./wittypi/wittycam.sh 2")
-# These above commands save the system time to RTC - need to change for WittyPi
         #external_drive = "/media/pi/" + sys.argv[1]
         external_drive = "/media/pi/OPENOCEANCA"
         pathv = path.exists(external_drive)
