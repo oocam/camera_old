@@ -91,6 +91,20 @@ def main():
                         camera = Camera()
                         isopen = 1
 
+                        os.system("date +'%b %d %Y %H:%M:%S' >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("printf '\tLUM: ' >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("python TSL2561/Python/TSL2561.py >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("printf ' lux\tTEMP: ' >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("printf ' C\tPRES: ' >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("python ms5837-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")         
+                        os.system("printf ' mbus\n' >> /media/pi/OPEOCEANCA/log_file.txt")
+                        time.sleep(1)
+                    
                     camera.set_capture_frequency(
                         data[slot]["frequency"])
                     camera.set_iso(data[slot]["iso"])
@@ -125,22 +139,7 @@ def main():
                         logging.info(
                             "Stop: " + str(datetime.now()))
                         switch_flag = 1
-
-    while camera.check_recording():
-        os.system("date +'%b %d %Y %H:%M:%S' >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("printf '\tLUM: ' >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("python TSL2561/Python/TSL2561.py >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("printf ' lux\tTEMP: ' >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("printf ' C\tPRES: ' >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("python ms5837-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
-        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")         
-        os.system("printf ' mbus\n' >> /media/pi/OPEOCEANCA/log_file.txt")
-        time.sleep(1)
-
+             
 def update_config():
     pass
 
