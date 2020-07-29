@@ -15,6 +15,8 @@ from os import path
 import RPi.GPIO as GPIO
 import os
 import sys
+from PIL import Image, ImageDraw
+
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
 GPIO.setmode(GPIO.BCM)
@@ -214,8 +216,13 @@ def sendTestPic():
             stra = base64.b64encode(image.read())
         image.close()
         camera.do_close()
+        write_img_data = ImageDraw.Draw(stra)
+        data_text = str(os.system("date +'%b %d %Y %H:%M:%S'")) + \
+            "\tLUM: " + str(os.system("python TSL2561/Python/TSL2561.py")) + \
+            "\tTEMP: " + str(os.system("python tsys01-python/example.py")) + \
+            "°C\tPRESS: " + str(os.system("python ms5837-python/example.py")) + " mbar"
+        write_img_data.text((10,10), data_text, font=fnt, fill=(255,255,0,200))
         return stra
-
 
 @app.route("/testPhotoMem", methods=['POST', 'GET'])
 def sendTestPicMem():
