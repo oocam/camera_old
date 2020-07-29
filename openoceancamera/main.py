@@ -110,7 +110,9 @@ def main():
                     camera.set_iso(data[slot]["iso"])
                     camera.set_shutter_speed(
                         data[slot]["shutter_speed"])
-                    GPIO.output(17, data[slot]["light"])
+                    #GPIO.output(17, data[slot]["light"])
+                    light_mode = data[slot]["light"]
+                    os.system("sudo ./PWM.py light_mode")
                     # print(data[slot]["frequency"])
                     if not data[slot]["video"]:
                         start_capture(camera, False)
