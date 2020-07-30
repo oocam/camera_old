@@ -61,15 +61,17 @@ def readSensorData():
             )
         )
     )
-    (pressureSensor, mstemperatureSensor, depthSensor) = tuple(
-        [
-            float(x)
-            for x in str(
-                subprocess.check_output(
-                    "python ms5837-python/example.py", shell=True, text=True
-                ).split()
-            )
-        ]
+
+    pressureSensorReadings = subprocess.check_output(
+        "python ms5837-python/example.py", shell=True, text=True
+    )
+
+    pressureSensorReadings = pressureSensorReadings.split()
+
+    pressureSensor, mstemperatureSensor, depthSensor = (
+        float(pressureSensorReadings[0]),
+        float(pressureSensorReadings[1]),
+        float(pressureSensorReadings[2]),
     )
 
     return {
