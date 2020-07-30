@@ -6,7 +6,7 @@ GPIO.setwarnings(False)
 # originally 11
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(24, GPIO.OUT)
-pwm = GPIO.PWM(24, 1000)  # PIN 12 = Board 32
+pwm = GPIO.PWM(24, 900)  # PIN 12 = Board 32
 
 
 def switch_off():
@@ -31,6 +31,7 @@ def switch_on(mode):
 
 
 if __name__ == "__main__":
-    switch_on(4)
-    time.sleep(5)
-    switch_off()
+    for i in range(1, 5):
+        switch_on(i)
+        time.sleep(5)
+        switch_off()
