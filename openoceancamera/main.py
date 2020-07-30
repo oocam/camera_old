@@ -14,15 +14,17 @@ from time import sleep
 import base64
 from os import path
 import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17, GPIO.OUT)
+
 import os
 import sys
 import subprocess
-from .subsealight import PWM
+from openoceancamera.subsealight import PWM
 
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
 cmdoff = "sudo ifconfig wlan0 down"
 cmdoff1 = "sudo service dnsmasq stop"
 

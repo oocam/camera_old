@@ -3,9 +3,9 @@ import time
 import sys
 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(11, GPIO.OUT)
-pwm = GPIO.PWM(11, 67)
+# originally 11
+GPIO.setup(12, GPIO.OUT)
+pwm = GPIO.PWM(12, 67)  # PIN 12 = Board 32
 
 
 def switch_off():
