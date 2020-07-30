@@ -21,7 +21,7 @@ GPIO.setup(17, GPIO.OUT)
 import os
 import sys
 import subprocess
-from openoceancamera.subsealight import PWM
+from subsealight import PWM
 
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
