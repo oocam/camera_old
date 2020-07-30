@@ -5,8 +5,8 @@ import sys
 GPIO.setwarnings(False)
 # originally 11
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(12, GPIO.OUT)
-pwm = GPIO.PWM(12, 67)  # PIN 12 = Board 32
+GPIO.setup(24, GPIO.OUT)
+pwm = GPIO.PWM(24, 67)  # PIN 12 = Board 32
 
 
 def switch_off():
