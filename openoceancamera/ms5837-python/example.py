@@ -44,11 +44,7 @@ sensor.setFluidDensity(ms5837.DENSITY_SALTWATER)
 if sensor.read():
     # print("P: %0.1f mbar %0.3f psi") % (
     # print("P: %0.1f mbar  %0.3f psi\tT: %0.2f C  %0.2f F") % (
-    print (
-        sensor.pressure(),
-        sensor.temperature(),
-        sensor.depth(),
-    )  # Default is mbar (no arguments)
+    print (f"{sensor.pressure()} {sensor.temperature()} {sensor.depth()}")  # Default is mbar (no arguments)
 #   sensor.pressure(ms5837.UNITS_psi)) # Request psi
 # sensor.temperature(), # Default is degrees C (no arguments)
 # sensor.temperature(ms5837.UNITS_Farenheit)) # Request Farenheit

@@ -9,7 +9,7 @@ pwm = GPIO.PWM(12, 67)  # PIN 12 = Board 32
 
 
 def switch_off():
-    pwm.ChangeFrequency(0)
+    pwm.ChangeFrequency(10)
     pwm.stop()
     GPIO.cleanup(11)
 
