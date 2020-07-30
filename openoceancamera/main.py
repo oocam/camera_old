@@ -16,6 +16,7 @@ from os import path
 import RPi.GPIO as GPIO
 import os
 import sys
+import subprocess
 
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
@@ -43,9 +44,28 @@ last_file_name = ""
 
 
 def readSensorData():
-    lightSensor = str(os.system("python TSL2561/Python/TSL2561.py"))
-    temperatureSensor = str(os.system("python tsys01-python/example.py"))
-    pressureSensor = str(os.system("python ms5837-python/example.py"))
+    lightSensor = float(
+        str(
+            subprocess.check_output(
+                "python TSL2561/Python/TSL2561.py", shell=True, text=True
+            )
+        )
+    )
+    temperatureSensor = float(
+        str(
+            subprocess.check_output(
+                "python tsys01-python/example.py", shell=True, text=True
+            )
+        )
+    )
+    pressureSensor = float(
+        str(
+            subprocess.check_output(
+                "python ms5837-python/example.py", shell=True, text=True
+            )
+        )
+    )
+
     return {
         "luminosity": lightSensor,
         "temp": temperatureSensor,
