@@ -17,6 +17,7 @@ import RPi.GPIO as GPIO
 import os
 import sys
 import subprocess
+from .subsealight import PWM
 
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
@@ -259,6 +260,7 @@ def turnOffWiFi():
 def sendTestPic():
     camera = Camera()
     if request.method == "POST":
+        PWM.switch_on(4)
         try:
             data = request.get_json(force=True)
             camera.set_iso(data[0]["iso"])
@@ -273,9 +275,12 @@ def sendTestPic():
                 "image": img_base64.decode("utf-8"),
                 "sensors": json.dumps(sensor_data),
             }
+            sleep(2)
+            PWM.switch_off()
             return jsonify(response)
         except Exception as e:
             camera.do_close()
+            PWM.switch_off()
             print(e)
             return "ERROR"
 
