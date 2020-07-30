@@ -1,10 +1,11 @@
 from Scheduler import Scheduler
 from picamera import PiCamera
-#import ms5837
+
+# import ms5837
 import smbus
 from flask_cors import CORS
 import threading
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, jsonify
 from datetime import datetime
 import logging
 import json
@@ -32,7 +33,7 @@ except:
 threads = []
 
 app = Flask("OpenOceanCam")
-app.config['CORS_HEADERS'] = 'Content-Type'
+app.config["CORS_HEADERS"] = "Content-Type"
 CORS(app)
 
 external_drive = "/media/pi/OPENOCEANCA"
@@ -42,21 +43,29 @@ thread_active = False
 last_file_name = ""
 
 
+def readSensorData():
+    lightSensor = str(os.system("python TSL2561/Python/TSL2561.py"))
+    temperatureSensor = str(os.system("python tsys01-python/example.py"))
+    pressureSensor = str(os.system("python ms5837-python/example.py"))
+    return {
+        "luminosity": lightSensor,
+        "temp": temperatureSensor,
+        "pressure": pressureSensor,
+    }
+
+
 def start_capture(camera, video):
     global external_drive, last_file_name
     if not video:
-        filename = external_drive + \
-            "/" + str(uuid1()) + ".jpg"
+        filename = external_drive + "/" + str(uuid1()) + ".jpg"
         last_file_name = filename
         camera.do_capture(filename=filename)
         print("Written")
     else:
-        filename = external_drive + \
-            "/" + str(uuid1()) + ".h264"
+        filename = external_drive + "/" + str(uuid1()) + ".h264"
         camera.do_record(filename=filename)
         print("Started recording")
-    logging.info("Write: " + filename +
-                 " at time " + str(datetime.now()))
+    logging.info("Write: " + filename + " at time " + str(datetime.now()))
 
 
 def main():
@@ -89,30 +98,44 @@ def main():
                     isopen = 0
 
                 if slot >= 0:
-                    if(isopen == 0):
+                    if isopen == 0:
                         camera = Camera()
                         isopen = 1
 
-                        os.system("date +'%b %d %Y %H:%M:%S' >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system(
+                            "date +'%b %d %Y %H:%M:%S' >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
                         os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("printf '\tLUM: ' >> /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("python TSL2561/Python/TSL2561.py >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system(
+                            "printf '\tLUM: ' >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
+                        os.system(
+                            "python TSL2561/Python/TSL2561.py >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
                         os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("printf ' lux\tTEMP: ' >> /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system(
+                            "printf ' lux\tTEMP: ' >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
+                        os.system(
+                            "python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
                         os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("printf ' C\tPRES: ' >> /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("python ms5837-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")         
-                        os.system("printf ' mbus\n' >> /media/pi/OPEOCEANCA/log_file.txt")
+                        os.system(
+                            "printf ' C\tPRES: ' >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
+                        os.system(
+                            "python ms5837-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt"
+                        )
+                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
+                        os.system(
+                            "printf ' mbus\n' >> /media/pi/OPEOCEANCA/log_file.txt"
+                        )
                         time.sleep(1)
-                    
-                    camera.set_capture_frequency(
-                        data[slot]["frequency"])
+
+                    camera.set_capture_frequency(data[slot]["frequency"])
                     camera.set_iso(data[slot]["iso"])
-                    camera.set_shutter_speed(
-                        data[slot]["shutter_speed"])
-                    #GPIO.output(17, data[slot]["light"])
+                    camera.set_shutter_speed(data[slot]["shutter_speed"])
+                    # GPIO.output(17, data[slot]["light"])
                     light_mode = data[slot]["light"]
                     os.system("sudo ./PWM.py light_mode")
                     # print(data[slot]["frequency"])
@@ -123,9 +146,8 @@ def main():
                         isrecord = 1
                     else:
 
-                        if(isrecord == 0):
-                            camera.set_camera_resolution(
-                                (1920, 1080))
+                        if isrecord == 0:
+                            camera.set_camera_resolution((1920, 1080))
                             camera.set_camera_frame_rate(30)
                             print("RECORDING")
                             start_capture(camera, True)
@@ -133,17 +155,16 @@ def main():
                         else:
                             pass
                         # while  my_schedule.should_start() == slot:
-                            # print("Recording")
-                            # print(my_schedule.should_start())
-                            # pass
+                        # print("Recording")
+                        # print(my_schedule.should_start())
+                        # pass
                     switch_flag = 0
 
                 else:
                     if switch_flag == 0:
-                        logging.info(
-                            "Stop: " + str(datetime.now()))
+                        logging.info("Stop: " + str(datetime.now()))
                         switch_flag = 1
-        
+
         # next_slot = my_schedule.schedule_data[0]["start"]
         # mins_to_next_slot = int((datetime.now() - next_slot).total_seconds() / 60)
         # if mins_to_next_slot > 10:
@@ -152,45 +173,55 @@ def main():
         #     next_reboot = next_reboot.strftime("%d %H:%M:%S")
         #     os.system("sudo ./wittypi/wittycam.sh next_reboot")
         #     os.system("sudo shutdown -now")
-             
+
+
 def update_config():
     pass
 
-@app.route("/setSchedule", methods=['POST', 'GET'])
+
+@app.route("/setSchedule", methods=["POST", "GET"])
 def app_connect():
     global external_drive
     global camera_config
     global thread_active
-    if request.method == 'POST':
+    if request.method == "POST":
         thread_active = False
         print(request.get_json())
         camera_config = request.get_json()
-        with open('schedule.json', 'w') as outfile:
+        with open("schedule.json", "w") as outfile:
             json.dump(camera_config, outfile)
         # Sets the system time to the user's phone time
-        os.system("sudo date --s '" + camera_config[0]['date']+"'")
-        #Save the system time to RTC - need to change for WittyPi
+        os.system("sudo date --s '" + camera_config[0]["date"] + "'")
+        # Save the system time to RTC - need to change for WittyPi
         os.system("sudo ./wittypi/wittycam.sh 1")
         os.system("sudo ./wittypi/wittycam.sh 2")
-        #external_drive = "/media/pi/" + sys.argv[1]
+        # external_drive = "/media/pi/" + sys.argv[1]
         external_drive = "/media/pi/OPENOCEANCA"
         pathv = path.exists(external_drive)
         if pathv:
-            thread_active = True,
-            return {"success": "Success", }
+            thread_active = (True,)
+            return {
+                "success": "Success",
+            }
         else:
-            return {"success": "Not a Success. No Memory called OPENOCEANCA inserted.", }
+            return {
+                "success": "Not a Success. No Memory called OPENOCEANCA inserted.",
+            }
     else:
-        return {"success": "Not a Success", }
+        return {
+            "success": "Not a Success",
+        }
 
 
-@app.route("/viewConfig", methods=['GET'])
+@app.route("/viewConfig", methods=["GET"])
 def returnConfig():
-    if request.method == 'GET':
-        if(camera_config != []):
+    if request.method == "GET":
+        if camera_config != []:
             return json.dumps(camera_config)
         else:
-            return {"error": "No Configuration exists", }
+            return {
+                "error": "No Configuration exists",
+            }
 
 
 @app.route("/turnOffWiFi", methods=["GET"])
@@ -200,35 +231,33 @@ def turnOffWiFi():
         os.system(cmdoff1)
         sys.exit()
         print("Wi-FI Off")
-        return {"success": "Success", }
+        return {
+            "success": "Success",
+        }
 
 
-@app.route("/testPhoto", methods=['POST', 'GET'])
+@app.route("/testPhoto", methods=["POST", "GET"])
 def sendTestPic():
-    if request.method == 'POST':
+    if request.method == "POST":
         camera = Camera()
-        data = (request.get_json(force=True))
+        data = request.get_json(force=True)
         camera.set_iso(data[0]["iso"])
         camera.set_shutter_speed(data[0]["shutter_speed"])
         camera.do_capture()
-        with open("test.jpg", "rb")as image:
-            # return dat
-            stra = base64.b64encode(image.read())
-        image.close()
+        with open("test.jpg", "rb") as image:
+            img_base64 = base64.b64encode(image.read())
         camera.do_close()
-        write_img_data = ImageDraw.Draw(stra)
-        data_text = str(os.system("date +'%b %d %Y %H:%M:%S'")) + \
-            "\tLUM: " + str(os.system("python TSL2561/Python/TSL2561.py")) + \
-            "\tTEMP: " + str(os.system("python tsys01-python/example.py")) + \
-            "°C\tPRESS: " + str(os.system("python ms5837-python/example.py")) + " mbar"
-        write_img_data.text((10,10), data_text, font=fnt, fill=(255,255,0,200))
-        return stra
+        sensor_data = readSensorData()
+        print(f"Read sensor data: {sensor_data}")
+        response = {"image": img_base64, "sensors": json.dumps(sensor_data)}
+        return jsonify(response)
 
-@app.route("/testPhotoMem", methods=['POST', 'GET'])
+
+@app.route("/testPhotoMem", methods=["POST", "GET"])
 def sendTestPicMem():
-    if request.method == 'POST':
+    if request.method == "POST":
         camera = Camera()
-        data = (request.get_json(force=True))
+        data = request.get_json(force=True)
         camera.set_iso(data[0]["iso"])
         camera.set_shutter_speed(data[0]["shutter_speed"])
         flag = "SUCCESS"
@@ -236,8 +265,7 @@ def sendTestPicMem():
         pathv = path.exists(external_drive)
         if pathv:
             try:
-                filename1 = external_drive + \
-                    "/" + str(uuid1())+".jpg"
+                filename1 = external_drive + "/" + str(uuid1()) + ".jpg"
                 camera.do_capture(filename=filename1)
                 print("Written")
                 camera.do_close()
@@ -245,8 +273,7 @@ def sendTestPicMem():
                 camera.set_camera_resolution((1920, 1080))
                 camera.set_camera_frame_rate(30)
 
-                filename2 = external_drive + \
-                    "/" + str(uuid1())+".h264"
+                filename2 = external_drive + "/" + str(uuid1()) + ".h264"
                 camera.do_record(filename=filename2)
                 print("Started recording")
                 sleep(3)
@@ -256,7 +283,10 @@ def sendTestPicMem():
             flag = "USB Storage with name OPENOCEANCA required"
 
         camera.do_close()
-        return flag
+
+        sensor_data = readSensorData()
+        response = {"flag": flag, "sensors": json.dumps(sensor_data)}
+        return jsonify(response)
 
 
 def start_api_server():
@@ -268,15 +298,14 @@ if __name__ == "__main__":
     #    print("Usage: python main.py <external drive name>")
     #    exit(0)
     try:
-        with open('schedule.json') as f:
+        with open("schedule.json") as f:
             camera_config = json.load(f)
             thread_active = True
     except IOError:
         print("No File")
     finally:
         f.close()
-        api_thread = threading.Thread(
-            target=start_api_server)
+        api_thread = threading.Thread(target=start_api_server)
         main_thread = threading.Thread(target=main)
         api_thread.start()
         main_thread.start()
