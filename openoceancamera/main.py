@@ -16,7 +16,6 @@ from os import path
 import RPi.GPIO as GPIO
 import os
 import sys
-from PIL import Image, ImageDraw
 
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
@@ -239,18 +238,22 @@ def turnOffWiFi():
 @app.route("/testPhoto", methods=["POST", "GET"])
 def sendTestPic():
     if request.method == "POST":
-        camera = Camera()
-        data = request.get_json(force=True)
-        camera.set_iso(data[0]["iso"])
-        camera.set_shutter_speed(data[0]["shutter_speed"])
-        camera.do_capture()
-        with open("test.jpg", "rb") as image:
-            img_base64 = base64.b64encode(image.read())
-        camera.do_close()
-        sensor_data = readSensorData()
-        print(f"Read sensor data: {sensor_data}")
-        response = {"image": img_base64, "sensors": json.dumps(sensor_data)}
-        return jsonify(response)
+        try:
+            camera = Camera()
+            data = request.get_json(force=True)
+            camera.set_iso(data[0]["iso"])
+            camera.set_shutter_speed(data[0]["shutter_speed"])
+            camera.do_capture()
+            with open("test.jpg", "rb") as image:
+                img_base64 = base64.b64encode(image.read())
+            camera.do_close()
+            sensor_data = readSensorData()
+            print(f"Read sensor data: {sensor_data}")
+            response = {"image": img_base64, "sensors": json.dumps(sensor_data)}
+            return jsonify(response)
+        except Exception as e:
+            print(e)
+            return "ERROR"
 
 
 @app.route("/testPhotoMem", methods=["POST", "GET"])
@@ -304,7 +307,6 @@ if __name__ == "__main__":
     except IOError:
         print("No File")
     finally:
-        f.close()
         api_thread = threading.Thread(target=start_api_server)
         main_thread = threading.Thread(target=main)
         api_thread.start()
