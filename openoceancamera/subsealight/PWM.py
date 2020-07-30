@@ -17,18 +17,18 @@ def switch_off():
 
 def switch_on(mode):
     if mode == 1:
-        freq = 67
+        dc = 67
     elif mode == 2:
-        freq = 60
+        dc = 60
     elif mode == 3:
-        freq = 55
+        dc = 55
     elif mode == 4:
-        freq = 53
+        dc = 53
     elif mode == 5:
-        freq = 40
+        dc = 40
 
-    print(freq)
-    pwm.ChangeDutyCycle(freq)
+    print(dc)
+    pwm.start(dc)
 
 
 if __name__ == "__main__":
