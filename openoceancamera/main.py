@@ -269,7 +269,7 @@ def turnOffWiFi():
 def sendTestPic():
     camera = Camera()
     if request.method == "POST":
-        PWM.switch_on(4)
+        PWM.switch_on(100)
         try:
             data = request.get_json(force=True)
             camera.set_iso(data[0]["iso"])
