@@ -12,7 +12,6 @@ pwm = GPIO.PWM(24, 900)  # PIN 12 = Board 32
 def switch_off():
     pwm.ChangeDutyCycle(0)
     pwm.stop()
-    GPIO.cleanup(24)
 
 
 def switch_on(mode):
@@ -35,5 +34,5 @@ if __name__ == "__main__":
     x = datetime.datetime.now()
     y = x + datetime.timedelta(0, 5)
     while datetime.datetime.now() < y:
-        switch_on(4)
+        switch_on(1)
     switch_off()
