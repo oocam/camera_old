@@ -237,9 +237,9 @@ def turnOffWiFi():
 
 @app.route("/testPhoto", methods=["POST", "GET"])
 def sendTestPic():
+    camera = Camera()
     if request.method == "POST":
         try:
-            camera = Camera()
             data = request.get_json(force=True)
             camera.set_iso(data[0]["iso"])
             camera.set_shutter_speed(data[0]["shutter_speed"])
@@ -252,6 +252,7 @@ def sendTestPic():
             response = {"image": img_base64, "sensors": json.dumps(sensor_data)}
             return jsonify(response)
         except Exception as e:
+            camera.do_close()
             print(e)
             return "ERROR"
 
