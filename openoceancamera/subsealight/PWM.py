@@ -27,3 +27,9 @@ def switch_on(mode):
         freq = 40
 
     pwm.ChangeFrequency(freq)
+
+
+if __name__ == "__main__":
+    switch_on(4)
+    time.sleep(5)
+    switch_off()
