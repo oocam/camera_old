@@ -249,7 +249,10 @@ def sendTestPic():
             camera.do_close()
             sensor_data = readSensorData()
             print(f"Read sensor data: {sensor_data}")
-            response = {"image": img_base64, "sensors": json.dumps(sensor_data)}
+            response = {
+                "image": img_base64.decode("utf-8"),
+                "sensors": json.dumps(sensor_data),
+            }
             return jsonify(response)
         except Exception as e:
             camera.do_close()
