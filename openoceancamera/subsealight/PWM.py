@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import time
+import datetime
 import sys
 
 GPIO.setwarnings(False)
@@ -31,7 +31,10 @@ def switch_on(mode):
 
 
 if __name__ == "__main__":
-    for i in range(1, 5):
-        switch_on(i)
-        time.sleep(5)
-        switch_off()
+    now = time.time()
+    end = now + 5
+    x = datetime.datetime.now()
+    y = x + datetime.timedelta(0, 5)
+    while datetime.datetime.now() != y:
+        switch_on(4)
+    switch_off()
