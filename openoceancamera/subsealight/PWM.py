@@ -30,6 +30,7 @@ def switch_on(mode):
 
 
 if __name__ == "__main__":
+    GPIO.setmode(GPIO.BCM)
     switch_on(4)
     time.sleep(5)
     switch_off()
