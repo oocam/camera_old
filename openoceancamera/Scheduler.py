@@ -42,9 +42,12 @@ class Scheduler(object):
         # Sorts the slots in case they may not be
         possible_slots = sorted(possible_slots, key=lambda x: x["start"])
 
+        print(f"The time now is: {self.time_now}")
+        print(f"The future slots are: {possible_slots}")
+
         # Take the difference between the most recent slot's start time and time now
         delta = possible_slots[0]["start"] - self.time_now
-
+        print(f"The time difference is: {delta}")
         # Returns an integer value for the time difference in seconds
         return int(delta.total_seconds())
 
