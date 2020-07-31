@@ -194,14 +194,14 @@ def main():
                         logging.info("Stop: " + str(datetime.now()))
                         switch_flag = 1
 
-            next_slot = my_schedule.next_future_timeslot()
-            mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
-            if mins_to_next_slot > 10:
-                five_mins = datetime.timedelta(minutes=5)
-                next_reboot = next_slot - five_mins
-                next_reboot = next_reboot.strftime("%d %H:%M:%S")
-                os.system("sudo ./wittypi/wittycam.sh next_reboot")
-                os.system("sudo shutdown -now")
+                next_slot = my_schedule.next_future_timeslot()
+                mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
+                if mins_to_next_slot > 10:
+                    five_mins = datetime.timedelta(minutes=5)
+                    next_reboot = next_slot - five_mins
+                    next_reboot = next_reboot.strftime("%d %H:%M:%S")
+                    os.system("sudo ./wittypi/wittycam.sh next_reboot")
+                    os.system("sudo shutdown -now")
 
 
 def update_config():
