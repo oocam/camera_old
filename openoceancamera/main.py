@@ -195,13 +195,18 @@ def main():
                         switch_flag = 1
 
                 next_slot = my_schedule.next_future_timeslot()
+                print("Next slot is: ")
+                print(next_slot)
                 mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
-                if mins_to_next_slot > 10:
-                    five_mins = timedelta(minutes=5)
+                print(f"We have {mins_to_next_slot} mins to next slot")
+                if mins_to_next_slot > 4:
+                    five_mins = timedelta(minutes=2)
                     next_reboot = next_slot["start"] - five_mins
+                    print("I will wake up at {next_reboot}")
                     next_reboot = next_reboot.strftime("%d %H:%M:%S")
                     os.system("sudo ./wittypi/wittycam.sh next_reboot")
-                    os.system("sudo shutdown -now")
+                    print("raspberry pi is asleep")
+                    # os.system("sudo poweroff")
 
 
 def update_config():
