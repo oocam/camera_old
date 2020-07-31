@@ -61,4 +61,7 @@ class Scheduler(object):
                 future_slots.append(slot)
         # Sorts the slots in case they may not be
         future_slots = sorted(future_slots, key=lambda x: x["start"])
-        return future_slots[0]
+        if len(future_slots):
+            return future_slots[0]
+        else:
+            return None
