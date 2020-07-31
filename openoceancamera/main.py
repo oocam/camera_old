@@ -128,7 +128,10 @@ def main():
 
                 if slot >= 0:
                     if isopen == 0:
-                        camera = Camera()
+                        try:
+                            camera = Camera()
+                        except Exception as e:
+                            print(e)
                         isopen = 1
 
                         os.system(
