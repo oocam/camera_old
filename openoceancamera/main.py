@@ -207,6 +207,7 @@ def main():
                     os.system("sudo ./wittypi/wittycam.sh next_reboot")
                     print("raspberry pi is asleep, do not disturb")
                     # os.system("sudo poweroff")
+            camera.do_close()
 
 
 def update_config():
