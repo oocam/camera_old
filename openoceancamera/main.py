@@ -298,6 +298,7 @@ def sendTestPic():
 def sendTestPicMem():
     if request.method == "POST":
         camera = Camera()
+        PWM.switch_on(data[0]["light"])
         data = request.get_json(force=True)
         camera.set_iso(data[0]["iso"])
         camera.set_shutter_speed(data[0]["shutter_speed"])
@@ -324,7 +325,7 @@ def sendTestPicMem():
             flag = "USB Storage with name OPENOCEANCA required"
 
         camera.do_close()
-
+        PWM.switch_off()
         sensor_data = readSensorData()
         response = {"flag": flag, "sensors": json.dumps(sensor_data)}
         return jsonify(response)
