@@ -120,13 +120,13 @@ def main():
                     sleep(2)
 
                 if isrecord == 1 and slot == -1:
+                    PWM.switch_off()
                     camera.do_close()
                     print("CLOSED")
                     isrecord = 0
-                    GPIO.output(17, 0)
                     isopen = 0
 
-                if slot >= 0:
+                if slot >= 0:  # if slot open
                     if isopen == 0:
                         try:
                             camera = Camera()
@@ -167,22 +167,22 @@ def main():
                     camera.set_shutter_speed(data[slot]["shutter_speed"])
                     # GPIO.output(17, data[slot]["light"])
                     light_mode = data[slot]["light"]
-                    os.system("sudo ./PWM.py light_mode")
+                    PWM.switch_on(100)
                     # print(data[slot]["frequency"])
-                    if not data[slot]["video"]:
+                    if not data[slot]["video"]:  # slot for photo
                         start_capture(camera, False)
                         print(my_schedule.should_start())
                         sleep(data[slot]["frequency"])
                         isrecord = 1
                     else:
 
-                        if isrecord == 0:
+                        if isrecord == 0:  # slot for video, has not recorded yet
                             camera.set_camera_resolution((1920, 1080))
                             camera.set_camera_frame_rate(30)
                             print("RECORDING")
                             start_capture(camera, True)
                             isrecord = 1
-                        else:
+                        else:  # slot for video, already recording
                             pass
                         # while  my_schedule.should_start() == slot:
                         # print("Recording")
@@ -209,6 +209,7 @@ def main():
                         os.system("sudo ./wittypi/wittycam.sh next_reboot")
                         print("raspberry pi is asleep, do not disturb")
                         # os.system("sudo poweroff")
+            PWM.switch_off()
             camera.do_close()
 
 
