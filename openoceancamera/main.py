@@ -201,7 +201,7 @@ def main():
                     print(next_slot)
                     mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
                     print(f"We have {mins_to_next_slot} mins to next slot")
-                    if mins_to_next_slot > 4 and isrecord == 1:
+                    if (mins_to_next_slot > 4) and (isrecord == 0):
                         five_mins = timedelta(minutes=2)
                         next_reboot = next_slot["start"] - five_mins
                         print(f"I will wake up at {next_reboot}")
