@@ -167,7 +167,7 @@ def main():
                     camera.set_shutter_speed(data[slot]["shutter_speed"])
                     # GPIO.output(17, data[slot]["light"])
                     light_mode = data[slot]["light"]
-                    PWM.switch_on(100)
+                    PWM.switch_on(light_mode)
                     # print(data[slot]["frequency"])
                     if not data[slot]["video"]:  # slot for photo
                         start_capture(camera, False)
