@@ -201,14 +201,15 @@ def main():
                     print(next_slot)
                     mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
                     print(f"We have {mins_to_next_slot} mins to next slot")
-                    if mins_to_next_slot > 4:
+                    if mins_to_next_slot > 4 and isrecord == 1:
                         five_mins = timedelta(minutes=2)
                         next_reboot = next_slot["start"] - five_mins
                         print(f"I will wake up at {next_reboot}")
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
                         os.system("sudo ./wittypi/wittycam.sh next_reboot")
                         print("raspberry pi is asleep, do not disturb")
-                        # os.system("sudo poweroff")
+                        os.system("sudo poweroff")
+
             PWM.switch_off()
             camera.do_close()
 
