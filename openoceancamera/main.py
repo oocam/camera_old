@@ -198,7 +198,7 @@ def main():
                 mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
                 if mins_to_next_slot > 10:
                     five_mins = timedelta(minutes=5)
-                    next_reboot = next_slot - five_mins
+                    next_reboot = next_slot["start"] - five_mins
                     next_reboot = next_reboot.strftime("%d %H:%M:%S")
                     os.system("sudo ./wittypi/wittycam.sh next_reboot")
                     os.system("sudo shutdown -now")
