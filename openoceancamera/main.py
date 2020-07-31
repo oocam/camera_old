@@ -202,10 +202,10 @@ def main():
                 if mins_to_next_slot > 4:
                     five_mins = timedelta(minutes=2)
                     next_reboot = next_slot["start"] - five_mins
-                    print("I will wake up at {next_reboot}")
+                    print(f"I will wake up at {next_reboot}")
                     next_reboot = next_reboot.strftime("%d %H:%M:%S")
                     os.system("sudo ./wittypi/wittycam.sh next_reboot")
-                    print("raspberry pi is asleep")
+                    print("raspberry pi is asleep, do not disturb")
                     # os.system("sudo poweroff")
 
 
@@ -224,9 +224,11 @@ def app_connect():
         camera_config = request.get_json()
         with open("schedule.json", "w") as outfile:
             json.dump(camera_config, outfile)
+        timezone_input = camera_config[0]["timezone"]
+        date_input = camera_config[0]["date"]
         # Sets the system time to the user's phone time
-        os.system("sudo date --s '" + camera_config[0]["date"] + "'")
-        # Save the system time to RTC - need to change for WittyPi
+        os.system(f"TZ='{timezone_input}' sudo date -s '{date_input}'")
+        # Save the system time to RTC -
         os.system("sudo ./wittypi/wittycam.sh 1")
         os.system("sudo ./wittypi/wittycam.sh 2")
         # external_drive = "/media/pi/" + sys.argv[1]

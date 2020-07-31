@@ -1,4 +1,5 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone
+import pytz
 
 
 class Scheduler(object):
@@ -8,7 +9,8 @@ class Scheduler(object):
         self.load_scheduler_data(data)
 
     def update_current_time(self):
-        self.time_now = datetime.now()
+        tz = pytz.timezone(timezone_str)
+        self.time_now = datetime.now(tz=tz)
 
     def should_start(self):
         for i in range(len(self.schedule_data)):
@@ -20,7 +22,7 @@ class Scheduler(object):
                 return i
         return -1
 
-    def load_scheduler_data(self, data):
+    def load_scheduler_data(self, data, timezone_str):
         for i in range(len(data)):
             frame = {
                 "start": None,
