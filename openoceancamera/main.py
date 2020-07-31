@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import logging
 import json
 from uuid import uuid1
-from time import sleep
+from time import sleep, time
 import base64
 from os import path
 import RPi.GPIO as GPIO
@@ -162,8 +162,6 @@ def main():
                         os.system(
                             "printf ' mbus\n' >> /media/pi/OPEOCEANCA/log_file.txt"
                         )
-                        time.sleep(1)
-
                     camera.set_capture_frequency(data[slot]["frequency"])
                     camera.set_iso(data[slot]["iso"])
                     camera.set_shutter_speed(data[slot]["shutter_speed"])
