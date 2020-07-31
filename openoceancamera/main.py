@@ -224,10 +224,9 @@ def app_connect():
         camera_config = request.get_json()
         with open("schedule.json", "w") as outfile:
             json.dump(camera_config, outfile)
-        timezone_input = camera_config[0]["timezone"]
         date_input = camera_config[0]["date"]
         # Sets the system time to the user's phone time
-        os.system(f"TZ='{timezone_input}' sudo date -s '{date_input}'")
+        os.system(f"sudo date -s '{date_input}'")
         # Save the system time to RTC -
         os.system("sudo ./wittypi/wittycam.sh 1")
         os.system("sudo ./wittypi/wittycam.sh 2")
