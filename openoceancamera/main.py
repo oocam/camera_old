@@ -332,8 +332,8 @@ def sendTestPicMem():
         camera.do_close()
         PWM.switch_off()
         sensor_data = readSensorData()
-        response = {"flag": flag, "sensors": json.dumps(sensor_data)}
-        return jsonify(response)
+        response = flag
+        return response
 
 
 def start_api_server():
