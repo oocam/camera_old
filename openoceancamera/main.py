@@ -122,7 +122,6 @@ def main():
             print(thread_active)
             my_schedule = Scheduler(data)
             logging.info("Loaded Scheduler")
-            # sleep(3)
 
             # Stall the camera to let it initialise
             while thread_active:
@@ -146,34 +145,18 @@ def main():
                         except Exception as e:
                             print(e)
                         isopen = 1
-
-                        os.system(
-                            "date +'%b %d %Y %H:%M:%S' >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system(
-                            "printf '\tLUM: ' >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system(
-                            "python TSL2561/Python/TSL2561.py >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system(
-                            "printf ' lux\tTEMP: ' >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system(
-                            "python tsys01-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system(
-                            "printf ' C\tPRES: ' >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system(
-                            "python ms5837-python/example.py >> /media/pi/OPENOCEANCA/log_file.txt"
-                        )
-                        os.system("sed -z '$s/\n$' /media/pi/OPENOCEANCA/log_file.txt")
-                        os.system(
-                            "printf ' mbus\n' >> /media/pi/OPEOCEANCA/log_file.txt"
+                    sensor_data = readSensorData()
+                    with open(f"{external_drive}/log.txt", "a+") as f:
+                        f.write(
+                            json.dumps(
+                                {
+                                    "luminosity": sensor_data["luminosity"],
+                                    "temp": sensor_data["temp"],
+                                    "pressure": sensor_data["pressure"],
+                                    "mstemp": sensor_data["mstemp"],
+                                    "depth": sensor_data["depth"],
+                                }
+                            )
                         )
                     camera.set_capture_frequency(data[slot]["frequency"])
                     camera.set_iso(data[slot]["iso"])
@@ -196,7 +179,7 @@ def main():
                             start_capture(camera, True)
                             isrecord = 1
                         else:  # slot for video, already recording
-                            pass
+                            sleep(1)
                         # while  my_schedule.should_start() == slot:
                         # print("Recording")
                         # print(my_schedule.should_start())
@@ -222,9 +205,6 @@ def main():
                         os.system("sudo ./wittypi/wittycam.sh next_reboot")
                         print("raspberry pi is asleep, do not disturb")
                         os.system("sudo poweroff")
-
-            PWM.switch_off()
-            camera.do_close()
 
 
 def update_config():
