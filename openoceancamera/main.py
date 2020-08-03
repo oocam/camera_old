@@ -182,6 +182,7 @@ def main():
                             start_capture(camera, True)
                             isrecord = 1
                         else:  # slot for video, already recording
+                            sleep(1)
                             pass
                         # while  my_schedule.should_start() == slot:
                         # print("Recording")
