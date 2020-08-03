@@ -195,6 +195,7 @@ def main():
                         switch_flag = 1
 
                 next_slot = my_schedule.next_future_timeslot()
+                slot = my_schedule.should_start()
                 if next_slot is not None:
                     print("Next slot is: ")
                     print(next_slot)
