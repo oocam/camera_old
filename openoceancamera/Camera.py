@@ -20,6 +20,7 @@ class Camera(object):
 
     def do_record(self, filename):
         self.camera.start_recording(filename, format="h264")
+        self.recording = True
 
     def stop_recording(self):
         if self.check_recording():
@@ -50,5 +51,5 @@ class Camera(object):
         self.frequency = frequency
 
     def check_recording(self):
-        if self.recording:
-            return True
+        return self.camera.recording
+
