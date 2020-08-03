@@ -245,6 +245,8 @@ def app_connect():
         date_input = camera_config[0]["date"]
         timezone = camera_config[0]["timezone"]
         os.system(f"sudo timedatectl set-timezone {timezone}")
+        print(timezone)
+        print(date_input)
         # Sets the system time to the user's phone time
         os.system(f"sudo date -s '{date_input}'")
         # Save the system time to RTC -
