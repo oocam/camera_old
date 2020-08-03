@@ -47,32 +47,45 @@ last_file_name = ""
 
 
 def readSensorData():
-    lightSensor = float(
-        str(
-            subprocess.check_output(
-                "python TSL2561/Python/TSL2561.py", shell=True, text=True
+
+    try:
+        lightSensor = float(
+            str(
+                subprocess.check_output(
+                    "python TSL2561/Python/TSL2561.py", shell=True, text=True
+                )
             )
         )
-    )
-    temperatureSensor = float(
-        str(
-            subprocess.check_output(
-                "python tsys01-python/example.py", shell=True, text=True
+    except Exception as e:
+        lightSensor = -1.0
+
+    try:
+        temperatureSensor = float(
+            str(
+                subprocess.check_output(
+                    "python tsys01-python/example.py", shell=True, text=True
+                )
             )
         )
-    )
+    except Exception as e:
+        temperatureSensor = -1.0
 
-    pressureSensorReadings = subprocess.check_output(
-        "python ms5837-python/example.py", shell=True, text=True
-    )
+    try:
+        pressureSensorReadings = subprocess.check_output(
+            "python ms5837-python/example.py", shell=True, text=True
+        )
 
-    pressureSensorReadings = pressureSensorReadings.split()
+        pressureSensorReadings = pressureSensorReadings.split()
 
-    pressureSensor, mstemperatureSensor, depthSensor = (
-        float(pressureSensorReadings[0]),
-        float(pressureSensorReadings[1]),
-        float(pressureSensorReadings[2]),
-    )
+        pressureSensor, mstemperatureSensor, depthSensor = (
+            float(pressureSensorReadings[0]),
+            float(pressureSensorReadings[1]),
+            float(pressureSensorReadings[2]),
+        )
+    except Exception as e:
+        pressureSensor = -1.0
+        mstemperatureSensor = -1.0
+        depthSensor = -1.0
 
     return {
         "luminosity": lightSensor,
@@ -98,6 +111,7 @@ def start_capture(camera, video):
 
 
 def main():
+    camera = None
     while True:
         sleep(2)
         if thread_active:
@@ -107,7 +121,6 @@ def main():
             isopen = 0
             print(thread_active)
             my_schedule = Scheduler(data)
-            camera = Camera()
             logging.info("Loaded Scheduler")
             # sleep(3)
 
