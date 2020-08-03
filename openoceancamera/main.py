@@ -150,6 +150,9 @@ def main():
                         f.write(
                             json.dumps(
                                 {
+                                    "timestamp": datetime.now().strftime(
+                                        "%m/%d/%Y, %H:%M:%S"
+                                    ),
                                     "luminosity": sensor_data["luminosity"],
                                     "temp": sensor_data["temp"],
                                     "pressure": sensor_data["pressure"],
@@ -236,7 +239,7 @@ def app_connect():
         external_drive = "/media/pi/OPENOCEANCA"
         pathv = path.exists(external_drive)
         if pathv:
-            thread_active = (True,)
+            thread_active = True
             return {
                 "success": "Success",
             }
