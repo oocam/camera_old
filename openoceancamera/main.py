@@ -146,21 +146,31 @@ def main():
                             print(e)
                         isopen = 1
                     sensor_data = readSensorData()
-                    with open(f"{external_drive}/log.txt", "a+") as f:
-                        f.write(
-                            json.dumps(
-                                {
-                                    "timestamp": datetime.now().strftime(
-                                        "%m/%d/%Y, %H:%M:%S"
-                                    ),
-                                    "luminosity": sensor_data["luminosity"],
-                                    "temp": sensor_data["temp"],
-                                    "pressure": sensor_data["pressure"],
-                                    "mstemp": sensor_data["mstemp"],
-                                    "depth": sensor_data["depth"],
-                                }
+                    log_filename = f"{external_drive}/log.txt"
+                    file_mode = None
+                    if os.path.exists(log_filename):
+                        file_mode = "a"
+                    else:
+                        file_mode = "w"
+                    try:
+                        with open(log_filename, file_mode) as f:
+                            f.write(
+                                json.dumps(
+                                    {
+                                        "timestamp": datetime.now().strftime(
+                                            "%m/%d/%Y, %H:%M:%S"
+                                        ),
+                                        "luminosity": sensor_data["luminosity"],
+                                        "temp": sensor_data["temp"],
+                                        "pressure": sensor_data["pressure"],
+                                        "mstemp": sensor_data["mstemp"],
+                                        "depth": sensor_data["depth"],
+                                    }
+                                )
                             )
-                        )
+                    except:
+                        with open(log_filename, "w"):
+                            pass
                     camera.set_capture_frequency(data[slot]["frequency"])
                     camera.set_iso(data[slot]["iso"])
                     camera.set_shutter_speed(data[slot]["shutter_speed"])
