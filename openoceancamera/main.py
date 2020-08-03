@@ -243,6 +243,8 @@ def app_connect():
         with open("schedule.json", "w") as outfile:
             json.dump(camera_config, outfile)
         date_input = camera_config[0]["date"]
+        timezone = camera_config[0]["timezone"]
+        os.system(f"sudo timedatectl set-timezone {timezone}")
         # Sets the system time to the user's phone time
         os.system(f"sudo date -s '{date_input}'")
         # Save the system time to RTC -
