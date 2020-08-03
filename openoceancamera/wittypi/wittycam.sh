@@ -3,7 +3,7 @@
 # file: wittyPi.sh
 #
 # Run this application to interactly configure your Witty Pi
-#rtc_to
+#
 
 # check if sudo is used
 #if [ "$(id -u)" != 0 ]; then
@@ -70,11 +70,11 @@ schedule_startup()
   if [ -f "$my_dir/schedule.wpi" ]; then
       echo '  [WARNING] Your manual schedule may disturb the schedule script running!'
   fi
-#  read -p '  When do you want your Raspberry Pi to auto startup? (dd HH:MM:SS, ?? as wildcard) ' when 
-   when=$1
- if [[ $when =~ ^[0-3\?][0-9\?]:[0-2\?][0-9\?]:[0-5\?][0-9\?]:[0-5\?][0-9\?]$ ]]; then
+  #read -p '  When do you want your Raspberry Pi to auto startup? (dd HH:MM:SS, ?? as wildcard) ' when
+  when=$1" "$2
+  if [[ $when =~ ^[0-3\?][0-9\?][[:space:]][0-2\?][0-9\?]:[0-5\?][0-9\?]:[0-5\?][0-9\?]$ ]]; then
     IFS=' ' read -r date timestr <<< "$when"
-    IFS=':' read -r date hour minute second <<< "$when"
+    IFS=':' read -r hour minute second <<< "$timestr"
     wildcard='??'
     if [ $date != $wildcard ] && ([ $((10#$date>31)) == '1' ] || [ $((10#$date<1)) == '1' ]); then
       echo '  Day value should be 01~31.'
@@ -99,7 +99,7 @@ schedule_startup()
         when="$date $hour:$minute:$second"
         echo "  ...not supported pattern, but I can do \"$when\" for you..."
       fi
-      log "  Seting startup time to \"$1\""
+      log "  Seting startup time to \"$when\""
       when=$(get_utc_date_time $date $hour $minute $second)
       IFS=' ' read -r date timestr <<< "$when"
       IFS=':' read -r hour minute second <<< "$timestr"
@@ -123,11 +123,11 @@ schedule_shutdown()
   if [ -f "$my_dir/schedule.wpi" ]; then
       echo '  [WARNING] Your manual schedule may disturb the schedule script running!'
   fi
- # read -p '  When do you want your Raspberry Pi to auto shutdown? (dd HH:MM, ?? as wildcard) ' when
-    when=$1
-    if [[ $when =~ ^[0-3\?][0-9\?]:[0-2\?][0-9\?]:[0-5\?][0-9\?]$ ]]; then
-   # IFS=' ' read -r date timestr <<< "$when"
-    IFS=':' read -r date hour minute <<< "$when"
+  #read -p '  When do you want your Raspberry Pi to auto shutdown? (dd HH:MM, ?? as wildcard) ' when
+  when=$1" "$2
+  if [[ $when =~ ^[0-3\?][0-9\?][[:space:]][0-2\?][0-9\?]:[0-5\?][0-9\?]$ ]]; then
+    IFS=' ' read -r date timestr <<< "$when"
+    IFS=':' read -r hour minute <<< "$timestr"
     wildcard='??'
     if [ $date != $wildcard ] && ([ $((10#$date>31)) == '1' ] || [ $((10#$date<1)) == '1' ]); then
       echo '  Day value should be 01~31.'
@@ -459,52 +459,51 @@ reset_data()
 
 # ask user for action
 #while true; do
-#  # output temperature
+  # output temperature
 #  temperature='>>> Current temperature: '
 #  temperature+="$(get_temperature)"
-#  echo "$temperature"#
+#  echo "$temperature"
 
-#  # output system time
+  # output system time
 #  systime='>>> Your system time is: '
 #  systime+="$(get_sys_time)"
-#  echo "$systime"#
+#  echo "$systime"
 
-#  # output RTC time
+  # output RTC time
 #  rtctime='>>> Your RTC time is:    '
 #  rtctime+="$(get_rtc_time)"
 #  echo "$rtctime"
   
-#  # voltages report
+  # voltages report
 #  if is_mc_connected ; then
 #    vin=$(get_input_voltage)
 #    vout=$(get_output_voltage)
 #    iout=$(get_output_current)
 #    voltages=">>> "
 #    if [ $(get_power_mode) -eq 1 ]; then
-#		  voltages+="Vin=$(printf %.02f $vin)V, "
+#		  voltages+="Vin=$(printf %.02f $vin)V, "#
 #		fi
 #    voltages+="Vout=$(printf %.02f $vout)V, Iout=$(printf %.02f $iout)A"
 #    echo "$voltages"
 #  fi
-
- # # let user choose action
- # echo 'Now you can:'
- # echo '  1. Write system time to RTC'
- # echo '  2. Write RTC time to system'
- # echo '  3. Synchronize time'
- # echo -n '  4. Schedule next shutdown'
- # shutdown_time=$(get_local_date_time "$(get_shutdown_time)")
- # if [ ${#shutdown_time} == '3' ]; then
- #   echo ''
- # else
- #   echo " [$shutdown_time]";
- # fi
- # echo -n '  5. Schedule next startup'
- # startup_time=$(get_local_date_time "$(get_startup_time)")
- # if [ ${#startup_time} == '3' ]; then
- #   echo ''
- # else
-  #  echo "  [$startup_time]";
+#  let user choose action
+#  echo 'Now you can:'
+#echo '  1. Write system time to RTC'
+#  echo '  2. Write RTC time to system'
+#  echo '  3. Synchronize time'
+#  echo -n '  4. Schedule next shutdown'
+#  shutdown_time=$(get_local_date_time "$(get_shutdown_time)")
+#  if [ ${#shutdown_time} == '3' ]; then
+#    echo ''
+#  else
+#    echo " [$shutdown_time]";
+#  fi
+#  echo -n '  5. Schedule next startup'
+#  startup_time=$(get_local_date_time "$(get_startup_time)")
+#  if [ ${#startup_time} == '3' ]; then
+#    echo ''
+#  else
+#    echo "  [$startup_time]";
  # fi
  # echo -n '  6. Choose schedule script'
  # if [ -f "$my_dir/schedule.wpi" ]; then
@@ -512,7 +511,7 @@ reset_data()
  # else
  #   echo ''
  # fi
- # echo -n '  7. Set low voltage threshold'
+#  echo -n '  7. Set low voltage threshold'#
 #	lowVolt=$(get_low_voltage_threshold)
 #  if [ ${#lowVolt} == '8' ]; then
 #    echo ''
@@ -521,15 +520,14 @@ reset_data()
 #  fi
 #  echo -n '  8. Set recovery voltage threshold'
 #  recVolt=$(get_recovery_voltage_threshold)
-#  if [ ${#recVolt} == '8' ]; then
-#    echo ''
-#  else
-#    echo "  [$recVolt]";
-#  fi
-#  echo '  9. View/change other settings...'
-#  echo ' 10. Reset data...'
-#  echo ' 11. Exit'
-#  read -p 'What do you want to do? (1~11) ' action
+ # if [ ${#recVolt} == '8' ]; then
+ #   echo '
+  #  echo "  [$recVolt]";
+ # fi
+ # echo '  9. View/change other settings...'
+ # echo ' 10. Reset data...'
+ # echo ' 11. Exit'
+ # read -p 'What do you want to do? (1~11) ' action
   case $1 in
       1 ) system_to_rtc;;
       2 ) rtc_to_system;;
@@ -544,6 +542,8 @@ reset_data()
       11 ) exit;;
       * ) echo 'Please choose from 1 to 11';;
   esac
-  echo ''
-  echo '================================================================================'
+#  echo ''
+#  echo '================================================================================'
 #done
+
+
