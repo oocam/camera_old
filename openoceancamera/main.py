@@ -322,8 +322,8 @@ def sendTestPic():
 def sendTestPicMem():
     if request.method == "POST":
         camera = Camera()
-        PWM.switch_on(data[0]["light"])
         data = request.get_json(force=True)
+        PWM.switch_on(data[0]["light"])
         camera.set_iso(data[0]["iso"])
         camera.set_shutter_speed(data[0]["shutter_speed"])
         flag = "SUCCESS"
@@ -351,7 +351,10 @@ def sendTestPicMem():
         camera.do_close()
         PWM.switch_off()
         sensor_data = readSensorData()
-        response = flag
+        response = {
+            "flag": flag,
+            "sensors": json.dumps(sensor_data),
+        }
         return response
 
 
