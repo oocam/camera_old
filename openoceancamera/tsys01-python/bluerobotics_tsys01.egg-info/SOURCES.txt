@@ -1,8 +1,0 @@
-README.md
-setup.py
-bluerobotics_tsys01.egg-info/PKG-INFO
-bluerobotics_tsys01.egg-info/SOURCES.txt
-bluerobotics_tsys01.egg-info/dependency_links.txt
-bluerobotics_tsys01.egg-info/top_level.txt
-tsys01/__init__.py
-tsys01/tsys01.py
