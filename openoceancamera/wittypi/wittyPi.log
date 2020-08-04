@@ -751,3 +751,82 @@
 [2020-08-04 00:25:12] Done :-)
 [2020-08-04 00:26:35] Writing RTC time to system...
 [2020-08-04 00:27:15] Done :-)
+[2020-08-04 16:36:56] Writing system time to RTC...
+[2020-08-04 16:36:57] Done :-)
+[2020-08-04 16:36:58] Writing RTC time to system...
+[2020-08-04 16:36:58] Done :-)
+[2020-08-04 16:37:03] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:03] Done :-)
+[2020-08-04 16:37:04] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:04] Done :-)
+[2020-08-04 16:37:07] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:08] Done :-)
+[2020-08-04 16:37:09] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:09] Done :-)
+[2020-08-04 16:37:12] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:13] Done :-)
+[2020-08-04 16:37:14] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:14] Done :-)
+[2020-08-04 16:37:17] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:17] Done :-)
+[2020-08-04 16:37:18] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:19] Done :-)
+[2020-08-04 16:37:22] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:22] Done :-)
+[2020-08-04 16:37:23] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:24] Done :-)
+[2020-08-04 16:37:26] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:27] Done :-)
+[2020-08-04 16:37:28] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:28] Done :-)
+[2020-08-04 16:37:31] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:32] Done :-)
+[2020-08-04 16:37:33] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:33] Done :-)
+[2020-08-04 16:37:36] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:37] Done :-)
+[2020-08-04 16:37:37] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:38] Done :-)
+[2020-08-04 16:37:41] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:41] Done :-)
+[2020-08-04 16:37:42] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:43] Done :-)
+[2020-08-04 16:37:46] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:46] Done :-)
+[2020-08-04 16:37:47] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:47] Done :-)
+[2020-08-04 16:37:50] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:51] Done :-)
+[2020-08-04 16:37:52] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:52] Done :-)
+[2020-08-04 16:37:55] Seting startup time to "04 16:42:30"
+[2020-08-04 16:37:56] Done :-)
+[2020-08-04 16:37:57] Seting shutdown time to "04 16:38"
+[2020-08-04 16:37:57] Done :-)
+[2020-08-04 16:38:00] Seting startup time to "04 16:42:30"
+[2020-08-04 16:38:02] Done :-)
+[2020-08-04 16:38:39] Running syncTime.sh ...
+[2020-08-04 16:38:39] Synchronizing time between system and Witty Pi...
+[2020-08-04 16:38:42] Writing RTC time to system...
+[2020-08-04 16:43:20] Done :-)
+[2020-08-04 16:43:31] Internet detected, apply network time to system and Witty Pi...
+[2020-08-04 16:43:31] Applying network time to system...
+[2020-08-04 16:43:34] Done :-)
+[2020-08-04 16:43:34] Writing system time to RTC...
+[2020-08-04 16:43:35] Done :-)
+[2020-08-04 16:50:28] Clearing auto startup time...
+[2020-08-04 16:50:28] done :-)
+[2020-08-04 16:50:35] Clearing auto shutdown time...
+[2020-08-04 16:50:35] done :-)
+[2020-08-04 16:52:44] Clearing auto startup time...
+[2020-08-04 16:52:44] done :-)
+[2020-08-04 16:52:44] Clearing auto shutdown time...
+[2020-08-04 16:52:44] done :-)
+[2020-08-04 16:53:21] Clearing auto startup time...
+[2020-08-04 16:53:22] done :-)
+[2020-08-04 16:53:22] Clearing auto shutdown time...
+[2020-08-04 16:53:22] done :-)
+[2020-08-04 16:53:42] Clearing auto startup time...
+[2020-08-04 16:53:42] done :-)
+[2020-08-04 16:53:42] Clearing auto shutdown time...
+[2020-08-04 16:53:42] done :-)

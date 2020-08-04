@@ -431,22 +431,22 @@ reset_all()
 {
   reset_startup_time
   reset_shutdown_time
-  delete_schedule_script
-  reset_low_voltage_threshold
-  reset_recovery_voltage_threshold
+#  delete_schedule_script
+#  reset_low_voltage_threshold
+#  reset_recovery_voltage_threshold
 }
 
 reset_data()
 {
-  echo 'Here you can reset some data:'
-  echo '  [1] Clear scheduled startup time'
-  echo '  [2] Clear scheduled shutdown time'
-  echo '  [3] Stop using schedule script'
-  echo '  [4] Clear low voltage threshold'
-  echo '  [5] Clear recovery voltage threshold'
-  echo '  [6] Perform all actions above'
-  read -p "Which action to perform? (1~6) " action
-  case $action in
+#  echo 'Here you can reset some data:'
+#  echo '  [1] Clear scheduled startup time'
+#  echo '  [2] Clear scheduled shutdown time'
+#  echo '  [3] Stop using schedule script'
+#  echo '  [4] Clear low voltage threshold'
+#  echo '  [5] Clear recovery voltage threshold'
+#  echo '  [6] Perform all actions above'
+  #read -p "Which action to perform? (1~6) " action
+  case $1 in
       [1]* ) reset_startup_time;;
       [2]* ) reset_shutdown_time;;
       [3]* ) delete_schedule_script;;
@@ -538,7 +538,7 @@ reset_data()
       7 ) set_low_voltage_threshold;;
       8 ) set_recovery_voltage_threshold;;
       9 ) other_settings;;
-      10 ) reset_data;;
+      10 ) reset_data $2;;
       11 ) exit;;
       * ) echo 'Please choose from 1 to 11';;
   esac
