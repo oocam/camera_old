@@ -248,7 +248,7 @@ def app_connect():
         thread_active = False
         print(request.get_json())
         camera_config = request.get_json()
-        with open("schedule.json", "w") as outfile:
+        with open("/home/pi/openoceancamera/schedule.json", "w") as outfile:
             json.dump(camera_config, outfile)
         date_input = camera_config[0]["date"]
         timezone = camera_config[0]["timezone"]
@@ -313,7 +313,7 @@ def sendTestPic():
             camera.set_iso(data[0]["iso"])
             camera.set_shutter_speed(data[0]["shutter_speed"])
             camera.do_capture()
-            with open("test.jpg", "rb") as image:
+            with open("/home/pi/openoceancamera/test.jpg", "rb") as image:
                 img_base64 = base64.b64encode(image.read())
             camera.do_close()
             sensor_data = readSensorData()
@@ -381,7 +381,7 @@ if __name__ == "__main__":
     #    print("Usage: python main.py <external drive name>")
     #    exit(0)
     try:
-        with open("schedule.json") as f:
+        with open("/home/pi/openoceancamera/schedule.json") as f:
             camera_config = json.load(f)
             thread_active = True
     except IOError:
