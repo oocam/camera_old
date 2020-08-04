@@ -220,9 +220,11 @@ def main():
                         next_reboot = next_slot["start"] - five_mins
                         print(f"I will wake up at {next_reboot}")
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
+                        print(next_reboot)
                         startup_cmd = (
                             'sudo ./wittypi/wittycam.sh 5 "' + next_reboot + '"'
                         )
+                        print(startup_cmd)
                         os.system(startup_cmd)
                         print(
                             "raspberry pi is going to sleep now in 1 min, do not disturb"
