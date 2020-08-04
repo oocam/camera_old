@@ -205,34 +205,34 @@ def main():
                         logging.info("Stop: " + str(datetime.now()))
                         switch_flag = 1
 
-                # next_slot = my_schedule.next_future_timeslot()
-                # slot = my_schedule.should_start()
-                # if next_slot is not None:
-                #     print("Next slot is: ")
-                #     print(next_slot)
-                #     mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
-                #     print(f"We have {mins_to_next_slot} mins to next slot")
-                #     if (mins_to_next_slot > 4) and slot == -1:
-                #         five_mins = timedelta(minutes=2)
-                #         one_mins = timedelta(minutes=1)
-                #         sleeptime = datetime.now() + one_mins
-                #         sleeptime = sleeptime.strftime("%d %H:%M")
-                #         next_reboot = next_slot["start"] - five_mins
-                #         print(f"I will wake up at {next_reboot}")
-                #         next_reboot = next_reboot.strftime("%d %H:%M:%S")
-                #         print(next_reboot)
-                #         startup_cmd = (
-                #             'sudo ./wittypi/wittycam.sh 5 "' + next_reboot + '"'
-                #         )
-                #         print(startup_cmd)
-                #         os.system(startup_cmd)
-                #         print(
-                #             "raspberry pi is going to sleep now in 1 min, do not disturb"
-                #         )
-                #         shutdown_cmd = (
-                #             'sudo ./wittypi/wittycam.sh 4 "' + sleeptime + '"'
-                #         )
-                #         os.system(shutdown_cmd)
+                next_slot = my_schedule.next_future_timeslot()
+                slot = my_schedule.should_start()
+                if next_slot is not None:
+                    print("Next slot is: ")
+                    print(next_slot)
+                    mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
+                    print(f"We have {mins_to_next_slot} mins to next slot")
+                    if (mins_to_next_slot > 4) and slot == -1:
+                        five_mins = timedelta(minutes=2)
+                        one_mins = timedelta(minutes=1)
+                        sleeptime = datetime.now() + one_mins
+                        sleeptime = sleeptime.strftime("%d %H:%M")
+                        next_reboot = next_slot["start"] - five_mins
+                        print(f"I will wake up at {next_reboot}")
+                        next_reboot = next_reboot.strftime("%d %H:%M:%S")
+                        print(next_reboot)
+                        startup_cmd = (
+                            'sudo ./wittypi/wittycam.sh 5 "' + next_reboot + '"'
+                        )
+                        print(startup_cmd)
+                        os.system(startup_cmd)
+                        print(
+                            "raspberry pi is going to sleep now in 1 min, do not disturb"
+                        )
+                        shutdown_cmd = (
+                            'sudo ./wittypi/wittycam.sh 4 "' + sleeptime + '"'
+                        )
+                        os.system(shutdown_cmd)
 
 
 def update_config():
