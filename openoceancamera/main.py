@@ -119,9 +119,9 @@ def main():
             switch_flag = 0
             isrecord = 0
             isopen = 0
-            print(thread_active)
+            #print(thread_active)
             my_schedule = Scheduler(data)
-            logging.info("Loaded Scheduler")
+            print("Loaded Scheduler. Main thread active")
 
             # Stall the camera to let it initialise
             while thread_active:
@@ -380,10 +380,12 @@ if __name__ == "__main__":
     # if len(sys.argv) < 2:
     #    print("Usage: python main.py <external drive name>")
     #    exit(0)
+    print("start")
     try:
         with open("/home/pi/openoceancamera/schedule.json") as f:
             camera_config = json.load(f)
             thread_active = True
+            print("schedule opened, should start new thread")
     except IOError:
         print("No File")
     finally:
