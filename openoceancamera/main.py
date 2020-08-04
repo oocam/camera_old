@@ -209,10 +209,10 @@ def main():
                 next_slot = my_schedule.next_future_timeslot()
                 slot = my_schedule.should_start()
                 if next_slot is not None:
-                    #print("Next slot is: ")
-                    #print(next_slot)
+                    print("Next slot is: ")
+                    print(next_slot)
                     mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
-                    #print(f"We have {mins_to_next_slot} mins to next slot")
+                    print(f"We have {mins_to_next_slot} mins to next slot")
                     if (mins_to_next_slot > 4) and slot == -1:
                         five_mins = timedelta(minutes=2)
                         one_mins = timedelta(minutes=1)
@@ -221,13 +221,13 @@ def main():
                         next_reboot = next_slot["start"] - five_mins
                         print(f"I will wake up at {next_reboot}")
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
-                        #print(next_reboot)
+                        print(next_reboot)
                         startup_cmd = (
                             'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "' + next_reboot + '"'
                         )
-                        #print(startup_cmd)
+                        print(startup_cmd)
                         os.system(startup_cmd)
-                        #print(
+                        print(
                             "raspberry pi is going to sleep now in 1 min, do not disturb"
                         )
                         shutdown_cmd = (
