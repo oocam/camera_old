@@ -52,7 +52,7 @@ def readSensorData():
         lightSensor = float(
             str(
                 subprocess.check_output(
-                    "python TSL2561/Python/TSL2561.py", shell=True, text=True
+                    "python /home/pi/openoceancamera/TSL2561/Python/TSL2561.py", shell=True, text=True
                 )
             )
         )
@@ -63,7 +63,7 @@ def readSensorData():
         temperatureSensor = float(
             str(
                 subprocess.check_output(
-                    "python tsys01-python/example.py", shell=True, text=True
+                    "python /home/pi/openoceancamera/tsys01-python/example.py", shell=True, text=True
                 )
             )
         )
@@ -72,7 +72,7 @@ def readSensorData():
 
     try:
         pressureSensorReadings = subprocess.check_output(
-            "python ms5837-python/example.py", shell=True, text=True
+            "python /home/pi/openoceancamera/ms5837-python/example.py", shell=True, text=True
         )
 
         pressureSensorReadings = pressureSensorReadings.split()
