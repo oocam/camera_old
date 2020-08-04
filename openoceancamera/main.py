@@ -222,7 +222,7 @@ def main():
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
                         print(next_reboot)
                         startup_cmd = (
-                            'sudo ./wittypi/wittycam.sh 5 "' + next_reboot + '"'
+                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "' + next_reboot + '"'
                         )
                         print(startup_cmd)
                         os.system(startup_cmd)
@@ -230,7 +230,7 @@ def main():
                             "raspberry pi is going to sleep now in 1 min, do not disturb"
                         )
                         shutdown_cmd = (
-                            'sudo ./wittypi/wittycam.sh 4 "' + sleeptime + '"'
+                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
                         )
                         os.system(shutdown_cmd)
 
@@ -252,7 +252,7 @@ def app_connect():
             json.dump(camera_config, outfile)
         date_input = camera_config[0]["date"]
         timezone = camera_config[0]["timezone"]
-        clear_cmd = ('sudo ./wittypi/wittycam.sh 10 6')
+        clear_cmd = ('sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6')
         os.system(clear_cmd)
         os.system(f"sudo timedatectl set-timezone {timezone}")
         print(timezone)
@@ -260,8 +260,8 @@ def app_connect():
         # Sets the system time to the user's phone time
         os.system(f"sudo date -s '{date_input}'")
         # Save the system time to RTC -
-        os.system("sudo ./wittypi/wittycam.sh 1")
-        os.system("sudo ./wittypi/wittycam.sh 2")
+        os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 1")
+        os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 2")
         # external_drive = "/media/pi/" + sys.argv[1]
         external_drive = "/media/pi/OPENOCEANCA"
         pathv = path.exists(external_drive)
