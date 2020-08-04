@@ -214,16 +214,22 @@ def main():
                     print(f"We have {mins_to_next_slot} mins to next slot")
                     if (mins_to_next_slot > 4) and slot == -1:
                         five_mins = timedelta(minutes=2)
-			            one_mins = timedelta(minutes=1)
-			            sleeptime =  datetime.now()+one_mins
-			            sleeptime = sleeptime.strftime("%d %H:%M")
+                        one_mins = timedelta(minutes=1)
+                        sleeptime = datetime.now() + one_mins
+                        sleeptime = sleeptime.strftime("%d %H:%M")
                         next_reboot = next_slot["start"] - five_mins
                         print(f"I will wake up at {next_reboot}")
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
-                        startup_cmd="sudo ./wittypi/wittycam.sh 5\"" + next_reboot +"\""
+                        startup_cmd = (
+                            'sudo ./wittypi/wittycam.sh 5"' + next_reboot + '"'
+                        )
                         os.system(startup_cmd)
-                        print("raspberry pi is going to sleep now in 1 min, do not disturb")
-                        shutdown_cmd="sudo ./wittypi/wittycam.sh 4 \""+ sleeptime +"\""
+                        print(
+                            "raspberry pi is going to sleep now in 1 min, do not disturb"
+                        )
+                        shutdown_cmd = (
+                            'sudo ./wittypi/wittycam.sh 4 "' + sleeptime + '"'
+                        )
                         os.system(shutdown_cmd)
 
 
