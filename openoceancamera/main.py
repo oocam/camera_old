@@ -221,7 +221,7 @@ def main():
                         print(f"I will wake up at {next_reboot}")
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
                         startup_cmd = (
-                            'sudo ./wittypi/wittycam.sh 5"' + next_reboot + '"'
+                            'sudo ./wittypi/wittycam.sh 5 "' + next_reboot + '"'
                         )
                         os.system(startup_cmd)
                         print(
