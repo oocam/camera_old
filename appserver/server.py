@@ -17,6 +17,7 @@ def app_connect():
             json.dump(camera_config, outfile)
         date_input = camera_config[0]["date"]
         timezone = camera_config[0]["timezone"]
+        # Clear WittyPi schedule
         clear_cmd = "sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6"
         os.system(clear_cmd)
         os.system(f"sudo timedatectl set-timezone {timezone}")

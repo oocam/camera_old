@@ -5,8 +5,16 @@ class WittyPi:
     def __init__(self):
         pass
 
-    def clear_schedule(self):
+    def clear_wittypi_schedule(self):
         # TODO: Implement code for clearing schedule
+        pass
+
+    def set_wittypi_time(self, wittypi_time):
+        # TODO
+        pass
+
+    def set_system_time(self, system_time):
+        # TODO
         pass
 
     def set_shutdown_time(self, shutdown_time):
@@ -16,4 +24,3 @@ class WittyPi:
     def set_startup_time(self, startup_time):
         # TODO: Implement code for setting startup time
         pass
-
