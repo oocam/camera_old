@@ -1,6 +1,11 @@
 import time
 import typing
 
+try:
+    import smbus
+except:
+    print('Try sudo apt-get install python-smbus')
+
 from Adafruit_GPIO import I2C
 
 from tsl2561.constants import *  # pylint: disable=unused-wildcard-import,wildcard-import
@@ -11,7 +16,7 @@ class TSL2561(objects):
 
     def __init__(self, address: typing.Optional[int] = None, busnum: typing.Optional[int] = None,
                  integration_time: int = TSL2561_INTEGRATIONTIME_402MS,
-                 gain: int = TSL2561_GAIN_1X, autogain: bool = False, debug: bool = False) -> None:
+                 gain: int = TSL2561_GAIN_1X, autogain: bool = False, debug: bool = False, bus=1) -> None:
 
         # Set default address and bus number if not given
         if address is not None:
@@ -21,6 +26,13 @@ class TSL2561(objects):
 
         if busnum is None:
             self.busnum = 1
+
+        try:
+            self._bus = smbus.SMBus(bus)
+        except:
+            print(("Bus %d is not available.") % bus)
+            print("Available busses are listed as /dev/i2c*")
+            self._bus = None
 
         self.i2c = I2C.get_i2c_device(self.address, busnum=busnum)
 
@@ -37,6 +49,13 @@ class TSL2561(objects):
             self.delay_time = TSL2561_DELAY_INTTIME_13MS
 
         self._begin()
+    
+    def init(self):
+        if self._bus is None:
+            print("No bus!")
+            return False
+        
+        return True
 
     def _begin(self) -> None:
         """Initializes I2C and configures the sensor (call this function before
