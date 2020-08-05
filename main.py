@@ -1,8 +1,6 @@
 import logging
-import logging.config
+import logging_config
 from sensors import PressureSensor
-
-logging.config.fileConfig("logging.ini")
 
 
 def main():
