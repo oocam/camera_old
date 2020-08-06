@@ -216,6 +216,7 @@ def main():
                     if (mins_to_next_slot > 10) and slot == -1:
                         five_mins = timedelta(minutes=2)
                         one_mins = timedelta(minutes=5)
+                        thread_active = False
                         sleeptime = datetime.now() + one_mins
                         sleeptime = sleeptime.strftime("%d %H:%M")
                         next_reboot = next_slot["start"] - five_mins
@@ -235,7 +236,7 @@ def main():
                         )
                         os.system(shutdown_cmd)
                         #break
-                        thread_active = False
+                        #thread_active = False
 
 
 def update_config():
