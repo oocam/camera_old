@@ -289,6 +289,7 @@ def app_connect():
 def returnConfig():
     if request.method == "GET":
         if camera_config != []:
+            camera_config[0].localdate = str(datetime.now()))
             return json.dumps(camera_config)
         else:
             return {
