@@ -388,7 +388,7 @@ if __name__ == "__main__":
     try:
         with open("/home/pi/openoceancamera/schedule.json") as f:
             camera_config = json.load(f)
-            thread_active = True
+            global thread_active = True
             print("schedule opened, should start new thread")
     except IOError:
         print("No File")
