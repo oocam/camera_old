@@ -54,8 +54,10 @@ class TSL2561(objects):
 
         if self.integration_time == TSL2561_INTEGRATIONTIME_402MS:
             self.delay_time = TSL2561_DELAY_INTTIME_402MS
+
         elif self.integration_time == TSL2561_INTEGRATIONTIME_101MS:
             self.delay_time = TSL2561_DELAY_INTTIME_101MS
+            
         elif self.integration_time == TSL2561_INTEGRATIONTIME_13MS:
             self.delay_time = TSL2561_DELAY_INTTIME_13MS
 
