@@ -290,7 +290,7 @@ def returnConfig():
     if request.method == "GET":
         if camera_config != []:
             response = {
-                "local_time": datetime.now().strftime("%H:%M:%S %Z"),
+                "local_time": datetime.now().strftime("%d-%B-%Y %H:%M:%S"),
                 "local_timezone": str(camera_config[0]["timezone"]),
                 "config": json.dumps(camera_config),
             }
