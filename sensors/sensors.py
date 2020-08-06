@@ -1,6 +1,5 @@
 import os
 import logging
-import logging.config
 
 sensors_logger = logging.getLogger(__name__)
 
@@ -18,6 +17,7 @@ try:
     from .tsl2561 import TSL2561_30BA
 except Exception as e:
     sensors_logger.error(e)
+
 
 # Pressure sensor
 class PressureSensorNotConnectedException(Exception):
