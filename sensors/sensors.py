@@ -64,6 +64,7 @@ class PressureSensor(MS5837_30BA):
         else:
             raise PressureSensorCannotReadException("Could not read depth values")
 
+
 # Temperature sensor
 class TemperatureSensorNotConnectedException(Exception):
     def __init__(self, *args, **kwargs):
@@ -74,6 +75,7 @@ class TemperatureSensorCannotReadException(Exception):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+
 class TemperatureSensor(TSYS01_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
@@ -81,13 +83,17 @@ class TemperatureSensor(TSYS01_30BA):
             raise TemperatureSensorNotConnectedException(
                 "TSYS01_30BA may not be connected"
             )
+
     def temperature(self, conversion=UNITS_Centigrade):
         if self.read():
             data = super().temperature(conversion=conversion)
             sensors_logger.info(f"Reading temperature data from the sensor: {data}")
             return data
         else:
-            raise TemperatureSensorCannotReadException("Could not read temperature values")
+            raise TemperatureSensorCannotReadException(
+                "Could not read temperature values"
+            )
+
 
 # Luminosity Sensor
 class LuminositySensorNotConnectedException(Exception):
@@ -99,6 +105,7 @@ class LuminositySensorCannotReadException(Exception):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+
 class LuminositySensor(TSL2561_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
@@ -106,10 +113,17 @@ class LuminositySensor(TSL2561_30BA):
             raise LuminositySensorNotConnectedException(
                 "TSL2561_30BA may not be connected"
             )
+
     def luminosity(self):
         if self.read():
             data = super().lux()
             sensors_logger.info(f"Reading luminosity data from the sensor: {data}")
             return data
         else:
-            raise LuminositySensorCannotReadException("Could not read luminosity values")
+            raise LuminositySensorCannotReadException(
+                "Could not read luminosity values"
+            )
+
+
+if __name__ == "__main__":
+    pass

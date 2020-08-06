@@ -1,6 +1,16 @@
+Adafruit-GPIO==1.0.3
+Adafruit-PureIO==1.1.5
+appdirs==1.4.4
+attrs==19.3.0
+black==19.10b0
 click==7.1.2
 Flask==1.1.2
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
+pathspec==0.8.0
+regex==2020.7.14
+toml==0.10.1
+tsl2561==3.4.0
+typed-ast==1.4.1
 Werkzeug==1.0.1

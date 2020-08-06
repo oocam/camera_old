@@ -4,26 +4,36 @@ import typing
 try:
     import smbus
 except:
-    print('Try sudo apt-get install python-smbus')
+    print("Try sudo apt-get install python-smbus")
 try:
     from Adafruit_GPIO import I2C
 except:
-    print('Try pip install Adafruit-GPIO')
+    print("Try pip install Adafruit-GPIO")
 
 try:
     from tsl2561.constants import *  # pylint: disable=unused-wildcard-import,wildcard-import
 except:
-    print('Try pip install tsl2561 ')
+    print("Try pip install tsl2561 ")
 
 # Models
 MODEL_30BA = 1
 
-class TSL2561(objects):
+
+class TSL2561:
     """Driver for the TSL2561 digital luminosity (light) sensors."""
 
-    def __init__(self, address: typing.Optional[int] = None, reset = 0x1E, busnum: typing.Optional[int] = None,
-                 integration_time: int = TSL2561_INTEGRATIONTIME_402MS,
-                 gain: int = TSL2561_GAIN_1X, autogain: bool = False, debug: bool = False, bus = 1, model = MODEL_30BA) -> None:
+    def __init__(
+        self,
+        address: typing.Optional[int] = None,
+        reset=0x1E,
+        busnum: typing.Optional[int] = None,
+        integration_time: int = TSL2561_INTEGRATIONTIME_402MS,
+        gain: int = TSL2561_GAIN_1X,
+        autogain: bool = False,
+        debug: bool = False,
+        bus=1,
+        model=MODEL_30BA,
+    ) -> None:
 
         # Set default address and bus number if not given
         if address is not None:
@@ -57,12 +67,12 @@ class TSL2561(objects):
 
         elif self.integration_time == TSL2561_INTEGRATIONTIME_101MS:
             self.delay_time = TSL2561_DELAY_INTTIME_101MS
-            
+
         elif self.integration_time == TSL2561_INTEGRATIONTIME_13MS:
             self.delay_time = TSL2561_DELAY_INTTIME_13MS
 
         self._begin()
-    
+
     def init(self):
         if self._bus is None:
             print("No bus!")
@@ -83,7 +93,7 @@ class TSL2561(objects):
         x = self.i2c.readU8(TSL2561_REGISTER_ID)
 
         if not x & 0x0A:
-            raise Exception('TSL2561 not found!')
+            raise Exception("TSL2561 not found!")
         ##########
 
         # Set default integration time and gain
@@ -95,13 +105,15 @@ class TSL2561(objects):
 
     def enable(self) -> None:
         """Enable the device by setting the control bit to 0x03"""
-        self.i2c.write8(TSL2561_COMMAND_BIT | TSL2561_REGISTER_CONTROL,
-                        TSL2561_CONTROL_POWERON)
+        self.i2c.write8(
+            TSL2561_COMMAND_BIT | TSL2561_REGISTER_CONTROL, TSL2561_CONTROL_POWERON
+        )
 
     def disable(self) -> None:
         """Disables the device (putting it in lower power sleep mode)"""
-        self.i2c.write8(TSL2561_COMMAND_BIT | TSL2561_REGISTER_CONTROL,
-                        TSL2561_CONTROL_POWEROFF)
+        self.i2c.write8(
+            TSL2561_COMMAND_BIT | TSL2561_REGISTER_CONTROL, TSL2561_CONTROL_POWEROFF
+        )
 
     @staticmethod
     def delay(value: int) -> None:
@@ -121,12 +133,14 @@ class TSL2561(objects):
         TSL2561.delay(self.delay_time)
 
         # Reads a two byte value from channel 0 (visible + infrared)
-        broadband = self.i2c.readU16(TSL2561_COMMAND_BIT | TSL2561_WORD_BIT |
-                                     TSL2561_REGISTER_CHAN0_LOW)
+        broadband = self.i2c.readU16(
+            TSL2561_COMMAND_BIT | TSL2561_WORD_BIT | TSL2561_REGISTER_CHAN0_LOW
+        )
 
         # Reads a two byte value from channel 1 (infrared)
-        ir = self.i2c.readU16(TSL2561_COMMAND_BIT | TSL2561_WORD_BIT |
-                              TSL2561_REGISTER_CHAN1_LOW)
+        ir = self.i2c.readU16(
+            TSL2561_COMMAND_BIT | TSL2561_WORD_BIT | TSL2561_REGISTER_CHAN1_LOW
+        )
 
         # Turn the device off to save power
         self.disable()
@@ -142,8 +156,10 @@ class TSL2561(objects):
         self.integration_time = integration_time
 
         # Update the timing register
-        self.i2c.write8(TSL2561_COMMAND_BIT | TSL2561_REGISTER_TIMING,
-                        self.integration_time | self.gain)
+        self.i2c.write8(
+            TSL2561_COMMAND_BIT | TSL2561_REGISTER_TIMING,
+            self.integration_time | self.gain,
+        )
 
         # Turn the device off to save power
         self.disable()
@@ -158,8 +174,10 @@ class TSL2561(objects):
         self.gain = gain
 
         # Update the timing register
-        self.i2c.write8(TSL2561_COMMAND_BIT | TSL2561_REGISTER_TIMING,
-                        self.integration_time | self.gain)
+        self.i2c.write8(
+            TSL2561_COMMAND_BIT | TSL2561_REGISTER_TIMING,
+            self.integration_time | self.gain,
+        )
 
         # Turn the device off to save power
         self.disable()
@@ -246,7 +264,7 @@ class TSL2561(objects):
 
         # Return 0 lux if the sensor is saturated
         if broadband > clipThreshold or ir > clipThreshold:
-            raise Exception('Sensor is saturated')
+            raise Exception("Sensor is saturated")
 
         # Get the correct scale depending on the integration time
         if self.integration_time == TSL2561_INTEGRATIONTIME_13MS:
@@ -319,6 +337,7 @@ class TSL2561(objects):
         """Read sensor data, convert it to LUX and return it"""
         broadband, ir = self._get_luminosity()
         return self._calculate_lux(broadband, ir)
+
 
 class TSL2561_30BA(TSL2561):
     def __init__(self, bus=1):
