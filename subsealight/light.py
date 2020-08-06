@@ -1,35 +1,37 @@
 import datetime
 import logging
-import RPi.GPIO as GPIO
 import sys
 
-logger = logging.getLogger(__name__)
+try: 
+    import RPi.GPIO as GPIO
+except: 
+    print("Try pip intsall RPi.GPIO")
 
+light_logger = logging.getLogger(__name__)
 
-def switch_off():
-    pwm.ChangeDutyCycle(0)
-    pwm.stop()
+class SubseaLight:
+    def __init__(self, pinout=24):
+        self.pinout = pinout
+        self.mode = GPIO.setmode(GPIO.BCM)
+        self.pwm = GPIO.PWM(self.pinout, 500)
+        self.pwm.setup = GPIO.setup(self.pintout, GPIO.OUT)
 
+    def switch_off():
+        self.pwm.ChangeDutyCycle(0)
+        self.pwm.stop()
 
-def switch_on(dc):
-    logger.info(f"Light has been switched to a duty cycle of {dc}.")
-    pwm.start(dc)
+    def switch_on(dc):
+        logger.info(f"Light has been switched to a duty cycle of {dc}.")
+        self.pwm.start(dc)
 
+    def main():
+        current_time = datetime.datetime.now()
+        run_until = current_time + datetime.timedelta(0, 5)
+        switch_on(40)
 
-def main():
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(24, GPIO.OUT)
-    pwm = GPIO.PWM(24, 500)
-
-    current_time = datetime.datetime.now()
-    run_until = current_time + datetime.timedelta(0, 5)
-    switch_on(40)
-
-    while datetime.datetime.now() < run_until:
-        pass
-    switch_off()
-
+        while datetime.datetime.now() < run_until:
+            pass
+        switch_off()
 
 if __name__ == "__main__":
     main()
