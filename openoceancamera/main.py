@@ -234,8 +234,8 @@ def main():
                             'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
                         )
                         os.system(shutdown_cmd)
-                        break
-                        #thread_active = False
+                        #break
+                        thread_active = False
 
 
 def update_config():
