@@ -1,9 +1,13 @@
 import os
+import logging
 
 class WittyPi:
     def __init__(self, path):
         # path as path to wittypi.sh script
-        self.path = path
+        if os.path.isfile(self.path):
+            self.path = path
+        else: 
+           logging.error("Path not found.")
 
     def clear_wittypi_schedule(self):
         # Clear current schedule
