@@ -120,7 +120,7 @@ def main():
             switch_flag = 0
             isrecord = 0
             isopen = 0
-            #print(thread_active)
+            print(thread_active)
             my_schedule = Scheduler(data)
             print("Loaded Scheduler. Main thread active")
 
@@ -234,7 +234,8 @@ def main():
                             'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
                         )
                         os.system(shutdown_cmd)
-                        thread_active = False
+                        break
+                        #thread_active = False
 
 
 def update_config():
