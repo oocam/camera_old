@@ -10,12 +10,12 @@ except Exception as e:
     sensors_logger.error(e)
 
 try:
-    from .tsys01 import TSYS01
+    from .tsys01 import TSYS01_30BA, UNITS_Centigrade
 except Exception as e:
     sensors_logger.error(e)
 
 try:
-    from .tsl2561 import TSL2561
+    from .tsl2561 import TSL2561_30BA
 except Exception as e:
     sensors_logger.error(e)
 
@@ -74,14 +74,14 @@ class TemperatureSensorCannotReadException(Exception):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-class TemperatureSensor(TSYS01):
+class TemperatureSensor(TSYS01_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
         if not super().init():
             raise TemperatureSensorNotConnectedException(
-                "TSYS01 may not be connected"
+                "TSYS01_30BA may not be connected"
             )
-    def temperature(self, conversion=UNITS_mbar):
+    def temperature(self, conversion=UNITS_Centigrade):
         if self.read():
             data = super().temperature(conversion=conversion)
             sensors_logger.info(f"Reading temperature data from the sensor: {data}")
@@ -99,12 +99,12 @@ class LuminositySensorCannotReadException(Exception):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-class LuminositySensor(TSL2561):
+class LuminositySensor(TSL2561_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
         if not super().init():
             raise LuminositySensorNotConnectedException(
-                "TSL2561 may not be connected"
+                "TSL2561_30BA may not be connected"
             )
     def luminosity(self):
         if self.read():

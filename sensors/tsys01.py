@@ -5,8 +5,11 @@ except:
 
 from time import sleep
 
+# Models
+MODEL_30BA = 1
+
 # Valid units
-UNITS_Centigrade = 1 #Important
+UNITS_Centigrade = 1 
 UNITS_Farenheit  = 2  
 UNITS_Kelvin     = 3
 
@@ -20,11 +23,13 @@ class TSYS01(object):
     _TSYS01_CONVERT = 0x48
     _TSYS01_READ = 0x00
     
-    def __init__(self, bus=1):
+    def __init__(self, model = MODEL_30BA, bus = 1):
         # Degrees C
         self._temperature = 0
         self._k = []
         
+        self._model = model
+
         try:
             self._bus = smbus.SMBus(bus)
         except:
@@ -87,3 +92,7 @@ class TSYS01(object):
             -2 * self._k[2] * 10**-11 * adc16**2 +                \
             1  * self._k[1] * 10**-6  * adc16   +                 \
             -1.5 * self._k[0] * 10**-2
+
+class TSYS01_30BA(TSYS01):
+    def __init__(self, bus=1):
+        TSYS01.__init__(self, MODEL_30BA, bus)

@@ -5,18 +5,25 @@ try:
     import smbus
 except:
     print('Try sudo apt-get install python-smbus')
+try:
+    from Adafruit_GPIO import I2C
+except:
+    print('Try pip install Adafruit-GPIO')
 
-from Adafruit_GPIO import I2C
+try:
+    from tsl2561.constants import *  # pylint: disable=unused-wildcard-import,wildcard-import
+except:
+    print('Try pip install tsl2561 ')
 
-from tsl2561.constants import *  # pylint: disable=unused-wildcard-import,wildcard-import
-
+# Models
+MODEL_30BA = 1
 
 class TSL2561(objects):
     """Driver for the TSL2561 digital luminosity (light) sensors."""
 
-    def __init__(self, address: typing.Optional[int] = None, busnum: typing.Optional[int] = None,
+    def __init__(self, address: typing.Optional[int] = None, reset = 0x1E, busnum: typing.Optional[int] = None,
                  integration_time: int = TSL2561_INTEGRATIONTIME_402MS,
-                 gain: int = TSL2561_GAIN_1X, autogain: bool = False, debug: bool = False, bus=1) -> None:
+                 gain: int = TSL2561_GAIN_1X, autogain: bool = False, debug: bool = False, bus = 1, model = MODEL_30BA) -> None:
 
         # Set default address and bus number if not given
         if address is not None:
@@ -24,8 +31,12 @@ class TSL2561(objects):
         else:
             self.address = TSL2561_ADDR_FLOAT
 
+        self.reset = reset
+
         if busnum is None:
             self.busnum = 1
+
+        self._model = model
 
         try:
             self._bus = smbus.SMBus(bus)
@@ -54,7 +65,12 @@ class TSL2561(objects):
         if self._bus is None:
             print("No bus!")
             return False
-        
+
+        self._bus.write_byte(self.address, self.reset)
+
+        # Wait for reset to complete
+        sleep(0.01)
+
         return True
 
     def _begin(self) -> None:
@@ -301,3 +317,7 @@ class TSL2561(objects):
         """Read sensor data, convert it to LUX and return it"""
         broadband, ir = self._get_luminosity()
         return self._calculate_lux(broadband, ir)
+
+class TSL2561_30BA(TSL2561):
+    def __init__(self, bus=1):
+        TSL2561.__init__(self, MODEL_30BA, bus)
