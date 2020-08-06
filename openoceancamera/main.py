@@ -213,9 +213,9 @@ def main():
                     print(next_slot)
                     mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
                     print(f"We have {mins_to_next_slot} mins to next slot")
-                    if (mins_to_next_slot > 4) and slot == -1:
+                    if (mins_to_next_slot > 10) and slot == -1:
                         five_mins = timedelta(minutes=2)
-                        one_mins = timedelta(minutes=1)
+                        one_mins = timedelta(minutes=5)
                         sleeptime = datetime.now() + one_mins
                         sleeptime = sleeptime.strftime("%d %H:%M")
                         next_reboot = next_slot["start"] - five_mins
@@ -228,12 +228,13 @@ def main():
                         print(startup_cmd)
                         os.system(startup_cmd)
                         print(
-                            "raspberry pi is going to sleep now in 1 min, do not disturb"
+                            "raspberry pi is going to sleep now in 5 min, do not disturb"
                         )
                         shutdown_cmd = (
                             'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
                         )
                         os.system(shutdown_cmd)
+                        thread_active = False
 
 
 def update_config():
