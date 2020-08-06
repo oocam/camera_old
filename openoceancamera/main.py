@@ -289,8 +289,11 @@ def app_connect():
 def returnConfig():
     if request.method == "GET":
         if camera_config != []:
-            camera_config[0].localdate = str(datetime.now())
-            return json.dumps(camera_config)
+            response = {
+                "local_time": str(datetime.now()),
+                "sensors": json.dumps(camera_config),
+            }
+            return response
         else:
             return {
                 "error": "No Configuration exists",
