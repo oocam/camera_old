@@ -291,7 +291,7 @@ def returnConfig():
         if camera_config != []:
             response = {
                 "local_time": str(datetime.now()),
-                "sensors": json.dumps(camera_config),
+                "config": json.dumps(camera_config),
             }
             return response
         else:
