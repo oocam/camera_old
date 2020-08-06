@@ -111,8 +111,9 @@ def start_capture(camera, video):
 
 
 def main():
-    global camera = None
+    camera = None
     print("Main started")
+    global thread_active
     while True:
         sleep(2)
         if thread_active:
