@@ -11,10 +11,9 @@ light_logger = logging.getLogger(__name__)
 
 class SubseaLight:
     def __init__(self, pinout=24):
-        self.pinout = pinout
-        self.mode = GPIO.setmode(GPIO.BCM)
-        self.pwm = GPIO.PWM(self.pinout, 500)
-        self.setup = GPIO.setup(self.pintout, GPIO.OUT)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pintout, GPIO.OUT)
+        self.pwm = GPIO.PWM(pinout, 500)
 
     def switch_off(self):
         light_logger.info("Light has been switched to a duty cycle of 0.")
