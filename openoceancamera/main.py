@@ -322,7 +322,7 @@ def sendTestPic():
             PWM.switch_on(data[0]["light"])
             camera.set_iso(data[0]["iso"])
             camera.set_shutter_speed(data[0]["shutter_speed"])
-            camera.do_capture()
+            camera.do_capture("/home/pi/openoceancamera/test.jpg")
             with open("/home/pi/openoceancamera/test.jpg", "rb") as image:
                 img_base64 = base64.b64encode(image.read())
             camera.do_close()
