@@ -1,4 +1,5 @@
 import logging
+from threading import Lock
 
 camera_logger = logging.getLogger(__name__)
 
@@ -26,11 +27,15 @@ class Camera(PiCamera):
         self.set_shutter_speed(shutter_speed)
         self.set_iso(iso)
         self.set_capture_frequency(frequency)
+        self.thread_lock = Lock()
 
     def capture(self, filename="test.jpg"):
+        self.thread_lock.acquire()
         super().capture(filename)
+        self.close()
 
     def start_record(self, filename):
+        self.thread_lock.acquire()
         super().start_recording(filename, format="h264")
 
     def stop_recording(self):
@@ -40,6 +45,7 @@ class Camera(PiCamera):
     def close(self):
         self.stop_recording()
         super().close()
+        self.thread_lock.release()
 
     def retrieve_params(self):
         print("Resolution:", super().resolution)
