@@ -31,7 +31,7 @@ class SubseaLight:
 
         while datetime.datetime.now() < run_until:
             pass
-        switch_off()
+        self.switch_off()
 
 if __name__ == "__main__":
     main()
