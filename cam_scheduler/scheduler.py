@@ -38,6 +38,9 @@ class EventList:
         self.queue.append(event)
         self.queue.sort()
 
+    def clear(self):
+        self.queue = []
+
 
 class Scheduler:
     def __init__(self, schedule_file):
@@ -46,7 +49,7 @@ class Scheduler:
         self.events = EventList()
 
     def clear_all_events(self):
-        self.events = []
+        self.events.clear()
 
     def read_schedule_config(self):
         if os.path.exists(self.schedule_file):
