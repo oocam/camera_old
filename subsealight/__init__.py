@@ -1,1 +1,1 @@
-from subsealight import light
+from .light import SubseaLight
