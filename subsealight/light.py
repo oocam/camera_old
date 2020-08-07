@@ -17,8 +17,10 @@ class SubseaLight:
         self.setup = GPIO.setup(self.pintout, GPIO.OUT)
 
     def switch_off(self):
+        light_logger.info("Light has been switched to a duty cycle of 0.")
         self.pwm.ChangeDutyCycle(0)
         self.pwm.stop()
+        light_logger.info("Light has been switched off.")
 
     def switch_on(self, dc):
         light_logger.info(f"Light has been switched to a duty cycle of {dc}.")
@@ -26,9 +28,10 @@ class SubseaLight:
 
 if __name__ == "__main__":
     current_time = datetime.datetime.now()
-    un_until = current_time + datetime.timedelta(0, 5)
-    switch_on(40)
-
+    run_until = current_time + datetime.timedelta(0, 5) # Turn light on for 5 minutes
+    
+    # Turn light on 
+    self.switch_on(40)
     while datetime.datetime.now() < run_until:
         pass
     self.switch_off()
