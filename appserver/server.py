@@ -1,11 +1,22 @@
-from flask import Flask, request, send_file, jsonify
+# WIP: Refactoring all server code
 
+from flask import Flask, request, send_file, jsonify
+from camera import Camera
+from flask_cors import CORS
+import os, uuid, logging, sensors, time
+
+# IMPORTANT: Is directory restructuring needed? See https://flask.palletsprojects.com/en/1.1.x/patterns/packages/
+
+# Move to "main" file responsible for insantiating the server?
 app = Flask("appserver")
 app.config["CORS_HEADERS"] = "Content-Type"
+server_logger = logging.getLogger(__name__)
 CORS(app)
 
-# TODO: Refactor all server code
-
+# Notes for anyone refactoring this code in the future:
+# 1. Directories and files (schedule.json, /media/pi/...) should be accessed from the app config
+# 2. Use only the requests you need - don't expect a POST request when all you're doing is creating a pure function to return data
+# 3. Name your functions the same way you name your routes
 
 @app.route("/setSchedule", methods=["POST", "GET"])
 def app_connect():
@@ -69,70 +80,112 @@ def turnOffWiFi():
         }
 
 
-@app.route("/testPhoto", methods=["POST", "GET"])
-def sendTestPic():
+@app.route("/testPhoto", methods=["POST"])
+def testPhoto():
+    #Instantiate camera
     camera = Camera()
-    if request.method == "POST":
-        try:
-            data = request.get_json(force=True)
-            PWM.switch_on(data[0]["light"])
-            camera.set_iso(data[0]["iso"])
-            camera.set_shutter_speed(data[0]["shutter_speed"])
-            camera.do_capture()
-            with open("/home/pi/openoceancamera/test.jpg", "rb") as image:
-                img_base64 = base64.b64encode(image.read())
-            camera.do_close()
-            sensor_data = readSensorData()
-            print(f"Read sensor data: {sensor_data}")
-            response = {
-                "image": img_base64.decode("utf-8"),
-                "sensors": json.dumps(sensor_data),
-            }
-            sleep(2)
-            PWM.switch_off()
-            return jsonify(response)
-        except Exception as e:
-            camera.do_close()
-            PWM.switch_off()
-            print(e)
-            return "ERROR"
+    camera_options = request.get_json(force=True)[0]
+    PWM.switch_on(camera_options["light"])
+    camera.set_iso(camera_options["iso"])
+    camera.set_shutter_speed(camera_options["shutter_speed"])
 
+    routeResponse = ""
 
-@app.route("/testPhotoMem", methods=["POST", "GET"])
-def sendTestPicMem():
-    if request.method == "POST":
-        camera = Camera()
-        data = request.get_json(force=True)
-        PWM.switch_on(data[0]["light"])
-        camera.set_iso(data[0]["iso"])
-        camera.set_shutter_speed(data[0]["shutter_speed"])
-        flag = "SUCCESS"
-        external_drive = "/media/pi/OPENOCEANCA"
-        pathv = path.exists(external_drive)
-        if pathv:
-            try:
-                filename1 = external_drive + "/" + str(uuid1()) + ".jpg"
-                camera.do_capture(filename=filename1)
-                print("Written")
-                camera.do_close()
-                camera = Camera()
-                camera.set_camera_resolution((1920, 1080))
-                camera.set_camera_frame_rate(30)
+    try:
+        camera.capture()
 
-                filename2 = external_drive + "/" + str(uuid1()) + ".h264"
-                camera.do_record(filename=filename2)
-                print("Started recording")
-                sleep(3)
-            except Exception as e:
-                flag = str(e)
-        else:
-            flag = "USB Storage with name OPENOCEANCA required"
+        # Maybe the server shouldn't be responsible for this.
+        # Seems wrong for the server to be getting a test image when the
+        # test image isn't changing
+        with open(app.config["TEST_IMAGE"], "rb") as image:
+            img_base64 = base64.b64encode(image.read())
 
-        camera.do_close()
-        PWM.switch_off()
-        sensor_data = readSensorData()
+        # Function doesn't exist yet
+        sensor_data = sensors.readSensorData()
+
+        server_logger.debug(f"[/testPhoto] Read sensor data: {sensor_data}")
         response = {
-            "flag": flag,
-            "sensors": json.dumps(sensor_data),
+            "image": img_base64.decode("utf-8"),
+            "sensorData": json.dumps(sensor_data),
         }
-        return response
+
+        # Leaving this here for now, but unsure why this sleep call is needed
+        time.sleep(2)
+
+        server_logger.info(f"[/testPhoto] Capture test successful.")
+        
+        routeResponse = jsonify(response)
+        
+    except Exception as e:
+        server_logger.error(f"[/testPhoto] Encounterd: {str(e)}")
+        routeResponse = str(e)
+
+    finally:
+        # Wrap up
+        camera.close()
+        PWM.switch_off()
+
+    return routeResponse
+
+
+@app.route("/testPhotoMem", methods=["POST"])
+def testPhotoMem():
+    #Instantiate camera
+    camera = Camera()
+    camera_options = request.get_json(force=True)[0]
+    PWM.switch_on(camera_options["light"])
+    camera.set_iso(camera_options["iso"])
+    camera.set_shutter_speed(camera_options["shutter_speed"])
+
+    result = "SUCCESS"
+
+    # Check if USB storage is connected
+    external_drive = app.config["EXTERNAL_DRIVE"]
+    if os.path.isdir(external_drive):
+        try:
+            image_name = f"{external_drive}/{uuid.uuid4()}.jpg"
+
+            # Is recreating a Camera instance really the way to go here?
+            # @whoever is working on the Camera module, maybe figure out a way
+            # to make this cleaner? Maybe we don't need to close this Camera instance
+            # at all?
+            camera.capture(filename=image_name)
+            camera.close()
+            server_logger.info(f"[/testPhotoMem] Wrote {image_name}")
+
+            camera = Camera()
+            camera.set_camera_resolution((1920, 1080))
+            camera.set_camera_frame_rate(30)
+
+            # @whoever is working on Camera: maybe refactor into a record function that takes
+            # a duration, and starts/stops recording on its own. The server shouldn't be responsible
+            # for sleeping
+            video_name = f"{external_drive}/{uuid.uuid4()}.h264"
+            camera.start_record(filename=video_name)
+            time.sleep(3)
+            camera.stop_recording()
+            server_logger.info(f"[/testPhotoMem] Wrote {video_name}")
+
+            server_logger.info(f"[/testPhotoMem] Capture test successful.")
+
+        except Exception as e:
+            server_logger.error(f"[/testPhotoMem] Encounterd: {str(e)}")
+            result = str(e)
+    else:
+        server_logger.error(f"[/testPhotoMem] No USB drive found!")
+        result = "USB Storage with name OPENOCEANCA required"
+
+    # Wrap up
+    camera.close()
+    PWM.switch_off()
+
+    # Function doesn't exist yet
+    sensor_data = sensors.readSensorData()
+    server_logger.info(f"[/testPhotoMem] Read sensor data: {sensor_data}")
+
+    response = {
+        "result": result,
+        "sensorData": json.dumps(sensor_data),
+    }
+
+    return response
