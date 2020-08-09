@@ -17,6 +17,7 @@ CORS(app)
 # 1. Directories and files (schedule.json, /media/pi/...) should be accessed from the app config
 # 2. Use only the requests you need - don't expect a POST request when all you're doing is creating a pure function to return data
 # 3. Name your functions the same way you name your routes
+# 4. Use HTTP response codes - they make for cleaner conditions for the API user
 
 @app.route("/setSchedule", methods=["POST", "GET"])
 def app_connect():
@@ -59,26 +60,21 @@ def app_connect():
 
 @app.route("/viewConfig", methods=["GET"])
 def returnConfig():
-    if request.method == "GET":
-        if camera_config != []:
-            return json.dumps(camera_config)
-        else:
-            return {
-                "error": "No Configuration exists",
-            }
+    if camera_config != []:
+        return json.dumps(camera_config), 200
+    else:
+        server_logger.info("[/viewConfig] No configuration exists!")
+        return "No configuration exists.", 500
 
+@app.route("/turnOffWifi", methods=["POST"])
+def turnOffWifi():
+    # Unsure where this code lives now
+    os.system(cmdoff)
+    os.system(cmdoff1)
+    sys.exit()
 
-@app.route("/turnOffWiFi", methods=["GET"])
-def turnOffWiFi():
-    if request.method == "GET":
-        os.system(cmdoff)
-        os.system(cmdoff1)
-        sys.exit()
-        print("Wi-FI Off")
-        return {
-            "success": "Success",
-        }
-
+    server_logger.info("[/turnOffWifi] Wifi switched off.")
+    return "OK", 200
 
 @app.route("/testPhoto", methods=["POST"])
 def testPhoto():
@@ -90,6 +86,7 @@ def testPhoto():
     camera.set_shutter_speed(camera_options["shutter_speed"])
 
     routeResponse = ""
+    responseCode = 200
 
     try:
         camera.capture()
@@ -119,14 +116,14 @@ def testPhoto():
     except Exception as e:
         server_logger.error(f"[/testPhoto] Encounterd: {str(e)}")
         routeResponse = str(e)
+        responseCode = 500
 
     finally:
         # Wrap up
         camera.close()
         PWM.switch_off()
 
-    return routeResponse
-
+    return routeResponse, responseCode
 
 @app.route("/testPhotoMem", methods=["POST"])
 def testPhotoMem():
@@ -138,6 +135,7 @@ def testPhotoMem():
     camera.set_shutter_speed(camera_options["shutter_speed"])
 
     result = "SUCCESS"
+    responseCode = 200
 
     # Check if USB storage is connected
     external_drive = app.config["EXTERNAL_DRIVE"]
@@ -171,9 +169,11 @@ def testPhotoMem():
         except Exception as e:
             server_logger.error(f"[/testPhotoMem] Encounterd: {str(e)}")
             result = str(e)
+            responseCode = 500
     else:
         server_logger.error(f"[/testPhotoMem] No USB drive found!")
         result = "USB Storage with name OPENOCEANCA required"
+        responseCode = 507 #Insufficient Storage
 
     # Wrap up
     camera.close()
@@ -188,4 +188,4 @@ def testPhotoMem():
         "sensorData": json.dumps(sensor_data),
     }
 
-    return response
+    return response, responseCode
