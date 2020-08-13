@@ -18,14 +18,34 @@ import threading
 
 
 class OpenOceanCamera:
-    def __init__(self):
+    def __init__(self, record_filename, dc=0):
         super().__init__()
-        self.camera = Camera()
-        self.pressure_sensor = PressureSensor().pressure()
-        self.temperature_sensor = TemperatureSensor().temperature()
-        self.luminosity_sensor = LuminositySensor().luminosity()
-        self.subsealight = SubseaLight()
 
+        # Camera Modules
+        self.camera = Camera()
+        self.capture = self.camera.capture()
+        self.start_recording = self.camera.start_record(record_filename)
+        self.stop_recording = self.camera.stop_recording()
+        self.shutdown = self.camera.close()
+        self.retrive_camera_parameter = self.camera.retrieve_params()
+        self.set_camera_fr = self.camera.set_camera_frame_rate()
+        self.set_camera_resolution = self.camera.set_camera_resolution()
+        self.set_shutter_speed = self.camera.set_shutter_speed()
+        self.set_iso = self.camera.set_iso()
+        self.set_capture_frequency = self.camera.set_capture_frequency()
+        
+        # Subsealight Modules
+        self.subsealight = SubseaLight()
+        self.turn_on_light = self.subsealight.switch_on(dc)
+        self.turn_off_light = self.subsealight.switch_off()
+
+        # Sensors Modules
+        self.pressure_sensor = PressureSensor()
+        self.temperature_sensor = TemperatureSensor()
+        self.luminosity_sensor = LuminositySensor()
+
+
+   
 
 def main():
     appserver_thread = threading.Thread(target=start_server)
@@ -34,55 +54,41 @@ def main():
 
     appserver_thread.join()
 
-    print("Main started")
+    try:
+        camera = OpenOceanCamera.camera
+        logging.info("Camera is Connected")
+    except Exception as e:
+        logging.error(e)
 
-    while True:
-        sleep(2)
-        camera = Camera()
-        if appserver_thread.isAlive():
-            camera_configuration = server.app_connect()
-            my_schedule = Scheduler(camera_configuration)
-            print("Loaded Scheduler. Main thread acive")
-            switch_flag = 0
-            isrecord = 0
-            isopen = 0
+    try:
+        pressure_sensor = OpenOceanCamera.pressure_sensor
+        logging.info("Pressure sensor is Connected")
+    except Exception as e:
+        logging.error(e)
 
-            # Stall the camera to let it initialise
-            while appserver_thread.isAlive():
-                '''
-                make functions listed below (scheduler.py, class Scheduler)
-                my_schedule.update_current_time()
-                slot = my_schedule.should_start()
-                '''
-                if slot == -1 and isrecord == 0:
-                    sleep(2)
+    try:
+        temperature_sensor = OpenOceanCamera.temperature_sensor
+        logging.info("Temperature sensor is Connected")
+    except Exception as e:
+        logging.error(e)
 
-                if isrecord == 1 and slot == -1:
-                    PWM.switch_off()
-                    camera.close()
-                    print("CLOSED")
-                    isrecord = 0
-                    isopen = 0
-                
-                if slot >= 0:  # if slot open
-                    if isopen == 0:
-                        try:
-                            camera = Camera()
-                        except Exception as e:
-                            print(e)
-                        isopen = 1
+    try:
+        luminosity_sensor = OpenOceanCamera.luminosity_sensor
+        logging.info("Luminosity sensor is Connected")
+    except Exception as e:
+        logging.error(e)
 
-                    # Write Sensors data to log.txt
-                    log_filename = f"{external_drive}/log.txt"
-                    sensor_data = ReadSensorData(log_filename, OpenOceanCamera.pressure_sensor, 
-                                    OpenOceanCamera.temperature_sensor, OpenOceanCamera.luminosity_sensor)
-                    sensor_data.write_data()
+    try:
+        subsealight= OpenOceanCamera.subsealight
+        logging.info("subsealight is Connected")
+    except Exception as e:
+        logging.error(e)
 
-                    
-                    camera.set_capture_frequency()
-                    camera.set_iso()
-                    camera.set_shutter_speed()
-                    
+    # Start recording
+    
+
+
+    
         
 
 
