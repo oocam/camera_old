@@ -1,5 +1,6 @@
 import os
 import logging
+from datetime import datetime
 
 sensors_logger = logging.getLogger(__name__)
 
@@ -17,6 +18,35 @@ try:
     from .tsl2561 import TSL2561_30BA
 except Exception as e:
     sensors_logger.error(e)
+
+class ReadSensorData:
+    def __init__(self, log_filename, pressure_data, temperature_data, luminosity_data):
+        super().__init__()
+        self.pressure_data = pressure_data
+        self.temperature_data = temperature_data
+        self.luminosity_data = luminosity_data
+
+    def write_data(self):
+        if os.path.exists(log_filename):
+            file_mode = "a"
+        else:
+            file_mode = "w"
+        try:
+            with open(log_filename, file_mode) as f:
+                f.write(json.dumps(
+                    {
+                        "timestamp": datetime.now().strftime(
+                            "%m/%d/%Y, %H:%M:%S"
+                    ),
+                        "luminosity": self.luminosity_data,
+                        "temp": self.temperature_data,
+                        "pressure": self.pressure_data,
+                    }
+                    )
+                )
+        except:
+            with open(log_filename, "w"):
+                pass
 
 
 # Pressure sensor
