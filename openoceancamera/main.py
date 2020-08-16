@@ -381,17 +381,19 @@ def sendTestPicMem():
             "sensors": json.dumps(sensor_data),
         }
         return response
-        
+
+
 def gen(camera):
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
+
 @app.route("/stream", methods=["GET"])
 def get_video():
     if request.method == "GET":
-        return Response(gen(Camera()), mimetype='application/octet-stream' )
+        return Response(gen(Camera_Pi()), mimetype='application/octet-stream' )
 
 
 def gen(camera):
