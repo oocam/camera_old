@@ -18,78 +18,48 @@ import threading
 
 
 class OpenOceanCamera:
-    def __init__(self, record_filename, dc=0):
+    def __init__(self):
         super().__init__()
-
         # Camera Modules
         self.camera = Camera()
-        self.capture = self.camera.capture()
-        self.start_recording = self.camera.start_record(record_filename)
-        self.stop_recording = self.camera.stop_recording()
-        self.shutdown = self.camera.close()
-        self.retrive_camera_parameter = self.camera.retrieve_params()
-        self.set_camera_fr = self.camera.set_camera_frame_rate()
-        self.set_camera_resolution = self.camera.set_camera_resolution()
-        self.set_shutter_speed = self.camera.set_shutter_speed()
-        self.set_iso = self.camera.set_iso()
-        self.set_capture_frequency = self.camera.set_capture_frequency()
-        
         # Subsealight Modules
         self.subsealight = SubseaLight()
-        self.turn_on_light = self.subsealight.switch_on(dc)
-        self.turn_off_light = self.subsealight.switch_off()
-
         # Sensors Modules
         self.pressure_sensor = PressureSensor()
         self.temperature_sensor = TemperatureSensor()
         self.luminosity_sensor = LuminositySensor()
 
+    def capture_image(self, filename, light_intensity, iso, shutter_speed, resolution):
+        self.subsealight.switch_on(light_intensity)
+        self.camera.capture(filename)
+        luminosity = self.luminosity_sensor.luminosity()
+        temperature = self.temperature_sensor.temperature()
+        pressure = self.pressure_sensor.pressure()
 
-   
+        logging.info(
+            f"Readings while capturing image: Luminosity: {luminosity} lux, Temperature: {temperature}, Pressure: {pressure}"
+        )
+
+    def start_video_capture(self):
+        pass
+
+    def stop_video_capture(self):
+        pass
+
 
 def main():
     appserver_thread = threading.Thread(target=start_server)
     scheduler_thread = threading.Thread()
     appserver_thread.start()
 
-    appserver_thread.join()
-
+    # Create a camera instance to manage the different operations of the camera
     try:
-        camera = OpenOceanCamera.camera
+        camera = OpenOceanCamera()
         logging.info("Camera is Connected")
     except Exception as e:
         logging.error(e)
 
-    try:
-        pressure_sensor = OpenOceanCamera.pressure_sensor
-        logging.info("Pressure sensor is Connected")
-    except Exception as e:
-        logging.error(e)
-
-    try:
-        temperature_sensor = OpenOceanCamera.temperature_sensor
-        logging.info("Temperature sensor is Connected")
-    except Exception as e:
-        logging.error(e)
-
-    try:
-        luminosity_sensor = OpenOceanCamera.luminosity_sensor
-        logging.info("Luminosity sensor is Connected")
-    except Exception as e:
-        logging.error(e)
-
-    try:
-        subsealight= OpenOceanCamera.subsealight
-        logging.info("subsealight is Connected")
-    except Exception as e:
-        logging.error(e)
-
-    # Start recording
-    
-
-
-    
-        
+    appserver_thread.join()
 
 
 if __name__ == "__main__":
