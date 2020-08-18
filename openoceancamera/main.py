@@ -388,9 +388,10 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-@app.route("/stream")
+@app.route("/stream", methods=["GET"])
 def get_video():
-    return Response(gen(Camera), mimetype='application/octet-stream' )
+    if request.method == "GET":
+        return Response(gen(Camera()), mimetype='application/octet-stream' )
 
 
 def gen(camera):
