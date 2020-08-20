@@ -393,7 +393,7 @@ def gen(camera):
 @app.route("/stream", methods=["GET"])
 def get_video():
     if request.method == "GET":
-        return Response(gen(Camera_Pi()), mimetype='application/octet-stream' )
+        return Response(gen(Camera_Pi()),mimetype='multipart/x-mixed-replace; boundary=frame' )
 
 
 def gen(camera):
