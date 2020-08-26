@@ -58,13 +58,13 @@ class BaseCamera(object):
     last_access = 0  # time of last client access to the camera
     event = CameraEvent()
 
-    def __init__(self):
+    def __init__(self, time_duration=0):
         """Start the background camera thread if it isn't running yet."""
         if BaseCamera.thread is None:
             BaseCamera.last_access = time.time()
 
             # start background frame thread
-            BaseCamera.thread = threading.Thread(target=self._thread)
+            BaseCamera.thread = threading.Thread(target=self._thread, args=(time_duration,))
             BaseCamera.thread.start()
 
             # wait until frames are available
@@ -87,10 +87,11 @@ class BaseCamera(object):
         raise RuntimeError('Must be implemented by subclasses.')
 
     @classmethod
-    def _thread(cls):
+    def _thread(cls, time_duration):
         """Camera background thread."""
         print('Starting camera thread.')
         frames_iterator = cls.frames()
+        timeout_start = time.time()
         for frame in frames_iterator:
             BaseCamera.frame = frame
             BaseCamera.event.set()  # send signal to clients
@@ -98,7 +99,12 @@ class BaseCamera(object):
 
             # if there hasn't been any clients asking for frames in
             # the last 10 seconds then stop the thread
-            if time.time() - BaseCamera.last_access > 10:
+            if time_duration > 0:
+                if time.time() > timeout_start + time_duration:
+                    frames_iterator.close()
+                    print("Finished streaming for given time", time_duration)
+                    break
+            elif time.time() - BaseCamera.last_access > 10:
                 frames_iterator.close()
                 print('Stopping camera thread due to inactivity.')
                 break

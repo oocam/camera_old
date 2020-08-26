@@ -45,7 +45,7 @@ camera_config = []
 thread_active = False
 
 last_file_name = ""
-
+stream_duration = 0
 
 def readSensorData():
 
@@ -403,11 +403,15 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
-@app.route("/stream", methods=["GET"])
+@app.route("/stream", methods=["GET", "POST"])
 def get_video():
+    global stream_duration
     if request.method == "GET":
-        return Response(gen(Camera_Pi()),mimetype='multipart/x-mixed-replace; boundary=frame' )
-
+        return Response(gen(Camera_Pi(stream_duration)),mimetype='multipart/x-mixed-replace; boundary=frame' )
+    if request.method == "POST":
+        time_duration = request.get_json()["time_duration"]
+        stream_duration = int(time_duration)
+        return "OK"
 
 def start_api_server():
     app.run("0.0.0.0", 8000)
