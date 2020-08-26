@@ -5,6 +5,8 @@ from base_camera import BaseCamera
 
 
 class Camera_Pi(BaseCamera):
+    def __init__(self, time_duration=0):
+        super().__init__(time_duration)
     @staticmethod
     def frames():
         with picamera.PiCamera() as camera:
