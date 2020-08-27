@@ -390,19 +390,6 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
-@app.route("/stream", methods=["GET"])
-def get_video():
-    if request.method == "GET":
-        return Response(gen(Camera_Pi()),mimetype='multipart/x-mixed-replace; boundary=frame' )
-
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-
 @app.route("/stream", methods=["GET", "POST"])
 def get_video():
     global stream_duration
