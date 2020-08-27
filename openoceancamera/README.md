@@ -24,3 +24,24 @@ The on-board Raspberry Pi uses the interface to control the camera and storage f
 
 3. Run the application   
 `python3 main.py <external_drive_name>`   
+
+# Live Stream feature
+
+The intuition behind building Live Video Stream feature is to help client fine-tune the OOCAM camera focus.
+
+On the server side, you can find the live stream main code inside `openoceancamera/main.py`. 
+
+### get_video()
+When there is a post request coming from the client, it will read and save the `stream_duration` value in a global variable. It'll be use to determine how long the livestream last. On the other hand, When there is a get request coming, it will give response and initiate the Live Video Stream feature.
+
+```python
+@app.route("/stream", methods=["GET", "POST"])
+def get_video():
+    global stream_duration
+    if request.method == "GET":
+        return Response(gen(Camera_Pi(stream_duration)),mimetype='multipart/x-mixed-replace; boundary=frame' )
+    if request.method == "POST":
+        time_duration = request.get_json()["time_duration"]
+        stream_duration = int(time_duration)
+        return "OK"
+```
