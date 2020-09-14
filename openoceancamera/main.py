@@ -145,6 +145,11 @@ def main():
                     if isopen == 0:
                         try:
                             camera = Camera()
+                            camera.set_capture_frequency(data[slot]["frequency"])
+                            camera.set_iso(data[slot]["iso"])
+                            camera.set_shutter_speed(data[slot]["shutter_speed"])
+                            camera.set_camera_resolution((int(data[slot]["resolution"]["x"]), int(data[slot]["resolution"]["y"])))
+                            camera.set_camera_frame_rate(data[slot]["framerate"])
                         except Exception as e:
                             print(e)
                         isopen = 1
@@ -174,10 +179,6 @@ def main():
                     except:
                         with open(log_filename, "w"):
                             pass
-                    camera.set_capture_frequency(data[slot]["frequency"])
-                    camera.set_iso(data[slot]["iso"])
-                    camera.set_shutter_speed(data[slot]["shutter_speed"])
-                    camera.set_camera_resolution((int(data[slot]["resolution"]["x"]), int(data[slot]["resolution"]["y"])))
                     light_mode = data[slot]["light"]
                     PWM.switch_on(light_mode)
                     if not data[slot]["video"]:  # slot for photo
@@ -186,10 +187,7 @@ def main():
                         sleep(data[slot]["frequency"])
                         isrecord = 1
                     else:
-                        camera.set_camera_frame_rate(data[slot]["framerate"])
                         if isrecord == 0:  # slot for video, has not recorded yet
-                            camera.set_camera_resolution((1920, 1080))
-                            camera.set_camera_frame_rate(30)
                             print("RECORDING")
                             start_capture(camera, True)
                             isrecord = 1
