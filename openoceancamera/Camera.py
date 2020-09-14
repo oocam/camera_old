@@ -8,7 +8,7 @@ except:
 
 
 class Camera(object):
-    def __init__(self, resolution=(3200, 2400), shutter_speed=5000, iso=0, frequency=3):
+    def __init__(self, resolution=(3280, 2464), shutter_speed=5000, iso=0, frequency=3):
         self.camera = PiCamera()
         self.set_camera_resolution(resolution)
         self.set_shutter_speed(shutter_speed)

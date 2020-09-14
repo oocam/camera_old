@@ -177,17 +177,16 @@ def main():
                     camera.set_capture_frequency(data[slot]["frequency"])
                     camera.set_iso(data[slot]["iso"])
                     camera.set_shutter_speed(data[slot]["shutter_speed"])
-                    # GPIO.output(17, data[slot]["light"])
+                    camera.set_camera_resolution((int(data[slot]["resolution"]["x"]), int(data[slot]["resolution"]["y"])))
                     light_mode = data[slot]["light"]
                     PWM.switch_on(light_mode)
-                    # print(data[slot]["frequency"])
                     if not data[slot]["video"]:  # slot for photo
                         start_capture(camera, False)
                         print(my_schedule.should_start())
                         sleep(data[slot]["frequency"])
                         isrecord = 1
                     else:
-
+                        camera.set_camera_frame_rate(data[slot]["framerate"])
                         if isrecord == 0:  # slot for video, has not recorded yet
                             camera.set_camera_resolution((1920, 1080))
                             camera.set_camera_frame_rate(30)
@@ -197,10 +196,6 @@ def main():
                         else:  # slot for video, already recording
                             sleep(1)
                             pass
-                        # while  my_schedule.should_start() == slot:
-                        # print("Recording")
-                        # print(my_schedule.should_start())
-                        # pass
                     switch_flag = 0
 
                 else:
@@ -218,7 +213,6 @@ def main():
                     if (mins_to_next_slot > 10) and slot == -1:
                         five_mins = timedelta(minutes=2)
                         one_mins = timedelta(minutes=5)
-                        #thread_active = False
                         sleeptime = datetime.now() + one_mins
                         sleeptime = sleeptime.strftime("%d %H:%M")
                         next_reboot = next_slot["start"] - five_mins
