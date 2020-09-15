@@ -47,13 +47,16 @@ thread_active = False
 last_file_name = ""
 stream_duration = 0
 
+
 def readSensorData():
 
     try:
         lightSensor = float(
             str(
                 subprocess.check_output(
-                    "python /home/pi/openoceancamera/TSL2561/Python/TSL2561.py", shell=True, text=True
+                    "python /home/pi/openoceancamera/TSL2561/Python/TSL2561.py",
+                    shell=True,
+                    text=True,
                 )
             )
         )
@@ -64,7 +67,9 @@ def readSensorData():
         temperatureSensor = float(
             str(
                 subprocess.check_output(
-                    "python /home/pi/openoceancamera/tsys01-python/example.py", shell=True, text=True
+                    "python /home/pi/openoceancamera/tsys01-python/example.py",
+                    shell=True,
+                    text=True,
                 )
             )
         )
@@ -73,7 +78,9 @@ def readSensorData():
 
     try:
         pressureSensorReadings = subprocess.check_output(
-            "python /home/pi/openoceancamera/ms5837-python/example.py", shell=True, text=True
+            "python /home/pi/openoceancamera/ms5837-python/example.py",
+            shell=True,
+            text=True,
         )
 
         pressureSensorReadings = pressureSensorReadings.split()
@@ -99,6 +106,7 @@ def readSensorData():
 
 def start_capture(camera, video):
     global external_drive, last_file_name
+    filename = ""
     if not video:
         filename = external_drive + "/" + str(uuid1()) + ".jpg"
         last_file_name = filename
@@ -109,6 +117,7 @@ def start_capture(camera, video):
         camera.do_record(filename=filename)
         print("Started recording")
     logging.info("Write: " + filename + " at time " + str(datetime.now()))
+    return filename
 
 
 def main():
@@ -148,7 +157,12 @@ def main():
                             camera.set_capture_frequency(data[slot]["frequency"])
                             camera.set_iso(data[slot]["iso"])
                             camera.set_shutter_speed(data[slot]["shutter_speed"])
-                            camera.set_camera_resolution((int(data[slot]["resolution"]["x"]), int(data[slot]["resolution"]["y"])))
+                            camera.set_camera_resolution(
+                                (
+                                    int(data[slot]["resolution"]["x"]),
+                                    int(data[slot]["resolution"]["y"]),
+                                )
+                            )
                             camera.set_camera_frame_rate(data[slot]["framerate"])
                         except Exception as e:
                             print(e)
@@ -189,10 +203,18 @@ def main():
                     else:
                         if isrecord == 0:  # slot for video, has not recorded yet
                             print("RECORDING")
-                            start_capture(camera, True)
+                            video_filename = start_capture(camera, True)
+                            with open(f"{video_filename}.txt", "w") as logFile:
+                                logFile.write(
+                                    f"Start time: {data[slot]['start']}\nEnd time: {data[slot]['stop']}\n"
+                                )
+                                logFile.write(
+                                    f"Recorded at: {data[slot]['framerate']} frames per second\n"
+                                )
                             isrecord = 1
                         else:  # slot for video, already recording
                             sleep(1)
+                            camera.camera.annotate_text = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} @ {data[slot]['framerate']} fps"
                             pass
                     switch_flag = 0
 
@@ -218,7 +240,9 @@ def main():
                         next_reboot = next_reboot.strftime("%d %H:%M:%S")
                         print(next_reboot)
                         startup_cmd = (
-                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "' + next_reboot + '"'
+                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "'
+                            + next_reboot
+                            + '"'
                         )
                         print(startup_cmd)
                         os.system(startup_cmd)
@@ -226,7 +250,9 @@ def main():
                             "raspberry pi is going to sleep now in 5 min, do not disturb"
                         )
                         shutdown_cmd = (
-                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
+                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "'
+                            + sleeptime
+                            + '"'
                         )
                         os.system(shutdown_cmd)
                         thread_active = False
@@ -250,7 +276,7 @@ def app_connect():
             json.dump(camera_config, outfile)
         date_input = camera_config[0]["date"]
         timezone = camera_config[0]["timezone"]
-        clear_cmd = ('sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6')
+        clear_cmd = "sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6"
         os.system(clear_cmd)
         os.system(f"sudo timedatectl set-timezone {timezone}")
         print(timezone)
@@ -378,19 +404,22 @@ def sendTestPicMem():
 def gen(camera):
     while True:
         frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
 
 @app.route("/stream", methods=["GET", "POST"])
 def get_video():
     global stream_duration
     if request.method == "GET":
-        return Response(gen(Camera_Pi(stream_duration)),mimetype='multipart/x-mixed-replace; boundary=frame' )
+        return Response(
+            gen(Camera_Pi(stream_duration)),
+            mimetype="multipart/x-mixed-replace; boundary=frame",
+        )
     if request.method == "POST":
         time_duration = request.get_json()["time_duration"]
         stream_duration = int(time_duration)
         return "OK"
+
 
 def start_api_server():
     app.run("0.0.0.0", 8000)
