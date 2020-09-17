@@ -41,6 +41,12 @@ class EventList:
     def clear(self):
         self.queue = []
 
+    def get_current_event_to_execute(self):
+        for frame in self.queue:
+            if frame.should_frame_start():
+                return frame
+        return None
+
 
 class Scheduler:
     def __init__(self, schedule_file):
@@ -50,6 +56,12 @@ class Scheduler:
 
     def clear_all_events(self):
         self.events.clear()
+
+    def get_event_list(self):
+        return self.events
+
+    def get_event_to_execute(self):
+        return self.events.get_current_event_to_execute()
 
     def read_schedule_config(self):
         if os.path.exists(self.schedule_file):
