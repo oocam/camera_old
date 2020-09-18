@@ -3,16 +3,39 @@ import json
 import logging
 from datetime import datetime
 from typing import List
+from enum import Enum
 
 scheduler_logger = logging.getLogger(__name__)
+
+
+class ShootingMode(Enum):
+    PHOTO: 0
+    VIDEO: 1
+
+
+class CameraConfig:
+    def __init__(self, config):
+        self.shooting_mode = (
+            ShootingMode.VIDEO if config["video"] else ShootingMode.PHOTO
+        )
+        self.frequency = config["frequency"]
+        self.light = config["light"]
+        self.iso = config["iso"]
+        self.shutter_speed = config["shutter_speed"]
+        self.camera_resolution = (config["resolution"]["x"], config["resolution"]["y"])
+        self.camera_framerate = config["framerate"]
 
 
 class ScheduleFrame:
     def __init__(self, start: datetime, stop: datetime, camera_config=None):
         super().__init__()
-        self.start = start
-        self.stop = stop
-        self.camera_config = camera_config
+        self.start: datetime = start
+        self.stop: datetime = stop
+        self.executed: bool = False
+        if camera_config is not None:
+            self.camera_config: CameraConfig = CameraConfig(camera_config)
+        else:
+            logging.error(f"No configuration was provided to the schedule: {self}")
 
     def __str__(self):
         return {
@@ -25,8 +48,22 @@ class ScheduleFrame:
         # a.__lt__(b) means self < object
         return self.start < b.start
 
+    def set_executed(self):
+        self.executed = True
+
     def should_frame_start(self):
-        return self.start <= datetime.now() and self.stop > datetime.now()
+        return (
+            self.start <= datetime.now()
+            and self.stop > datetime.now()
+            and self.executed == False
+        )
+
+    def should_frame_run(self):
+        return (
+            self.start <= datetime.now()
+            and self.stop > datetime.now()
+            and self.executed
+        )
 
 
 class EventList:
@@ -44,6 +81,12 @@ class EventList:
     def get_current_event_to_execute(self):
         for frame in self.queue:
             if frame.should_frame_start():
+                return frame
+        return None
+
+    def get_current_active_frame(self):
+        for frame in self.queue:
+            if frame.should_frame_run():
                 return frame
         return None
 
@@ -72,10 +115,10 @@ class Scheduler:
         else:
             return None
 
-    def load_scheduler_data(self, data):
+    def set_scheduler_data(self, data):
         if data is None:
             logging.warn(
-                "There was no data while trying to load events from the schedule."
+                "There was no data while trying to load events from the schedule data."
             )
             return
 
@@ -83,13 +126,10 @@ class Scheduler:
         for i in range(len(data)):
             start = datetime.strptime(data[i]["start"], "%Y-%m-%d-%H:%M:%S")
             stop = datetime.strptime(data[i]["stop"], "%Y-%m-%d-%H:%M:%S")
-            schedule_frame = ScheduleFrame(start, stop)
+            schedule_frame = ScheduleFrame(start, stop, data[i])
             logging.debug(schedule_frame)
             self.events.append(schedule_frame)
         logging.debug("Finished loading the slots for schedule")
 
     def get_active_slot(self):
-        pass
-
-    def prepare_camera_for_scheduled_slot(self):
-        pass
+        return self.events.get_current_active_frame()

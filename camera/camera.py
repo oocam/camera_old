@@ -1,5 +1,6 @@
 import logging
 from threading import Lock
+from uuid import uuid1
 
 camera_logger = logging.getLogger(__name__)
 
@@ -29,12 +30,12 @@ class Camera(PiCamera):
         self.set_capture_frequency(frequency)
         self.thread_lock = Lock()
 
-    def capture(self, filename="test.jpg"):
+    def capture(self, filename=str(uuid1()) + ".jpg"):
         self.thread_lock.acquire()
         super().capture(filename)
         self.close()
 
-    def start_record(self, filename):
+    def start_recording(self, filename=str(uuid1()) + ".h264"):
         self.thread_lock.acquire()
         super().start_recording(filename, format="h264")
 
