@@ -1,13 +1,23 @@
+import json
 from flask import Flask, request, send_file, jsonify
+from main import scheduleSetterSignal
 
 app = Flask("appserver")
 app.config["CORS_HEADERS"] = "Content-Type"
 CORS(app)
 
-# TODO: Refactor all server code
+schedule_path = "/home/pi/openoceancamera/schedule.json"
 
 
 @app.route("/setSchedule", methods=["POST", "GET"])
+def set_schedule():
+    if request.method == "POST":
+        camera_config = request.get_json()
+        scheduleSetterSignal.set()
+        with open(schedule_path, "w") as outfile:
+            json.dump(camera_config, outfile)
+
+
 def app_connect():
     if request.method == "POST":
         thread_active = False

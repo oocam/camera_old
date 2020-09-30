@@ -5,6 +5,8 @@ from oocam import OpenOceanCamera
 from appserver import start_server, server
 from cam_scheduler import Scheduler, ScheduleFrame, ShootingMode
 
+scheduleSetterSignal = threading.Event()
+
 
 def run(frame: ScheduleFrame, camera: OpenOceanCamera):
     if frame.camera_config.shooting_mode == ShootingMode.VIDEO:
@@ -20,7 +22,6 @@ def unrun(frame: ScheduleFrame, camera: OpenOceanCamera):
 
 def main():
     appserver_thread = threading.Thread(target=start_server)
-    scheduler_thread = threading.Thread()
     appserver_thread.start()
     # Create a camera instance to manage the different operations of the camera
     camera = OpenOceanCamera()
