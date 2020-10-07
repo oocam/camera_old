@@ -6,7 +6,6 @@ from subsealight import SubseaLight
 from sensors import PressureSensor
 from sensors import TemperatureSensor
 from sensors import LuminositySensor
-from sensors import ReadSensorData
 from cam_scheduler import ScheduleFrame
 
 
