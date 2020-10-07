@@ -55,6 +55,7 @@ class PressureSensor(MS5837_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
         if not super().init():
+            sensors_logger.warning("MS5837_30BA may not be connected")
             raise PressureSensorNotConnectedException(
                 "MS5837_30BA may not be connected"
             )
@@ -101,6 +102,7 @@ class TemperatureSensor(TSYS01_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
         if not super().init():
+            sensors_logger.warning("TSYS01_30BA may not be connected")
             raise TemperatureSensorNotConnectedException(
                 "TSYS01_30BA may not be connected"
             )
@@ -131,6 +133,7 @@ class LuminositySensor(TSL2561_30BA):
     def __init__(self, bus=1):
         super().__init__(bus=bus)
         if not super().init():
+            sensors_logger.warning("TSL2561_30BA may not be connected")
             raise LuminositySensorNotConnectedException(
                 "TSL2561_30BA may not be connected"
             )
