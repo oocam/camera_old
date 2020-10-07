@@ -17,17 +17,36 @@ class OpenOceanCamera:
         # Subsealight Modules
         self.subsealight = SubseaLight()
         # Sensors Modules
-        self.pressure_sensor = PressureSensor()
-        self.temperature_sensor = TemperatureSensor()
-        self.luminosity_sensor = LuminositySensor()
+        try:
+            self.pressure_sensor = PressureSensor()
+        except:
+            self.pressure_sensor = None
+        try:
+            self.temperature_sensor = TemperatureSensor()
+        except:
+            self.temperature_sensor = None
+        try:
+            self.luminosity_sensor = LuminositySensor()
+        except:
+            self.luminosity_sensor = None
 
     def capture_image(self, camera_config: CameraConfig):
         self.subsealight.switch_on(camera_config.light)
         self.camera.set_camera_params(camera_config)
         self.camera.capture()
-        luminosity = self.luminosity_sensor.luminosity()
-        temperature = self.temperature_sensor.temperature()
-        pressure = self.pressure_sensor.pressure()
+        luminosity = (
+            self.luminosity_sensor.luminosity()
+            if self.luminosity_sensor is not None
+            else -1
+        )
+        temperature = (
+            self.temperature_sensor.temperature()
+            if self.temperature_sensor is not None
+            else -1
+        )
+        pressure = (
+            self.pressure_sensor.pressure() if self.pressure_sensor is not None else -1
+        )
         logging.info(
             f"Sensor readings: Lum: {luminosity}, Temp: {temperature}, Pressure: {pressure}"
         )
