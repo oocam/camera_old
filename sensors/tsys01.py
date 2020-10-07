@@ -1,7 +1,4 @@
-try:
-    import smbus
-except:
-    print("Try sudo apt-get install python-smbus")
+import smbus2 as smbus
 
 from time import sleep
 

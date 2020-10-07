@@ -1,19 +1,8 @@
 import time
 import typing
-
-try:
-    import smbus
-except:
-    print("Try sudo apt-get install python-smbus")
-try:
-    from Adafruit_GPIO import I2C
-except:
-    print("Try pip install Adafruit-GPIO")
-
-try:
-    from tsl2561.constants import *  # pylint: disable=unused-wildcard-import,wildcard-import
-except:
-    print("Try pip install tsl2561 ")
+import smbus2 as smbus
+from Adafruit_GPIO import I2C
+from tsl2561.constants import *  # pylint: disable=unused-wildcard-import,wildcard-import
 
 # Models
 MODEL_30BA = 1
