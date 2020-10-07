@@ -2,18 +2,25 @@ import datetime
 import logging
 import sys
 
+light_logger = logging.getLogger(__name__)
+
+
+class SubSeaLightLibraryNotFoundError(Exception):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+
 try:
     import RPi.GPIO as GPIO
 except:
-    print("Try pip intsall RPi.GPIO")
-
-light_logger = logging.getLogger(__name__)
+    light_logger.error("Try pip intsall RPi.GPIO")
+    raise SubSeaLightLibraryNotFoundError("Try pip intsall RPi.GPIO")
 
 
 class SubseaLight:
     def __init__(self, pinout=24):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pintout, GPIO.OUT)
+        GPIO.setup(pinout, GPIO.OUT)
         self.pwm = GPIO.PWM(pinout, 500)
 
     def switch_off(self):
@@ -30,9 +37,9 @@ class SubseaLight:
 if __name__ == "__main__":
     current_time = datetime.datetime.now()
     run_until = current_time + datetime.timedelta(0, 5)  # Turn light on for 5 minutes
-
+    sslight = SubseaLight()
     # Turn light on
-    self.switch_on(40)
+    sslight.switch_on(100)
     while datetime.datetime.now() < run_until:
         pass
-    self.switch_off()
+    sslight.switch_off()
