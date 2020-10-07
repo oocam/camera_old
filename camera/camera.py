@@ -47,7 +47,7 @@ class Camera(PiCamera):
         super().start_recording(filename, format="h264")
 
     def stop_recording(self):
-        if self.recording():
+        if self.recording:
             super().stop_recording()
 
     def close(self):
@@ -61,19 +61,16 @@ class Camera(PiCamera):
         print("ISO:", super().iso)
 
     def set_camera_frame_rate(self, fr):
-        super().framerate = fr
+        self.framerate = fr
 
     def set_camera_resolution(self, resolution):
-        super().resolution = resolution
+        self.resolution = resolution
 
     def set_shutter_speed(self, speed=0):
-        super().shutter_speed = speed
+        self.shutter_speed = speed
 
     def set_iso(self, iso):
-        super().iso = iso
+        self.iso = iso
 
     def set_capture_frequency(self, frequency):
         self.frequency = frequency
-
-    def recording(self):
-        return super().recording
