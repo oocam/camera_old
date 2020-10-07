@@ -3,13 +3,14 @@ import logging
 
 wittypi_logger = logging.getLogger(__name__)
 
+
 class WittyPi:
     def __init__(self, path):
         # path as path to wittypi.sh script
         if os.path.isfile(self.path):
             self.path = path
-        else: 
-           wittypi_logger.error("Path not found.")
+        else:
+            wittypi_logger.error("Path not found.")
 
     def clear_wittypi_schedule(self):
         # Clear current schedule

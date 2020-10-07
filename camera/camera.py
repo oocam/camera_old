@@ -1,3 +1,4 @@
+from cam_scheduler.scheduler import CameraConfig
 import logging
 from threading import Lock
 from uuid import uuid1
@@ -29,6 +30,12 @@ class Camera(PiCamera):
         self.set_iso(iso)
         self.set_capture_frequency(frequency)
         self.thread_lock = Lock()
+
+    def set_camera_params(self, config: CameraConfig):
+        self.set_camera_resolution(config.camera_resolution)
+        self.set_shutter_speed(config.shutter_speed)
+        self.set_iso(config.iso)
+        self.set_capture_frequency(config.frequency)
 
     def capture(self, filename=str(uuid1()) + ".jpg"):
         self.thread_lock.acquire()

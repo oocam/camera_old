@@ -1,3 +1,4 @@
+from cam_scheduler.scheduler import CameraConfig
 import logging
 import logging_config
 from camera import Camera
@@ -21,15 +22,16 @@ class OpenOceanCamera:
         self.temperature_sensor = TemperatureSensor()
         self.luminosity_sensor = LuminositySensor()
 
-    def capture_image(self, frame: ScheduleFrame):
-        self.subsealight.switch_on(frame.camera_config.light)
+    def capture_image(self, camera_config: CameraConfig):
+        self.subsealight.switch_on(camera_config.light)
+        self.camera.set_camera_params(camera_config)
+        self.camera.capture()
         luminosity = self.luminosity_sensor.luminosity()
         temperature = self.temperature_sensor.temperature()
         pressure = self.pressure_sensor.pressure()
         logging.info(
             f"Sensor readings: Lum: {luminosity}, Temp: {temperature}, Pressure: {pressure}"
         )
-        self.camera.capture()
 
     def start_video_capture(self, frame: ScheduleFrame):
         self.subsealight.switch_on(frame.camera_config.light)

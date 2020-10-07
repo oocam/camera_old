@@ -14,16 +14,25 @@ class ShootingMode(Enum):
 
 
 class CameraConfig:
-    def __init__(self, config):
+    def __init__(self, config: dict):
         self.shooting_mode = (
-            ShootingMode.VIDEO if config["video"] else ShootingMode.PHOTO
+            ShootingMode.VIDEO
+            if config.get("video") is not None
+            else ShootingMode.PHOTO
         )
-        self.frequency = config["frequency"]
-        self.light = config["light"]
-        self.iso = config["iso"]
-        self.shutter_speed = config["shutter_speed"]
-        self.camera_resolution = (config["resolution"]["x"], config["resolution"]["y"])
-        self.camera_framerate = config["framerate"]
+        self.frequency = config.get("frequency", None)
+        self.light = config.get("light", 0)
+        self.iso = config.get("iso", 0)
+        self.shutter_speed = config.get("shutter_speed", 0)
+        self.camera_resolution = (
+            config.get("resolution").get("x", 1920),
+            config.get("resolution").get("y", 1080),
+        )
+        self.camera_framerate = config.get("framerate", 0)
+
+    @staticmethod
+    def validate_config(config):
+        pass
 
 
 class ScheduleFrame:
@@ -44,7 +53,7 @@ class ScheduleFrame:
             "camera_config": self.camera_config,
         }
 
-    def __lt__(self, b: ScheduleFrame):
+    def __lt__(self, b):
         # a.__lt__(b) means self < object
         return self.start < b.start
 
@@ -120,7 +129,7 @@ class Scheduler:
             logging.warn(
                 "There was no data while trying to load events from the schedule data."
             )
-            return
+            return None
 
         logging.debug("Adding frames to events list")
         for i in range(len(data)):

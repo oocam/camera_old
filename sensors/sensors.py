@@ -1,23 +1,14 @@
 import os
+import json
 import logging
 from datetime import datetime
 
 sensors_logger = logging.getLogger(__name__)
 
-try:
-    from .ms5837 import MS5837_30BA, DENSITY_SALTWATER, UNITS_Centigrade, UNITS_mbar
-except Exception as e:
-    sensors_logger.error(e)
+from .ms5837 import MS5837_30BA, DENSITY_SALTWATER, UNITS_Centigrade, UNITS_mbar
+from .tsys01 import TSYS01_30BA, UNITS_Centigrade
+from .tsl2561 import TSL2561_30BA
 
-try:
-    from .tsys01 import TSYS01_30BA, UNITS_Centigrade
-except Exception as e:
-    sensors_logger.error(e)
-
-try:
-    from .tsl2561 import TSL2561_30BA
-except Exception as e:
-    sensors_logger.error(e)
 
 class ReadSensorData:
     def __init__(self, log_filename, pressure_data, temperature_data, luminosity_data):
@@ -25,27 +16,27 @@ class ReadSensorData:
         self.pressure_data = pressure_data
         self.temperature_data = temperature_data
         self.luminosity_data = luminosity_data
+        self.log_filename = log_filename
 
     def write_data(self):
-        if os.path.exists(log_filename):
+        if os.path.exists(self.log_filename):
             file_mode = "a"
         else:
             file_mode = "w"
         try:
-            with open(log_filename, file_mode) as f:
-                f.write(json.dumps(
-                    {
-                        "timestamp": datetime.now().strftime(
-                            "%m/%d/%Y, %H:%M:%S"
-                    ),
-                        "luminosity": self.luminosity_data,
-                        "temp": self.temperature_data,
-                        "pressure": self.pressure_data,
-                    }
+            with open(self.log_filename, file_mode) as f:
+                f.write(
+                    json.dumps(
+                        {
+                            "timestamp": datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
+                            "luminosity": self.luminosity_data,
+                            "temp": self.temperature_data,
+                            "pressure": self.pressure_data,
+                        }
                     )
                 )
         except:
-            with open(log_filename, "w"):
+            with open(self.log_filename, "w"):
                 pass
 
 

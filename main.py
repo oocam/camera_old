@@ -2,6 +2,7 @@ import logging
 import logging_config
 import threading
 from oocam import OpenOceanCamera
+from constants import SCHEDULE_FILE_PATH
 from appserver import start_server, server
 from cam_scheduler import Scheduler, ScheduleFrame, ShootingMode
 
@@ -25,7 +26,7 @@ def main():
     appserver_thread.start()
     # Create a camera instance to manage the different operations of the camera
     camera = OpenOceanCamera()
-    scheduler = Scheduler()
+    scheduler = Scheduler(schedule_file=SCHEDULE_FILE_PATH)
     while True:
         frame: ScheduleFrame = scheduler.get_event_to_execute()
         if frame is not None:

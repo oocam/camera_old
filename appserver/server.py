@@ -1,148 +1,56 @@
-import json
-from flask import Flask, request, send_file, jsonify
-from main import scheduleSetterSignal
+import pickle
+import datetime
 
-app = Flask("appserver")
+from constants import SCHEDULE_FILE_PATH
+from cam_scheduler.scheduler import CameraConfig, ScheduleFrame
+from .interface import UserInterface
+from cam_scheduler import Scheduler
+from flask import Flask, request
+from flask_cors import CORS
+
+app = Flask(__name__)
 app.config["CORS_HEADERS"] = "Content-Type"
 CORS(app)
 
-schedule_path = "/home/pi/openoceancamera/schedule.json"
+
+@app.route("/", methods=["GET", "POST"])
+def ping():
+    if request.method == "GET":
+        return "OK"
+    if request.method == "POST":
+        # TODO: Set the camera time on this endpoint
+        pass
 
 
-@app.route("/setSchedule", methods=["POST", "GET"])
+@app.route("/setSchedule", methods=["POST"])
 def set_schedule():
     if request.method == "POST":
-        camera_config = request.get_json()
-        scheduleSetterSignal.set()
-        with open(schedule_path, "w") as outfile:
-            json.dump(camera_config, outfile)
+        request_json = request.get_json()
 
+        # Return back with an error if the JSON could not be parsed
+        if request_json is None:
+            return None
 
-def app_connect():
-    if request.method == "POST":
-        thread_active = False
-        print(request.get_json())
-        camera_config = request.get_json()
-        with open("/home/pi/openoceancamera/schedule.json", "w") as outfile:
-            json.dump(camera_config, outfile)
-        date_input = camera_config[0]["date"]
-        timezone = camera_config[0]["timezone"]
-        # Clear WittyPi schedule
-        clear_cmd = "sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6"
-        os.system(clear_cmd)
-        os.system(f"sudo timedatectl set-timezone {timezone}")
-        print(timezone)
-        print(date_input)
-        # Sets the system time to the user's phone time
-        os.system(f"sudo date -s '{date_input}'")
-        # Save the system time to RTC -
-        os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 1")
-        os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 2")
-        # external_drive = "/media/pi/" + sys.argv[1]
-        external_drive = "/media/pi/OPENOCEANCA"
-        pathv = path.exists(external_drive)
-        if pathv:
-            thread_active = True
-            return {
-                "success": "Success",
-            }
-        else:
-            return {
-                "success": "Not a Success. No Memory called OPENOCEANCA inserted.",
-            }
-    else:
-        return {
-            "success": "Not a Success",
-        }
+        # Validate that the config is acceptable
+        if CameraConfig.validate_config(request_json):
+            with open(SCHEDULE_FILE_PATH, "w") as schedule_file:
+                scheduler_object = Scheduler(schedule_file=SCHEDULE_FILE_PATH)
+                scheduler_object.set_scheduler_data(request_json)
+                schedule_file.write(pickle.dumps(scheduler_object))
 
 
 @app.route("/viewConfig", methods=["GET"])
-def returnConfig():
+def view_config():
     if request.method == "GET":
-        if camera_config != []:
-            return json.dumps(camera_config)
-        else:
-            return {
-                "error": "No Configuration exists",
-            }
-
-
-@app.route("/turnOffWiFi", methods=["GET"])
-def turnOffWiFi():
-    if request.method == "GET":
-        os.system(cmdoff)
-        os.system(cmdoff1)
-        sys.exit()
-        print("Wi-FI Off")
-        return {
-            "success": "Success",
-        }
-
-
-@app.route("/testPhoto", methods=["POST", "GET"])
-def sendTestPic():
-    camera = Camera()
-    if request.method == "POST":
-        try:
-            data = request.get_json(force=True)
-            PWM.switch_on(data[0]["light"])
-            camera.set_iso(data[0]["iso"])
-            camera.set_shutter_speed(data[0]["shutter_speed"])
-            camera.do_capture()
-            with open("/home/pi/openoceancamera/test.jpg", "rb") as image:
-                img_base64 = base64.b64encode(image.read())
-            camera.do_close()
-            sensor_data = readSensorData()
-            print(f"Read sensor data: {sensor_data}")
-            response = {
-                "image": img_base64.decode("utf-8"),
-                "sensors": json.dumps(sensor_data),
-            }
-            sleep(2)
-            PWM.switch_off()
-            return jsonify(response)
-        except Exception as e:
-            camera.do_close()
-            PWM.switch_off()
-            print(e)
-            return "ERROR"
-
-
-@app.route("/testPhotoMem", methods=["POST", "GET"])
-def sendTestPicMem():
-    if request.method == "POST":
-        camera = Camera()
-        data = request.get_json(force=True)
-        PWM.switch_on(data[0]["light"])
-        camera.set_iso(data[0]["iso"])
-        camera.set_shutter_speed(data[0]["shutter_speed"])
-        flag = "SUCCESS"
-        external_drive = "/media/pi/OPENOCEANCA"
-        pathv = path.exists(external_drive)
-        if pathv:
-            try:
-                filename1 = external_drive + "/" + str(uuid1()) + ".jpg"
-                camera.do_capture(filename=filename1)
-                print("Written")
-                camera.do_close()
-                camera = Camera()
-                camera.set_camera_resolution((1920, 1080))
-                camera.set_camera_frame_rate(30)
-
-                filename2 = external_drive + "/" + str(uuid1()) + ".h264"
-                camera.do_record(filename=filename2)
-                print("Started recording")
-                sleep(3)
-            except Exception as e:
-                flag = str(e)
-        else:
-            flag = "USB Storage with name OPENOCEANCA required"
-
-        camera.do_close()
-        PWM.switch_off()
-        sensor_data = readSensorData()
         response = {
-            "flag": flag,
-            "sensors": json.dumps(sensor_data),
+            "local_time": datetime.now().strftime("%d-%B-%Y %H:%M:%S"),
+            "local_timezone": "",
+            "config": "",
         }
         return response
+
+
+@app.route("/testPhoto")
+def test_photo():
+    if request.method == "POST":
+        pass
