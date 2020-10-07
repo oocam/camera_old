@@ -22,8 +22,8 @@ def unrun(frame: ScheduleFrame, camera: OpenOceanCamera):
 
 
 def main():
-    appserver_thread = threading.Thread(target=start_server)
-    appserver_thread.start()
+    # appserver_thread = threading.Thread(target=start_server)
+    # appserver_thread.start()
     # Create a camera instance to manage the different operations of the camera
     camera = OpenOceanCamera()
     scheduler = Scheduler(schedule_file=SCHEDULE_FILE_PATH)
@@ -35,7 +35,7 @@ def main():
             while frame.should_frame_run():
                 pass
             unrun(frame, camera)
-    appserver_thread.join()
+    # appserver_thread.join()
 
 
 if __name__ == "__main__":
