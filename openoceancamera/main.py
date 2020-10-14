@@ -198,17 +198,20 @@ def main():
     global thread_active
     while True:
         sleep(2)
+        # print(thread_active)
         try:
             if thread_active:
                 data = camera_config
                 switch_flag = 0
                 isrecord = 0
                 isopen = 0
+                # print(thread_active)
                 my_schedule = Scheduler(data)
                 print("Loaded Scheduler. Main thread active")
 
                 # Stall the camera to let it initialise
                 while thread_active:
+                    # print(my_schedule.should_start())
                     my_schedule.update_current_time()
                     slot = my_schedule.should_start()
                     if slot == -1 and isrecord == 0:
@@ -216,6 +219,8 @@ def main():
 
                     if isrecord == 1 and slot == -1:
                         PWM.switch_off()
+                        # camera.do_close()
+                        # how to close video goes here
                         print("CLOSED")
                         isrecord = 0
                         isopen = 0
@@ -235,6 +240,9 @@ def main():
                             if isrecord == 0:  # slot for video, has not recorded yet
                                 print("RECORDING")
                                 start_capture(True, data[slot])
+                                # with open(f"{video_filename}.txt", 'w') as logFile:
+                                #    logFile.write(f"Start time: {data[slot]['start']}\nEnd time: {data[slot]['stop']}\n")
+                                #    logFile.write(f"Recorded at: {data[slot]['framerate']} frames per second")
                                 isrecord = 1
                             else:  # slot for video, already recording
                                 sleep(1)
@@ -249,6 +257,8 @@ def main():
                     next_slot = my_schedule.next_future_timeslot()
                     slot = my_schedule.should_start()
                     if next_slot is not None:
+                        # print("Next slot is: ")
+                        # print(next_slot)
                         mins_to_next_slot = int(
                             my_schedule.time_to_nearest_schedule() / 60
                         )
@@ -267,6 +277,7 @@ def main():
                                 + next_reboot
                                 + '"'
                             )
+                            # print(startup_cmd)
                             os.system(startup_cmd)
                             print(
                                 "raspberry pi is going to sleep now in 5 min, do not disturb"
@@ -295,6 +306,20 @@ def set_camera_name():
         with open("camera_name.txt", "w") as camera_name_file:
             camera_name_file.write(camera_name)
     return camera_name
+
+
+@app.route("/syncTime", methods=["GET", "POST"])
+def sync_time():
+    global thread_active
+    if request.method == "POST":
+        data = request.get_json()
+        date_input = data["date"]
+        timezone = data["timezone"]
+        clear_cmd = "sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6"
+        os.system(clear_cmd)
+        os.system(f"sudo timedatectl set-timezone {timezone}")
+        os.system(f"sudo date -s '{date_input}'")
+        return "OK"
 
 
 @app.route("/setSchedule", methods=["POST", "GET"])
