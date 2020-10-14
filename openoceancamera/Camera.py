@@ -1,5 +1,7 @@
 try:
     from picamera import PiCamera
+    from time import sleep,time
+    from datetime import datetime
 except:
     print(
         "Program is not running on a Raspberry Pi. The camera module cannot be loaded"
@@ -8,15 +10,34 @@ except:
 
 
 class Camera(object):
-    def __init__(self, resolution=(3280, 2464), shutter_speed=5000, iso=0, frequency=3):
+    def __init__(self, resolution=(1920, 1080), shutter_speed=5000, iso=0, frequency=3):
         self.camera = PiCamera()
         self.set_camera_resolution(resolution)
         self.set_shutter_speed(shutter_speed)
         self.set_iso(iso)
         self.set_capture_frequency(frequency)
 
-    def do_capture(self, filename="test.jpg"):
-        self.camera.capture(filename)
+    def do_capture(self, filename="test.jpg", continuous=False, slot=None):
+        if continuous:
+            #try:
+            #    for f in self.camera.capture_continuous('/media/pi/OPENOCEANCA/img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'):
+            #        sleep((self.frequency-1))
+            #        print (f)
+            #        currenttime=datetime.now()
+            #        if currenttime<datetime.strptime(slot["stop"],"%Y-%m-%d-%H:%M:%S"):
+            #            pass
+            #        else:
+            #            break
+            #except Exception as err:
+            #    print(err)
+            pass
+        else:
+            try:
+                print("Going to capture in Camera")
+                self.camera.capture(filename)
+                print("Done capturing", filename)
+            except Exception as err:
+                print(err)
 
     def do_record(self, filename):
         self.camera.start_recording(filename, format="h264")
@@ -53,3 +74,8 @@ class Camera(object):
     def check_recording(self):
         return self.camera.recording
 
+    def set_camera_exposure_mode(self, mode):
+        self.camera.exposure_mode = mode
+
+    def set_camera_exposure_compensation(self, compensation):
+        self.camera.exposure_compensation = compensation

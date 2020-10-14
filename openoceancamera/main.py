@@ -24,6 +24,11 @@ import sys
 import subprocess
 from subsealight import PWM
 
+camera_name = "OpenOceanCamera"
+
+with open("/home/pi/openoceancamera/camera_name.txt", "r") as camera_name_file:
+    camera_name = camera_name_file.read()
+print("Camera name:", camera_name)
 sys.path.append("/usr/lib/python3.5/")
 sys.path.append("/usr/lib/python3/")
 cmdoff = "sudo ifconfig wlan0 down"
@@ -46,55 +51,13 @@ thread_active = False
 
 last_file_name = ""
 stream_duration = 0
-
+lightSensor = -1.0
+temperatureSensor = -1.0
+pressureSensor = -1.0
+mstemperatureSensor = -1.0
+depthSensor = -1.0
 
 def readSensorData():
-
-    try:
-        lightSensor = float(
-            str(
-                subprocess.check_output(
-                    "python /home/pi/openoceancamera/TSL2561/Python/TSL2561.py",
-                    shell=True,
-                    text=True,
-                )
-            )
-        )
-    except Exception as e:
-        lightSensor = -1.0
-
-    try:
-        temperatureSensor = float(
-            str(
-                subprocess.check_output(
-                    "python /home/pi/openoceancamera/tsys01-python/example.py",
-                    shell=True,
-                    text=True,
-                )
-            )
-        )
-    except Exception as e:
-        temperatureSensor = -1.0
-
-    try:
-        pressureSensorReadings = subprocess.check_output(
-            "python /home/pi/openoceancamera/ms5837-python/example.py",
-            shell=True,
-            text=True,
-        )
-
-        pressureSensorReadings = pressureSensorReadings.split()
-
-        pressureSensor, mstemperatureSensor, depthSensor = (
-            float(pressureSensorReadings[0]),
-            float(pressureSensorReadings[1]),
-            float(pressureSensorReadings[2]),
-        )
-    except Exception as e:
-        pressureSensor = -1.0
-        mstemperatureSensor = -1.0
-        depthSensor = -1.0
-
     return {
         "luminosity": lightSensor,
         "temp": temperatureSensor,
@@ -103,165 +66,216 @@ def readSensorData():
         "depth": depthSensor,
     }
 
+def writeSensorData(sensor_data):
+    log_filename = f"{external_drive}/log.txt"
+    file_mode = None
+    if os.path.exists(log_filename):
+        file_mode = "a"
+    else:
+        file_mode = "w"
+    try:
+        with open(log_filename, file_mode) as f:
+            f.write(
+                json.dumps(
+                    {
+                        "timestamp": datetime.now().strftime(
+                            "%m/%d/%Y, %H:%M:%S"
+                        ),
+                        "luminosity": sensor_data["luminosity"],
+                        "temp": sensor_data["temp"],
+                        "pressure": sensor_data["pressure"],
+                        "mstemp": sensor_data["mstemp"],
+                       "depth": sensor_data["depth"],
+                  }
+               )
+            )
+            f.write("\n")
+    except:
+        with open(log_filename, "w"):
+            pass
 
-def start_capture(camera, video):
+def start_capture(video, slot):
     global external_drive, last_file_name
     filename = ""
-    if not video:
-        filename = external_drive + "/" + str(uuid1()) + ".jpg"
-        last_file_name = filename
-        camera.do_capture(filename=filename)
-        print("Written")
-    else:
-        filename = external_drive + "/" + str(uuid1()) + ".h264"
-        camera.do_record(filename=filename)
-        print("Started recording")
-    logging.info("Write: " + filename + " at time " + str(datetime.now()))
-    return filename
+    print("start capture")
+    try:
+        camera = Camera()
+        camera.set_capture_frequency(slot["frequency"])
+        camera.set_iso(slot["iso"])
+        camera.set_shutter_speed(slot["shutter_speed"])
+        camera.set_camera_resolution((int(slot["resolution"]["x"]), int(slot["resolution"]["y"])))
+        camera.set_camera_frame_rate(slot["framerate"])
+        camera.set_camera_exposure_mode(slot.get("exposure_mode", "auto"))
+        camera.set_camera_exposure_compensation(int(slot.get("exposure_compensation", 0)))
+        try:
+            if not video:
+                filename = external_drive + "/" + datetime.now().strftime("%Y-%m-%d-%H-%M-%S")  + ".jpg"
+                last_file_name = filename
+                print("Capturing:")
+                
+                #Don't do capture inside camera class
+                
+                try:
+                    for f in camera.camera.capture_continuous(f"/media/pi/OPENOCEANCA/{camera_name}_" + 'img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'):
+                        if thread_active:
+                            sleep(camera.frequency-1)
+                            print(f)
+                            currenttime=datetime.now()
+                            if currenttime<datetime.strptime(slot["stop"],"%Y-%m-%d-%H:%M:%S"):
+                                sensor_data = readSensorData()
+                                writeSensorData(sensor_data)
+                                sensor_data["camera_name"] = camera_name
+                                camera.camera.exif_tags["IFD0.ImageDescription"] = json.dumps(sensor_data)
+                            else:
+                                break
+                        else:
+                            break
+                except Exception as err:
+                    print(err)
 
+                #camera.do_capture(filename=filename, continuous=True, slot=slot)
+                #move camera continuous call here so that can be controlled by while loop? camera continuous seems to be like video capture- once on stays on?
+                print("Written")
+                camera.do_close()
+            else:
+                filename = external_drive + "/" + camera_name + "_" + slot["start"].replace(":","-") + "_" + slot["stop"].replace(":","-") + str(slot["framerate"]) + ".h264"
+                camera.do_record(filename=filename)
+                print("Started Recording")
+                currenttime=datetime.now()
+                while currenttime<datetime.strptime(slot["stop"],"%Y-%m-%d-%H:%M:%S"):
+                    if thread_active:
+                        camera.camera.annotate_text = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} @ {slot['framerate']} fps"
+                        print("still recording")
+                        sensor_data = readSensorData()
+                        writeSensorData(sensor_data)
+                        sleep(1)
+                        currenttime=datetime.now()
+                    else:
+                        break
+                camera.do_close()
+            return filename
+        except Exception as err:
+            camera.do_close()
+            print(err)
+    except Exception as e:
+        print("Camera objection creation error ")
+        print(e)
+        if camera is not None:
+            camera.do_close()
 
+    
 def main():
     camera = None
     print("Main started")
     global thread_active
     while True:
         sleep(2)
-        if thread_active:
-            data = camera_config
-            switch_flag = 0
-            isrecord = 0
-            isopen = 0
-            print(thread_active)
-            my_schedule = Scheduler(data)
-            print("Loaded Scheduler. Main thread active")
+        #print(thread_active)
+        try:
+            #if camera is not None:
+            #    camera.do_close()
+            if thread_active:
+                data = camera_config
+                switch_flag = 0
+                isrecord = 0
+                isopen = 0
+                #print(thread_active)
+                my_schedule = Scheduler(data)
+                print("Loaded Scheduler. Main thread active")
 
-            # Stall the camera to let it initialise
-            while thread_active:
-                # print(my_schedule.should_start())
-                my_schedule.update_current_time()
-                slot = my_schedule.should_start()
-                if slot == -1 and isrecord == 0:
-                    sleep(2)
+                # Stall the camera to let it initialise
+                while thread_active:
+                    #print(my_schedule.should_start())
+                    my_schedule.update_current_time()
+                    slot = my_schedule.should_start()
+                    if slot == -1 and isrecord == 0:
+                        sleep(2)
 
-                if isrecord == 1 and slot == -1:
-                    PWM.switch_off()
-                    camera.do_close()
-                    print("CLOSED")
-                    isrecord = 0
-                    isopen = 0
+                    if isrecord == 1 and slot == -1:
+                        PWM.switch_off()
+                        #camera.do_close()
+			#how to close video goes here
+                        print("CLOSED")
+                        isrecord = 0
+                        isopen = 0
 
-                if slot >= 0:  # if slot open
-                    if isopen == 0:
-                        try:
-                            camera = Camera()
-                            camera.set_capture_frequency(data[slot]["frequency"])
-                            camera.set_iso(data[slot]["iso"])
-                            camera.set_shutter_speed(data[slot]["shutter_speed"])
-                            camera.set_camera_resolution(
-                                (
-                                    int(data[slot]["resolution"]["x"]),
-                                    int(data[slot]["resolution"]["y"]),
-                                )
-                            )
-                            camera.set_camera_frame_rate(data[slot]["framerate"])
-                        except Exception as e:
-                            print(e)
-                        isopen = 1
-                    sensor_data = readSensorData()
-                    log_filename = f"{external_drive}/log.txt"
-                    file_mode = None
-                    if os.path.exists(log_filename):
-                        file_mode = "a"
-                    else:
-                        file_mode = "w"
-                    try:
-                        with open(log_filename, file_mode) as f:
-                            f.write(
-                                json.dumps(
-                                    {
-                                        "timestamp": datetime.now().strftime(
-                                            "%m/%d/%Y, %H:%M:%S"
-                                        ),
-                                        "luminosity": sensor_data["luminosity"],
-                                        "temp": sensor_data["temp"],
-                                        "pressure": sensor_data["pressure"],
-                                        "mstemp": sensor_data["mstemp"],
-                                        "depth": sensor_data["depth"],
-                                    }
-                                )
-                            )
-                    except:
-                        with open(log_filename, "w"):
-                            pass
-                    light_mode = data[slot]["light"]
-                    PWM.switch_on(light_mode)
-                    if not data[slot]["video"]:  # slot for photo
-                        start_capture(camera, False)
-                        print(my_schedule.should_start())
-                        sleep(data[slot]["frequency"])
-                        isrecord = 1
-                    else:
-                        if isrecord == 0:  # slot for video, has not recorded yet
-                            print("RECORDING")
-                            video_filename = start_capture(camera, True)
-                            with open(f"{video_filename}.txt", "w") as logFile:
-                                logFile.write(
-                                    f"Start time: {data[slot]['start']}\nEnd time: {data[slot]['stop']}\n"
-                                )
-                                logFile.write(
-                                    f"Recorded at: {data[slot]['framerate']} frames per second\n"
-                                )
+                    if slot >= 0:  # if slot open
+                        if isopen == 0:
+                            isopen = 1
+                        sensor_data = readSensorData()
+                        writeSensorData(sensor_data)
+                        light_mode = data[slot]["light"]
+                        PWM.switch_on(light_mode)
+                        if not data[slot]["video"]:  # slot for photo
+                            if isrecord == 0:
+                                start_capture(False, data[slot])
                             isrecord = 1
-                        else:  # slot for video, already recording
-                            sleep(1)
-                            camera.camera.annotate_text = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} @ {data[slot]['framerate']} fps"
-                            pass
-                    switch_flag = 0
+                        else:
+                            if isrecord == 0:  # slot for video, has not recorded yet
+                                print("RECORDING")
+                                start_capture(True, data[slot])
+                                #with open(f"{video_filename}.txt", 'w') as logFile:
+                                #    logFile.write(f"Start time: {data[slot]['start']}\nEnd time: {data[slot]['stop']}\n")
+                                #    logFile.write(f"Recorded at: {data[slot]['framerate']} frames per second")
+                                isrecord = 1
+                            else:  # slot for video, already recording
+                                sleep(1)
+                                pass
+                        switch_flag = 0
 
-                else:
-                    if switch_flag == 0:
-                        logging.info("Stop: " + str(datetime.now()))
-                        switch_flag = 1
+                    else:
+                        if switch_flag == 0:
+                            logging.info("Stop: " + str(datetime.now()))
+                            switch_flag = 1
 
-                next_slot = my_schedule.next_future_timeslot()
-                slot = my_schedule.should_start()
-                if next_slot is not None:
-                    print("Next slot is: ")
-                    print(next_slot)
-                    mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
-                    print(f"We have {mins_to_next_slot} mins to next slot")
-                    if (mins_to_next_slot > 10) and slot == -1:
-                        five_mins = timedelta(minutes=2)
-                        one_mins = timedelta(minutes=5)
-                        sleeptime = datetime.now() + one_mins
-                        sleeptime = sleeptime.strftime("%d %H:%M")
-                        next_reboot = next_slot["start"] - five_mins
-                        print(f"I will wake up at {next_reboot}")
-                        next_reboot = next_reboot.strftime("%d %H:%M:%S")
-                        print(next_reboot)
-                        startup_cmd = (
-                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "'
-                            + next_reboot
-                            + '"'
-                        )
-                        print(startup_cmd)
-                        os.system(startup_cmd)
-                        print(
-                            "raspberry pi is going to sleep now in 5 min, do not disturb"
-                        )
-                        shutdown_cmd = (
-                            'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "'
-                            + sleeptime
-                            + '"'
-                        )
-                        os.system(shutdown_cmd)
-                        thread_active = False
-                        break
+                    next_slot = my_schedule.next_future_timeslot()
+                    slot = my_schedule.should_start()
+                    if next_slot is not None:
+                        #print("Next slot is: ")
+                        #print(next_slot)
+                        mins_to_next_slot = int(my_schedule.time_to_nearest_schedule() / 60)
+                        print(f"We have {mins_to_next_slot} mins to next slot")
+                        if (mins_to_next_slot > 10) and slot == -1:
+                            five_mins = timedelta(minutes=2)
+                            one_mins = timedelta(minutes=5)
+                            sleeptime = datetime.now() + one_mins
+                            sleeptime = sleeptime.strftime("%d %H:%M")
+                            next_reboot = next_slot["start"] - five_mins
+                            print(f"I will wake up at {next_reboot}")
+                            next_reboot = next_reboot.strftime("%d %H:%M:%S")
+                            print(next_reboot)
+                            startup_cmd = (
+                                'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "' + next_reboot + '"'
+                            )
+                            #print(startup_cmd)
+                            #os.system(startup_cmd)
+                            print(
+                                "raspberry pi is going to sleep now in 5 min, do not disturb"
+                            )
+                            shutdown_cmd = (
+                                'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
+                            )
+                            #os.system(shutdown_cmd)
+                            thread_active = False
+                            break
+        except Exception as e:
+            print(e)
+            if camera is not None:
+                #camera.do_close()
+                pass
 
 
 def update_config():
     pass
 
+@app.route("/setCameraName", methods=["POST"])
+def set_camera_name():
+    global camera_name
+    if request.method == 'POST':
+        camera_name = request.get_json()["name"]
+        with open("camera_name.txt", "w") as camera_name_file:
+            camera_name_file.write(camera_name)
+    return camera_name
 
 @app.route("/setSchedule", methods=["POST", "GET"])
 def app_connect():
@@ -276,16 +290,16 @@ def app_connect():
             json.dump(camera_config, outfile)
         date_input = camera_config[0]["date"]
         timezone = camera_config[0]["timezone"]
-        clear_cmd = "sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6"
-        os.system(clear_cmd)
+        clear_cmd = ('sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 10 6')
+        #os.system(clear_cmd)
         os.system(f"sudo timedatectl set-timezone {timezone}")
         print(timezone)
         print(date_input)
         # Sets the system time to the user's phone time
         os.system(f"sudo date -s '{date_input}'")
         # Save the system time to RTC -
-        os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 1")
-        os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 2")
+        #os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 1")
+        #os.system("sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 2")
         # external_drive = "/media/pi/" + sys.argv[1]
         external_drive = "/media/pi/OPENOCEANCA"
         pathv = path.exists(external_drive)
@@ -312,6 +326,7 @@ def returnConfig():
                 "local_time": datetime.now().strftime("%d-%B-%Y %H:%M:%S"),
                 "local_timezone": str(camera_config[0]["timezone"]),
                 "config": json.dumps(camera_config),
+                "camera_name": camera_name
             }
             return response
         else:
@@ -341,6 +356,13 @@ def sendTestPic():
             PWM.switch_on(data[0]["light"])
             camera.set_iso(data[0]["iso"])
             camera.set_shutter_speed(data[0]["shutter_speed"])
+            camera.set_camera_exposure_mode(data[0].get("exposure_mode", 'auto'))
+            print(camera.camera.exposure_mode)
+            camera.set_camera_exposure_compensation(int(data[0].get("exposure_compensation", 0)))
+            print(camera.camera.exposure_compensation)
+            if data[0].get("resolution", None):
+                camera.set_camera_resolution((int(data[0]["resolution"].get("x", 1920)), int(data[0]["resolution"].get("y", 1080))))
+
             camera.do_capture("/home/pi/openoceancamera/test.jpg")
             with open("/home/pi/openoceancamera/test.jpg", "rb") as image:
                 img_base64 = base64.b64encode(image.read())
@@ -358,7 +380,7 @@ def sendTestPic():
             camera.do_close()
             PWM.switch_off()
             print(e)
-            return "ERROR"
+            return str(e)
 
 
 @app.route("/testPhotoMem", methods=["POST", "GET"])
@@ -404,25 +426,65 @@ def sendTestPicMem():
 def gen(camera):
     while True:
         frame = camera.get_frame()
-        yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route("/stream", methods=["GET", "POST"])
 def get_video():
     global stream_duration
     if request.method == "GET":
-        return Response(
-            gen(Camera_Pi(stream_duration)),
-            mimetype="multipart/x-mixed-replace; boundary=frame",
-        )
+        return Response(gen(Camera_Pi(stream_duration)),mimetype='multipart/x-mixed-replace; boundary=frame' )
     if request.method == "POST":
         time_duration = request.get_json()["time_duration"]
         stream_duration = int(time_duration)
         return "OK"
 
-
 def start_api_server():
     app.run("0.0.0.0", 8000)
+
+
+def start_sensor_reading():
+    global lightSensor, temperatureSensor, pressureSensor, mstemperatureSensor, depthSensor
+    while True:
+        try:
+            lightSensor = float(
+                str(
+                    subprocess.check_output(
+                        "python /home/pi/openoceancamera/TSL2561/Python/TSL2561.py", shell=True, text=True
+                    )
+                )
+            )
+        except Exception as e:
+            lightSensor = -1.0
+
+        try:
+            temperatureSensor = float(
+                str(
+                    subprocess.check_output(
+                        "python /home/pi/openoceancamera/tsys01-python/example.py", shell=True, text=True
+                    )
+                )
+            )
+        except Exception as e:
+            temperatureSensor = -1.0
+
+        try:
+            pressureSensorReadings = subprocess.check_output(
+                "python /home/pi/openoceancamera/ms5837-python/example.py", shell=True, text=True
+            )
+
+            pressureSensorReadings = pressureSensorReadings.split()
+
+            pressureSensor, mstemperatureSensor, depthSensor = (
+                float(pressureSensorReadings[0]),
+                float(pressureSensorReadings[1]),
+                float(pressureSensorReadings[2]),
+            )
+        except Exception as e:
+            pressureSensor = -1.0
+            mstemperatureSensor = -1.0
+            depthSensor = -1.0
 
 
 if __name__ == "__main__":
@@ -439,9 +501,12 @@ if __name__ == "__main__":
         print("No File")
     finally:
         api_thread = threading.Thread(target=start_api_server)
+        sensor_thread  = threading.Thread(target=start_sensor_reading)
         main_thread = threading.Thread(target=main)
         api_thread.start()
         main_thread.start()
+        sensor_thread.start()
+        sensor_thread.join()
         main_thread.join()
         api_thread.join()
         logging.info("Program is shutting down")
