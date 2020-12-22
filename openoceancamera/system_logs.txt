@@ -1,0 +1,93 @@
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:main:Loaded camera name: OpenOceanCamera1
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:root:Stop: 2020-11-16 00:15:52.346343
+2020-11-16 00:18:08,480 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 00:18:09,296 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 00:18:12,961 - INFO - Stop: 2020-11-16 00:18:12.959751
+2020-11-16 00:21:33,165 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 00:21:33,994 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 00:21:37,585 - INFO - Stop: 2020-11-16 00:21:37.584201
+2020-11-16 00:23:53,787 - INFO - 192.168.5.122 - - [16/Nov/2020 00:23:53] "OPTIONS /setSchedule HTTP/1.1" 200 -
+2020-11-16 00:24:04,575 - INFO - 192.168.5.122 - - [16/Nov/2020 00:24:04] "POST /setSchedule HTTP/1.1" 200 -
+2020-11-16 00:24:12,273 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 00:24:12,992 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 00:24:16,668 - INFO - Stop: 2020-11-16 00:24:16.667168
+2020-11-16 00:25:00,334 - INFO - Starting to capture
+2020-11-16 00:25:02,186 - INFO - Finised setting up the camera for the slot {'start': '2020-11-16-00:24:59', 'stop': '2020-11-16-00:25:59', 'iso': 0, 'frequency': 1, 'shutter_speed': 0, 'video': True, 'light': 0, 'exposure_compensation': 0, 'exposure_mode': 'auto', 'resolution': {'x': 1920, 'y': 1080}, 'framerate': 10, 'date': '2020-11-16 00:24:00', 'timezone': 'Asia/Hong_Kong'}
+2020-11-16 00:25:02,346 - INFO - Going to capture in video mode
+2020-11-16 00:25:59,188 - INFO - Returing back to the main function
+2020-11-16 00:25:59,221 - INFO - Camera is going to prepare to go to sleep
+2020-11-16 00:25:59,237 - INFO - The reboot time has been set to 2020-11-16 00:37:59
+2020-11-16 00:26:02,664 - INFO - sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "16 00:37:59"
+2020-11-16 00:26:05,951 - INFO - sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "16 00:27"
+2020-11-16 00:44:11,442 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 00:44:16,476 - INFO - Stop: 2020-11-16 00:44:16.475124
+2020-11-16 20:51:36,830 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 20:51:37,433 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 20:51:41,108 - INFO - Stop: 2020-11-16 20:51:41.107252
+2020-11-16 20:51:58,928 - INFO - 192.168.5.122 - - [16/Nov/2020 20:51:58] "OPTIONS /testPhoto HTTP/1.1" 200 -
+2020-11-16 20:52:05,541 - INFO - 192.168.5.122 - - [16/Nov/2020 20:52:05] "POST /testPhoto HTTP/1.1" 200 -
+2020-11-16 20:52:37,883 - INFO - 192.168.5.122 - - [16/Nov/2020 20:52:37] "OPTIONS /setSchedule HTTP/1.1" 200 -
+2020-11-16 20:52:48,370 - INFO - 192.168.5.122 - - [16/Nov/2020 20:52:48] "POST /setSchedule HTTP/1.1" 200 -
+2020-11-16 20:52:55,532 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 20:52:56,127 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 20:52:59,784 - INFO - Stop: 2020-11-16 20:52:59.782906
+2020-11-16 20:52:59,803 - INFO - Starting to capture
+2020-11-16 20:53:01,172 - INFO - Finised setting up the camera for the slot {'start': '2020-11-16-20:52:58', 'stop': '2020-11-16-20:53:23', 'iso': 0, 'frequency': 2, 'shutter_speed': 0, 'video': False, 'light': 100, 'exposure_compensation': 0, 'exposure_mode': 'auto', 'resolution': {'x': 3280, 'y': 2464}, 'framerate': 10, 'date': '2020-11-16 20:52:45', 'timezone': 'Asia/Hong_Kong'}
+2020-11-16 20:53:01,188 - INFO - Going to capture continuous capture mode
+2020-11-16 20:53:24,674 - INFO - Finished capturing for the slot
+2020-11-16 20:53:24,787 - INFO - Closed the camera object
+2020-11-16 20:53:24,790 - INFO - Returing back to the main function
+2020-11-16 20:53:24,798 - INFO - Stop: 2020-11-16 20:53:24.797369
+2020-11-16 20:53:52,056 - INFO - 192.168.5.122 - - [16/Nov/2020 20:53:52] "OPTIONS /setSchedule HTTP/1.1" 200 -
+2020-11-16 20:53:59,293 - INFO - 192.168.5.122 - - [16/Nov/2020 20:53:59] "POST /setSchedule HTTP/1.1" 200 -
+2020-11-16 20:54:06,410 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 20:54:06,982 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 20:54:10,677 - INFO - Stop: 2020-11-16 20:54:10.676181
+2020-11-16 20:54:59,018 - INFO - Starting to capture
+2020-11-16 20:55:00,299 - INFO - Finised setting up the camera for the slot {'start': '2020-11-16-20:54:58', 'stop': '2020-11-16-20:55:23', 'iso': 0, 'frequency': 1, 'shutter_speed': 0, 'video': True, 'light': 100, 'exposure_compensation': 0, 'exposure_mode': 'auto', 'resolution': {'x': 1920, 'y': 1080}, 'framerate': 10, 'date': '2020-11-16 20:53:56', 'timezone': 'Asia/Hong_Kong'}
+2020-11-16 20:55:00,420 - INFO - Going to capture in video mode
+2020-11-16 20:55:24,031 - INFO - Returing back to the main function
+2020-11-16 20:55:24,040 - INFO - Stop: 2020-11-16 20:55:24.039759
+2020-11-16 20:58:04,499 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 20:58:05,066 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 20:58:08,752 - INFO - Stop: 2020-11-16 20:58:08.750965
+2020-11-16 20:59:27,091 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 20:59:27,817 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 20:59:31,410 - INFO - Stop: 2020-11-16 20:59:31.409004
+2020-11-16 21:02:19,966 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 21:02:20,563 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 21:03:30,172 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 21:03:30,742 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 21:03:34,422 - INFO - Stop: 2020-11-16 21:03:34.421685
+2020-11-16 21:04:03,514 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 21:04:04,234 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 21:04:07,837 - INFO - Stop: 2020-11-16 21:04:07.836362
+2020-11-16 21:04:30,626 - INFO - 192.168.5.142 - - [16/Nov/2020 21:04:30] "OPTIONS /testPhoto HTTP/1.1" 200 -
+2020-11-16 21:04:35,962 - INFO - 192.168.5.142 - - [16/Nov/2020 21:04:35] "POST /testPhoto HTTP/1.1" 200 -
+2020-11-16 21:05:03,589 - INFO - 192.168.5.142 - - [16/Nov/2020 21:05:03] "OPTIONS /testPhoto HTTP/1.1" 200 -
+2020-11-16 21:05:08,249 - INFO - 192.168.5.142 - - [16/Nov/2020 21:05:08] "POST /testPhoto HTTP/1.1" 200 -
+2020-11-16 21:06:06,301 - INFO - 192.168.5.142 - - [16/Nov/2020 21:06:06] "OPTIONS /setSchedule HTTP/1.1" 200 -
+2020-11-16 21:06:16,302 - INFO - 192.168.5.142 - - [16/Nov/2020 21:06:16] "POST /setSchedule HTTP/1.1" 200 -
+2020-11-16 21:06:23,381 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 21:06:24,075 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 21:06:25,705 - INFO - Starting to capture
+2020-11-16 21:06:27,043 - INFO - Finised setting up the camera for the slot {'start': '2020-11-16-21:06:24', 'stop': '2020-11-16-21:06:59', 'iso': 0, 'frequency': 1, 'shutter_speed': 0, 'video': True, 'light': 100, 'exposure_compensation': 0, 'exposure_mode': 'auto', 'resolution': {'x': 1920, 'y': 1080}, 'framerate': 10, 'date': '2020-11-16 21:06:13', 'timezone': 'Asia/Hong_Kong'}
+2020-11-16 21:06:27,107 - INFO - Going to capture in video mode
+2020-11-16 21:06:59,970 - INFO - Returing back to the main function
+2020-11-16 21:06:59,980 - INFO - Stop: 2020-11-16 21:06:59.979296
+2020-11-16 21:07:23,441 - INFO - 192.168.5.142 - - [16/Nov/2020 21:07:23] "OPTIONS /setSchedule HTTP/1.1" 200 -
+2020-11-16 21:07:30,551 - INFO - 192.168.5.142 - - [16/Nov/2020 21:07:30] "POST /setSchedule HTTP/1.1" 200 -
+2020-11-16 21:07:37,500 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 21:07:38,090 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 21:07:41,757 - INFO - Stop: 2020-11-16 21:07:41.756025
+2020-11-16 21:08:24,016 - INFO - Starting to capture
+2020-11-16 21:08:25,390 - INFO - Finised setting up the camera for the slot {'start': '2020-11-16-21:08:24', 'stop': '2020-11-16-21:08:59', 'iso': 0, 'frequency': 1, 'shutter_speed': 0, 'video': True, 'light': 100, 'exposure_compensation': 0, 'exposure_mode': 'auto', 'resolution': {'x': 1920, 'y': 1080}, 'framerate': 10}
+2020-11-16 21:08:25,458 - INFO - Going to capture in video mode
+2020-11-16 21:08:31,937 - INFO - 192.168.5.142 - - [16/Nov/2020 21:08:31] "OPTIONS /setSchedule HTTP/1.1" 200 -
+2020-11-16 21:08:32,726 - INFO - Returing back to the main function
+2020-11-16 21:08:40,397 - INFO - 192.168.5.142 - - [16/Nov/2020 21:08:40] "POST /setSchedule HTTP/1.1" 200 -
+2020-11-16 21:08:47,414 - INFO - Loaded camera name: OpenOceanCamera1
+2020-11-16 21:08:47,995 - INFO -  * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+2020-11-16 21:08:51,718 - INFO - Stop: 2020-11-16 21:08:51.717730
