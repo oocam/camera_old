@@ -1,0 +1,9 @@
+*
+!.gitignore 
+!README.md
+!run.sh
+!switch_ap.sh
+!schedule.json
+!wittypi
+!openoceancamera
+!ngrok
