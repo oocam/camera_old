@@ -6,5 +6,5 @@
 !schedule.json
 !wittypi
 !openoceancamera/
-!openoceancamera/*
+!openoceancamera/**
 !ngrok
