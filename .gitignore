@@ -5,5 +5,6 @@
 !switch_ap.sh
 !schedule.json
 !wittypi
-!openoceancamera
+!openoceancamera/
+!openoceancamera/*
 !ngrok
