@@ -4,9 +4,9 @@ This is the code for Open Ocean Camera hardware. This repository includes the sc
 
 ## Development Setup
 
-##### First time setup
+### First time setup
 
-###### Update system packages
+#### Update system packages
 
 Make sure that all `apt` packages are already up-to-date
 
@@ -15,7 +15,7 @@ sudo apt update
 sudo apt upgrade
 ```
 
-###### Mounting the USB storage device on boot
+#### Mounting the USB storage device on boot
 
 The OOCAM uses external storage device connected via USB in order to function. However, to mount ExFAT filesystems it requires additional packages to be installed.
 
@@ -46,7 +46,7 @@ LABEL=OOCAM   /media/pi/OPENOCEANCA   exfat   defaults,nofail   0   0
 
 The `nofail` option is essential so that the boot does not fail if the usb device is not connnected, or fails to mount.
 
-###### Install WittyPi
+#### Install WittyPi
 
 WittyPi installation scripts allows the system to load the deamon for graceful startups and shutdowns.
 
@@ -62,7 +62,7 @@ You might need root (using `sudo`) to run the commands above.
 
 Reboot the RaspberryPi for the deamon to load.
 
-###### Running the program on boot
+#### Running the program on boot
 
 To run the scripts on boot, add it to crontab using
 
