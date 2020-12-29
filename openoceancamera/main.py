@@ -128,7 +128,7 @@ def start_capture(video, slot):
                 PWM.switch_on(slot["light"])
                 try:
                     logger.info("Going to capture continuous capture mode")
-                    for f in camera.camera.capture_continuous(f"/media/pi/OPENOCEANCA/{camera_name}_" + 'img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'):
+                    for f in camera.camera.capture_continuous(f"/media/pi/OPENOCEANCA/{camera_name}_" + 'img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'): 
                         if thread_active:
                             PWM.switch_off()
                             sleep(camera.frequency-1)
@@ -142,9 +142,11 @@ def start_capture(video, slot):
                                 camera.camera.exif_tags["IFD0.ImageDescription"] = json.dumps(sensor_data)
                             else:
                                 PWM.switch_off()
+                                logger.info("Current timeslot ended")
                                 break
                         else:
                             PWM.switch_off()
+                            logger.info("The main thread was closed")
                             break
                 except Exception as err:
                     PWM.switch_off()
@@ -562,14 +564,13 @@ if __name__ == "__main__":
     # if len(sys.argv) < 2:
     #    print("Usage: python main.py <external drive name>")
     #    exit(0)
-    print("start")
     try:
         with open("/home/pi/openoceancamera/schedule.json") as f:
             camera_config = json.load(f)
             thread_active = True
-            print("schedule opened, should start new thread")
-    except IOError:
-        print("No File")
+            logger.info("schedule opened, should start new thread")
+    except IOError as err:
+        logger.info(err)
     finally:
         api_thread = threading.Thread(target=start_api_server)
         sensor_thread  = threading.Thread(target=start_sensor_reading)
@@ -577,7 +578,8 @@ if __name__ == "__main__":
         api_thread.start()
         main_thread.start()
         sensor_thread.start()
+        logger.info("Started all threads")
         sensor_thread.join()
         main_thread.join()
         api_thread.join()
-        logging.info("Program is shutting down")
+        logger.info("Program is shutting down")
