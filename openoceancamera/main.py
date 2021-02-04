@@ -109,17 +109,16 @@ def start_capture(video, slot):
     logger.info("Starting to capture")
     try:
         camera = Camera()
-        camera.set_capture_frequency(slot["frequency"])
-        camera.set_iso(slot["iso"])
-        camera.set_shutter_speed(slot["shutter_speed"])
+        logger.info("Camera object initialised")
+        camera.set_iso(slot.get("iso", 0))
         camera.set_camera_resolution((int(slot["resolution"]["x"]), int(slot["resolution"]["y"])))
-        camera.set_camera_frame_rate(slot["framerate"])
         camera.set_camera_exposure_mode(slot.get("exposure_mode", "auto"))
         camera.set_camera_exposure_compensation(int(slot.get("exposure_compensation", 0)))
-
+        camera.set_shutter_speed(slot.get("shutter_speed", 0))
         logger.info(f"Finised setting up the camera for the slot {slot}")
         try:
             if not video:
+                camera.set_capture_frequency(slot["frequency"])
                 filename = external_drive + "/" + datetime.now().strftime("%Y-%m-%d-%H-%M-%S")  + ".jpg"
                 last_file_name = filename
                 print("Capturing:")
@@ -128,12 +127,15 @@ def start_capture(video, slot):
                 PWM.switch_on(slot["light"])
                 try:
                     logger.info("Going to capture continuous capture mode")
-                    for f in camera.camera.capture_continuous(f"/media/pi/OPENOCEANCA/{camera_name}_" + 'img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'):
+                    sensor_data = readSensorData()
+                    writeSensorData(sensor_data)
+                    sensor_data["camera_name"] = camera_name
+                    camera.camera.exif_tags["IFD0.ImageDescription"] = json.dumps(sensor_data)
+                    for f in camera.camera.capture_continuous(f"/media/pi/OPENOCEANCA/{camera_name}_" + 'img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg', use_video_port=True): 
                         if thread_active:
                             PWM.switch_off()
                             sleep(camera.frequency-1)
                             PWM.switch_on(slot["light"])
-                            print(f)
                             currenttime=datetime.now()
                             if currenttime<datetime.strptime(slot["stop"],"%Y-%m-%d-%H:%M:%S"):
                                 sensor_data = readSensorData()
@@ -142,9 +144,11 @@ def start_capture(video, slot):
                                 camera.camera.exif_tags["IFD0.ImageDescription"] = json.dumps(sensor_data)
                             else:
                                 PWM.switch_off()
+                                logger.info("Current timeslot ended")
                                 break
                         else:
                             PWM.switch_off()
+                            logger.info("The main thread was closed")
                             break
                 except Exception as err:
                     PWM.switch_off()
@@ -154,21 +158,20 @@ def start_capture(video, slot):
 
                 #camera.do_capture(filename=filename, continuous=True, slot=slot)
                 #move camera continuous call here so that can be controlled by while loop? camera continuous seems to be like video capture- once on stays on?
-                print("Written")
                 logger.info("Finished capturing for the slot")
                 camera.do_close()
                 logger.info("Closed the camera object")
             else:
+                camera.set_camera_frame_rate(slot["framerate"])
                 filename = external_drive + "/" + camera_name + "_" + slot["start"].replace(":","-") + "_" + slot["stop"].replace(":","-") + str(slot["framerate"]) + ".h264"
                 camera.do_record(filename=filename)
                 print("Started Recording")
-                logger.info("Going to capture in video mode")
+                logger.debug("Going to capture in video mode")
                 currenttime=datetime.now()
                 PWM.switch_on(slot["light"])
                 while currenttime<datetime.strptime(slot["stop"],"%Y-%m-%d-%H:%M:%S"):
                     if thread_active:
                         camera.camera.annotate_text = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} @ {slot['framerate']} fps"
-                        print("still recording")
                         sensor_data = readSensorData()
                         writeSensorData(sensor_data)
                         sleep(1)
@@ -178,7 +181,7 @@ def start_capture(video, slot):
                         break
                 PWM.switch_off()
                 camera.do_close()
-            logger.info("Returing back to the main function")
+            logger.debug("Returing back to the main function")
             return filename
         except Exception as err:
             PWM.switch_off()
