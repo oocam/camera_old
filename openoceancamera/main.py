@@ -276,23 +276,12 @@ def update_config():
     pass
 
 def restart_code():
-    #next_reboot = (datetime.now() + timedelta(seconds=30)).strftime("%d %H:%M:%S")
-    #sleeptime = datetime.now().strftime("%d %H:%M")
-    #reboot_command = 'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "' + next_reboot + '"'
-    #shutdown_cmd = 'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
-    #os.system(reboot_command)
-    #os.system(shutdown_cmd)
+    sleep(5)
     os.system("sudo reboot")
 
 def reboot_camera():
-    #next_reboot = (datetime.now() + timedelta(minutes=6)).strftime("%d %H:%M:%S")
-    #sleeptime = (datetime.now() + timedelta(minutes=5)).strftime("%d %H:%M")
-    #reboot_command = 'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 5 "' + next_reboot + '"'
-    #shutdown_cmd = 'sudo sh /home/pi/openoceancamera/wittypi/wittycam.sh 4 "' + sleeptime + '"'
-    #os.system(reboot_command)
-    #os.system(shutdown_cmd)
     sleep(300)
-    restart_code()
+    os.system("sudo reboot")
 
 @app.route("/setCameraName", methods=["POST"])
 def set_camera_name():
