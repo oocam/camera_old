@@ -210,8 +210,6 @@ def main():
             if thread_active:
                 data = camera_config
                 switch_flag = 0
-                isrecord = 0
-                isopen = 0
                 my_schedule = Scheduler(data)
                 print("Loaded Scheduler. Main thread active")
 
@@ -219,36 +217,17 @@ def main():
                 while thread_active:
                     my_schedule.update_current_time()
                     slot = my_schedule.should_start()
-                    if slot == -1 and isrecord == 0:
+                    if slot == -1:
                         sleep(2)
 
-                    if isrecord == 1 and slot == -1:
-			#how to close video goes here
-                        print("CLOSED")
-                        isrecord = 0
-                        isopen = 0
-
                     if slot >= 0:  # if slot open
-                        if isopen == 0:
-                            isopen = 1
                         sensor_data = readSensorData()
                         writeSensorData(sensor_data)
                         light_mode = data[slot]["light"]
                         if not data[slot]["video"]:  # slot for photo
-                            if isrecord == 0:
-                                start_capture(False, data[slot])
-                            isrecord = 1
+                            start_capture(False, data[slot])
                         else:
-                            if isrecord == 0:  # slot for video, has not recorded yet
-                                print("RECORDING")
-                                start_capture(True, data[slot])
-                                #with open(f"{video_filename}.txt", 'w') as logFile:
-                                #    logFile.write(f"Start time: {data[slot]['start']}\nEnd time: {data[slot]['stop']}\n")
-                                #    logFile.write(f"Recorded at: {data[slot]['framerate']} frames per second")
-                                isrecord = 1
-                            else:  # slot for video, already recording
-                                sleep(1)
-                                pass
+                            start_capture(True, data[slot])
                         switch_flag = 0
 
                     else:
@@ -263,11 +242,9 @@ def main():
                         print(f"We have {mins_to_next_slot} mins to next slot")
                         if (mins_to_next_slot > 10) and slot == -1:
                             logger.info("Camera is going to prepare to go to sleep")
-                            five_mins = timedelta(minutes=2)
-                            one_mins = timedelta(minutes=2)
-                            sleeptime = datetime.now() + one_mins
+                            sleeptime = datetime.now() + timedelta(minutes=2)
+                            next_reboot = next_slot["start"] - timedelta(minutes=2)
                             sleeptime = sleeptime.strftime("%d %H:%M")
-                            next_reboot = next_slot["start"] - five_mins
                             print(f"I will wake up at {next_reboot}")
                             logger.info(f"The reboot time has been set to {next_reboot}")
                             next_reboot = next_reboot.strftime("%d %H:%M:%S")
